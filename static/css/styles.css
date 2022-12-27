@@ -1,0 +1,62 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+ #navbar > ul > li > a {
+    color: #de44f2;
+    font-size: 1.2rem;
+ }
+
+ #navbar > ul > li > a:hover {
+   color: #cb5fda;
+}
+
+ body > header > nav > div > a {
+    color: #de44f2 !important;
+    font-size: 1.5rem !important;
+ }
+
+ body > header > nav > div > a:hover {
+   color: #cb5fda !important;
+}
+
+main {
+   min-height: 70vh;
+}
+
+
+.purple-text {
+   color:#de44f2;
+}
+
+.purple-border-bt {
+   border-bottom: 2px solid #de44f2;
+}
+
+.purple-border-tp {
+   border-top: 2px solid #de44f2;
+}
+
+.bg-grey {
+   background-color: #f8f8f8;
+}
+
+ion-icon {
+   font-size: 2rem;
+   margin-right: 1.5rem;
+   color: #de44f2;
+}
+
+footer article{
+   
+   padding-bottom: 1rem;
+}
+
+footer a{
+   text-decoration-color: #de44f2;
+}
+
+.img-card {
+   width: 15rem;
+}
