@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="paulo henrique">
+	<meta name="author" content="Paulo Henrique">
 	<meta name="description" content="This page shows my greatest projects and what i'm currently working on">
 
 	<link rel="icon" type="image/x-icon" href="cranberry.png">
@@ -11,13 +11,17 @@
     <link rel="stylesheet" href="css/base.css">
 	<link rel="stylesheet" href="css/navbar.css">
 
+    <script src="scripts/navbar.js" defer></script>
+
 	<title>Scarlet Pixie</title>
 </head>
 <body>
 	<header class="navbar">
 		<nav class="navbar__nav">
 			<a href="/" aria-label="go to homepage" class="navbar__brand">ScarletPixie</a>
-            <button class="navbar__toggle" aria-controls="main-navigation" aria-expanded="false" aria-label="toggle navbar">BT</button>
+            <button class="navbar__toggle" aria-controls="main-navigation" aria-expanded="false" aria-label="toggle navbar">
+                <img src="images/menu/burger-menu.svg" aria-hidden="true" class="navbar__menu-icon">
+			</button>
 			<menu class="navbar__menu" id="navbar">
                 <li class="navbar__item">
                     <a href="#" class="navbar__link">about</a>
