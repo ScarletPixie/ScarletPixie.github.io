@@ -23,7 +23,7 @@ menuLinks.forEach((lnk) => {
 function closeMenu() {
     toggle.setAttribute("aria-expanded", "false");
     menu.classList.remove("active");
-    setMenuIcon(false);
+    setMenuIcon(true);
 }
 
 function setMenuIcon(mode)
