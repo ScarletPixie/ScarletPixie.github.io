@@ -7,21 +7,27 @@
 	<meta name="description" content="This page shows my greatest projects and what i'm currently working on">
 
 	<link rel="icon" type="image/x-icon" href="cranberry.png">
-	<link rel="stylesheet" href="css/base.css">
 
-	<link rel="stylesheet" href="css/layout.css">
-
+    <link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/navbar.css">
 
 	<title>Scarlet Pixie</title>
 </head>
 <body>
 	<header class="navbar">
 		<nav class="navbar__nav">
-			<p>logo</p>
-			<menu class="navbar__menu">
-				<li class="navbar__li"><a href="#">about</a></li>
-				<li class="navbar__li"><a href="#">projects</a></li>
-				<li class="navbar__li"><a href="#">contact</a></li>
+			<a href="/" aria-label="go to homepage" class="navbar__brand">ScarletPixie</a>
+            <button class="navbar__toggle" aria-controls="main-navigation" aria-expanded="false" aria-label="toggle navbar">BT</button>
+			<menu class="navbar__menu" id="navbar">
+                <li class="navbar__item">
+                    <a href="#" class="navbar__link">about</a>
+                </li>
+				<li class="navbar__item">
+                    <a href="#" class="navbar__link">projects</a>
+                </li>
+				<li class="navbar__item">
+                    <a href="#" class="navbar__link">contact</a>
+                </li>
 			</menu>
 		</nav>
 	</header>
