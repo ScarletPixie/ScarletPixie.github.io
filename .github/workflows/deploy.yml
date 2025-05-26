@@ -31,6 +31,7 @@ jobs:
           find . -path ./dist -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
             filename=$(basename "$file")
+            filename=${filename#./}
             npx postcss "$file" -o "dist/$dir/$filename"
             echo "dist/$dir/$filename"
           done
@@ -39,4 +40,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist 
+          publish_dir: . 
