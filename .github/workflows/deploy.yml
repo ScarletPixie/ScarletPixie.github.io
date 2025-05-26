@@ -28,7 +28,7 @@ jobs:
         run: |
           cd css
           mkdir -p dist
-          find css -path ./dist -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
+          find . -path ./dist -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
             filename=$(basename "$file")
             npx postcss "$file" -o "dist/$dir/$filename"
