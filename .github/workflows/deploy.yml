@@ -35,6 +35,7 @@ jobs:
             npx postcss "$file" -o "dist/$dir/$filename"
             echo "dist/$dir/$filename"
           done
+          ls -R css/dist
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v4
