@@ -30,7 +30,7 @@ jobs:
           find css -path css/vendor -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
             filename=$(basename "$file")
-            postcss "$file" -o "$dir"/"$filename"
+            npx postcss "$file" -o "$dir"/"$filename"
             echo "$dir"/"$filename"
           done
 
