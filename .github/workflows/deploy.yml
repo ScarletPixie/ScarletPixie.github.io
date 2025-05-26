@@ -26,7 +26,7 @@ jobs:
 
       - name: Process CSS files (in-place)
         run: |
-          find . -type f -name '*.css' -exec npx postcss {} -o {} \;
+          find . -type f -name '*.css' -exec npx postcss {} --use autoprefixer --no-map -o {} \;
 
 
       - name: deploy
