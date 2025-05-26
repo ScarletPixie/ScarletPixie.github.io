@@ -1,0 +1,7 @@
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+.DS_Store
+.env
+dist/  # Only if you generate this locally

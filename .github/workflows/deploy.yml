@@ -24,21 +24,13 @@ jobs:
           npm install postcss postcss-cli autoprefixer cssnano
 
 
-      - name: Add CSS vendor prefixes
+      - name: Process CSS files (in-place)
         run: |
-          cd css
-          mkdir -p dist
-          find . -path ./dist -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
-            dir=$(dirname "$file")
-            filename=$(basename "$file")
-            filename=${filename#./}
-            npx postcss "$file" -o "dist/$dir/$filename"
-            echo "dist/$dir/$filename"
-          done
-          ls -R dist
+          find . -type f -name '*.css' -exec npx postcss {} -o {} \;
+
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./
