@@ -1,0 +1,41 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm init -y
+          npm install postcss postcss-cli autoprefixer cssnano
+
+
+      - name: Add CSS vendor prefixes
+        run: |
+          mkdir -p css/dist
+          find css -path css/vendor -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
+            dir=$(dirname "$file")
+            filename=$(basename "$file")
+            postcss "$file" -o "$dir"/"$filename"
+            echo "$dir"/"$filename"
+          done
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist 
