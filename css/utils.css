@@ -1,0 +1,1 @@
+@keyframes glow{0%{text-shadow:0 0 5px #3a5faa,0 0 10px #3a5faa,0 0 15px #3a5faa}25%{text-shadow:0 0 10px #3a5faa,0 0 15px #3a5faa,0 0 20px #3a5faa}50%{text-shadow:0 0 20px #3a5faa,0 0 35px #3a5faa,0 0 45px #3a5faa}75%{text-shadow:0 0 10px #3a5faa,0 0 15px #3a5faa,0 0 20px #3a5faa}to{text-shadow:0 0 5px #3a5faa,0 0 10px #3a5faa,0 0 15px #3a5faa}}
