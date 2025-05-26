@@ -1,0 +1,8 @@
+.body
+{
+    /* FALLBACK COLOR IF DYNAMIC GRADIENT FAILS*/
+    background-color: darkgray;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}

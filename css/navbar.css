@@ -5,6 +5,8 @@
     display: flex;
     position: relative;
     box-shadow: 0 2px 12px rgba(255, 192, 203, 0.5);
+    background-image: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+    background-color: white;
 }
 .navbar__nav {
     width: 100%;
@@ -36,12 +38,15 @@
     align-items: center;
     list-style: none;
     text-align: center;
+    background-image: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+    background-color: white;
 }
 .navbar__item
 {
     border: solid lightgray 1px;
     border-radius: 0% 0% 0% 5px;
     box-shadow: 0 2px 12px rgba(255, 192, 203, 0.5);
+    margin: 0.5rem 0;
 }
 .navbar__item:active
 {
@@ -62,7 +67,7 @@
 {
     display: none;
     border: none;
-    background-color: white;
+    background-color: transparent;
     margin: 0.5rem 0.75rem;
 }
 .navbar__toggle:hover
@@ -89,7 +94,7 @@
     {
         width: 100%;
         position: absolute;
-        top: 105%;
+        top: 100%;
         left: -100%;
         flex-direction: column;
         transition: 0.2s;
