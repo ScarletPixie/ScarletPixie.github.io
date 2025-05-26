@@ -30,6 +30,7 @@ jobs:
           mkdir -p dist
           find . -path ./dist -prune -o -type f -name '*.css' -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
+            dir=$($dir#./)
             filename=$(basename "$file")
             filename=${filename#./}
             npx postcss "$file" -o "dist/$dir/$filename"
