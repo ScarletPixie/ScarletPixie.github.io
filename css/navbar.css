@@ -2,80 +2,86 @@
 @import url("utils.css");
 
 .navbar {
+    --navbar-bg-color: #d8e4e9;
+    --navbar-bg-gradient: linear-gradient(180deg, #3a3a3a 0%, #1f1f1f 70%, #111 100%);
+
+    --navbar-text-color: #9602a1;
+    --navbar-brand-gradient: linear-gradient(135deg, #77216f 0%, #e95420 100%);
+    --navbar-brand-shadow: 1px 1px 1px rgba(255, 127, 80, 0.1), 2px 2px 1px rgba(217, 78, 31, 0.05);
+    --navbar-brand-fallback-color: #d94e1f;
+
     min-width: 100vw;
     display: flex;
     position: relative;
-    background-image: linear-gradient(to top, #1e293b, #0f172a);
-    background-color: white;
-}
-.navbar__nav {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: var(--navbar-bg-gradient);
+    background-color: var(--navbar-bg-color);
 }
 .navbar__brand
 {
+    margin: 0.5rem 1rem;
+    background: var(--navbar-brand-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
     font-size: 2rem;
     text-decoration: none;
-    margin: 0.5rem 1rem;
-
-
-    color: #f8fafc; /* Fallback solid color */
-
-    text-shadow:
-    1px 1px 0 rgba(240, 102, 153, 0.4),  /* soft pink */
-    2px 2px 0 rgba(74, 144, 226, 0.3),   /* soft blue */
-    3px 3px 0 rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    color: var(--navbar-brand-fallback-color); /* Fallback solid color */
+    text-shadow: var(--navbar-brand-shadow)
 }
 .navbar__brand:hover
 {
     animation: glow 3s infinite ease-in
 }
 
+
+.navbar__nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .navbar__menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
     list-style: none;
     text-align: center;
-    background-image: linear-gradient(to top, #1e293b, #0f172a);
-    background-color: white;
+    background: var(--navbar-bg-gradient);
+    background-color: var(--navbar-bg-color);
 }
+
 .navbar__item
 {
-    border: solid 0.01px black;
-    border-radius: 5px;
     margin: 1rem;
     width: 6rem;
-    background-image: linear-gradient(to top, #141e30, #243b55, #141e30);
-    background-color: white;
-}
-.navbar__item:active
-{
-    box-shadow: 2px 2px 1px black inset;
-    background-color: #141e30;
-    background-image: none;
-
 }
 .navbar__link
 {
+    --navbar__link-border: solid 0.5 black;
+    --navbar__link-shadow-color: #7a7a7a;
+
+    border: var(--navbar__link-border);
+    border-radius: 2px;
     display: block;
     padding: 0.5rem;
     color: white;
     text-decoration: none;
     font-size: 1.3rem;
+    background: var(--navbar-bg-gradient);
+    box-shadow: 0 1px 0 var(--navbar__link-shadow-color) inset, 1px 0px 0 var(--navbar__link-shadow-color) inset;
     transition: text-shadow 0.3s ease-in-out;
 }
 .navbar__link:hover
 {
-    text-shadow: .5px .5px 5px white;
     animation: glow 2s infinite ease-in-out;
 }
 .navbar__link:active
 {
     color: gray;
-
+    box-shadow: 0 -1px 1px var(--navbar__link-shadow-color) inset, -1px 0px 1px var(--navbar__link-shadow-color) inset;
+    animation: none;
 }
 
 /*Responsiveness*/
@@ -96,7 +102,7 @@
     height: 100%;
     object-fit: contain;
 }
-@media screen and (max-width: 600px)
+@media screen and (max-width: 640px)
 {
     .navbar__toggle
     {
