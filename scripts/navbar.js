@@ -6,20 +6,17 @@ const navBrand = document.querySelector(".navbar__brand");
 const toggleIcon = document.querySelector(".navbar__menu-icon")
 
 
-
 // HIDE/SHOW ON SCROLL
 const sensibility = 75;
 let lastScroll = window.scrollY;
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
-    if (currentScroll > lastScroll && currentScroll > sensibility)
+    if (currentScroll > lastScroll && currentScroll > sensibility && !menu.classList.contains("active"))
         navbar.classList.add("hidden");
     else
         navbar.classList.remove("hidden");
     lastScroll = currentScroll;
 });
-
-
 
 
 // TOGGLE NAVBAR MENU ON/OFF
