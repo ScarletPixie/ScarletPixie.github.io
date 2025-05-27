@@ -34,12 +34,12 @@ function getCurrentGradient()
     return GRADIENTS[closestHour];
 }
 
-document.body.style.background = getCurrentGradient();
-document.body.style.transition = "background 1s ease-in-out";
+//document.body.style.background = getCurrentGradient();
+//document.body.style.transition = "background 1s ease-in-out";
 
 const gradientSeq = getGradientSequence();
 
 setInterval(() => {
-    document.body.style.background = gradientSeq();
+    //document.body.style.background = gradientSeq();
     //document.body.style.background = getCurrentGradient();
 }, 2000);
