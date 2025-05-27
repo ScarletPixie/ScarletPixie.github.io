@@ -10,11 +10,17 @@
     --navbar-brand-shadow: 1px 1px 1px rgba(255, 127, 80, 0.1), 2px 2px 1px rgba(217, 78, 31, 0.05);
     --navbar-brand-fallback-color: #d94e1f;
 
+    top: 0;
+
     min-width: 100vw;
     display: flex;
-    position: relative;
+    position: fixed;
     background: var(--navbar-bg-gradient);
     background-color: var(--navbar-bg-color);
+    transition: 0.1s ease-in-out;
+}
+.navbar.hidden {
+    top: -100%;
 }
 .navbar__brand
 {
@@ -83,6 +89,7 @@
     box-shadow: 0 -1px 1px var(--navbar__link-shadow-color) inset, -1px 0px 1px var(--navbar__link-shadow-color) inset;
     animation: none;
 }
+
 
 /*Responsiveness*/
 .navbar__toggle
