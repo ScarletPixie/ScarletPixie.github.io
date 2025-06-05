@@ -6,3 +6,4 @@ yarn.lock
 .DS_Store
 .env
 dist/  # Only if you generate this locally
+*.swp
