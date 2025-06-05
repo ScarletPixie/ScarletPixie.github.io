@@ -7,16 +7,17 @@ const toggleIcon = document.querySelector(".navbar__menu-icon")
 
 
 // HIDE/SHOW ON SCROLL
-const sensibility = 75;
+const sensibility = 175;
 let lastScroll = window.scrollY;
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
-    if (currentScroll > lastScroll && currentScroll > sensibility && !menu.classList.contains("active"))
+    if (!menu.classList.contains("active") && currentScroll > lastScroll && currentScroll > sensibility)
         navbar.classList.add("hidden");
     else
         navbar.classList.remove("hidden");
     lastScroll = currentScroll;
 });
+
 
 
 // TOGGLE NAVBAR MENU ON/OFF
@@ -32,6 +33,10 @@ toggle.addEventListener("click", () => {
 navBrand.addEventListener("click", closeMenu);
 menuLinks.forEach((lnk) => {
     lnk.addEventListener("click", closeMenu);
+    lnk.addEventListener("focus", () => {
+        navbar.classList.remove("hidden");
+        menu.classList.add("active");
+    })
 });
 
 function closeMenu() {
