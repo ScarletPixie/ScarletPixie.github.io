@@ -5,13 +5,15 @@ const menuLinks = document.querySelectorAll(".navbar__link");
 const navBrand = document.querySelector(".navbar__brand");
 const toggleIcon = document.querySelector(".navbar__menu-icon")
 
+let isNavselected = false; 
+
 
 // HIDE/SHOW ON SCROLL
-const sensibility = 175;
+const sensibility = 75;
 let lastScroll = window.scrollY;
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
-    if (noNavElementFocus() && currentScroll > lastScroll && currentScroll > sensibility)
+    if (!isNavselected && currentScroll > lastScroll && currentScroll > sensibility)
         navbar.classList.add("hidden");
     else
         navbar.classList.remove("hidden");
@@ -34,7 +36,10 @@ toggle.addEventListener("click", () => {
 navBrand.addEventListener("click", closeMenu);
 navBrand.addEventListener("focus", showNav);
 menuLinks.forEach((lnk) => {
-    lnk.addEventListener("click", closeMenu);
+    lnk.addEventListener("click", () => {
+        isNavselected = false;
+        closeMenu();
+    });
     lnk.addEventListener("focus", showNav);
     lnk.addEventListener("focus", openMenu);
 });
@@ -42,16 +47,13 @@ menuLinks.forEach((lnk) => {
 
 // CLOSE MENU IF INNER CHILD WAS SELECTED AND LOST FOCUS
 menu.addEventListener("focusout", closeMenu);
-navbar.addEventListener("focusout", closeMenu);
-
-
-// HELPERS
-function noNavElementFocus()
-{
-    // TODO
-    return false;
-    // return !(navbar.contains(document.activeElement) === document.body);
-}
+navbar.addEventListener("focusout", () => {
+    closeMenu();
+    isNavselected = false;
+});
+navbar.addEventListener("focusin", () => {
+    isNavselected = true;
+});
 
 
 // CALLBACKS
