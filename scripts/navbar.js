@@ -50,6 +50,12 @@ class Navbar
             this.toggle.setAttribute("aria-expanded", String(!expanded));
             this.menu.classList.toggle("active");
             this._setMenuIcon(expanded);
+
+            if (expanded)
+            {
+                //this.navbar.classList.add("hidden");
+                this._isNavbarSelected = false;
+            }
         });
     }
 
