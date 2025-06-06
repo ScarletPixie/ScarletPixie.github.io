@@ -46,16 +46,14 @@ class Navbar
     {
         //this.toggle.addEventListener("focus", this._showNav);
         this.toggle.addEventListener("click", () => {
+            this._isNavbarSelected = true;
             const expanded = this.toggle.getAttribute("aria-expanded") === "true";
             this.toggle.setAttribute("aria-expanded", String(!expanded));
             this.menu.classList.toggle("active");
             this._setMenuIcon(expanded);
 
-            if (expanded)
-            {
-                //this.navbar.classList.add("hidden");
+            if (expanded === true)
                 this._isNavbarSelected = false;
-            }
         });
     }
 
