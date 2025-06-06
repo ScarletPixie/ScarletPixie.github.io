@@ -57,8 +57,8 @@ class Navbar
     setNavHideShowOnFocus()
     {
         this.navbar.addEventListener("focusout", () => {
-            //this._closeMenu();
-            this._isNavbarSelected = false;
+            if (!this.menu.classList.contains("active"))
+                this._isNavbarSelected = false;
         });
         this.navbar.addEventListener("focusin", () => {
             this._isNavbarSelected = true;
