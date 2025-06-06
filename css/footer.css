@@ -1,0 +1,18 @@
+
+.taskbar {
+    --navbar-bg-color: #d8e4e9;
+    --navbar-bg-gradient: linear-gradient(180deg, #3a3a3a 0%, #1f1f1f 70%, #111 100%);
+
+    --navbar-text-color: #9602a1;
+    --navbar-brand-gradient: linear-gradient(135deg, #77216f 0%, #e95420 100%);
+    --navbar-brand-shadow: 1px 1px 1px rgba(255, 127, 80, 0.1), 2px 2px 1px rgba(217, 78, 31, 0.05);
+    --navbar-brand-fallback-color: #d94e1f;
+
+    top: 30%;
+
+    min-width: 100vw;
+    display: flex;
+    position: sticky;
+    background: var(--navbar-bg-gradient);
+    background-color: var(--navbar-bg-color);
+}
