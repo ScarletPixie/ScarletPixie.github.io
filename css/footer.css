@@ -8,18 +8,22 @@
     --footer-brand-shadow: 1px 1px 1px rgba(255, 127, 80, 0.1), 2px 2px 1px rgba(217, 78, 31, 0.05);
     --footer-brand-fallback-color: #d94e1f;
 
-    top: 90%;
 
+    position: fixed;
+    bottom: 0%;
     min-width: 100vw;
     display: flex;
     background: var(--footer-bg-gradient);
     background-color: var(--footer-bg-color);
 }
+.taskbar.hidden {
+    bottom: 20%;
+}
 
 
 .taskbar__clock {
     font-family: "Segoe UI", "Ubuntu", sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
     padding: 4px 15px;
@@ -27,7 +31,6 @@
     user-select: none;
     white-space: nowrap;
     display: inline-block;
-    min-width: 90px;
     text-align: center;
     transition: background-color 0.2s ease;
     margin-left: auto;

@@ -1,35 +1,55 @@
-const navbar = document.querySelector(".navbar");
-const toggle = document.querySelector(".navbar__toggle");
-const menu = document.querySelector(".navbar__menu");
-const menuLinks = document.querySelectorAll(".navbar__link");
-const navBrand = document.querySelector(".navbar__brand");
-const toggleIcon = document.querySelector(".navbar__menu-icon")
+class Navbar
+{
+    constructor()
+    {
+        this.navbar = document.querySelector(".navbar");
+        this.toggle = document.querySelector(".navbar__toggle");
+        this.menu = document.querySelector(".navbar__menu");
+        this.menuLinks = document.querySelectorAll(".navbar__link");
+        this.navBrand = document.querySelector(".navbar__brand");
+        this.toggleIcon = document.querySelector(".navbar__menu-icon");
 
-let isNavselected = false; 
+        this._isNavbarSelected = false;
+        this._navbarScrollSensibility = 75;
+    }
 
+    setHideOnScroll()
+    {
+        let lastScroll = window.scrollY;
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.scrollY;
+            if (!this._isNavbarSelected && currentScroll > lastScroll && currentScroll > sensibility)
+                navbar.classList.add("hidden");
+            else
+                navbar.classList.remove("hidden");
+            lastScroll = currentScroll;
+        });
+        return this;
+    }
+    setUpToggleButton()
+    {
+        toggle.addEventListener("focus", showNav);
+        toggle.addEventListener("click", () => {
+            const expanded = toggle.getAttribute("aria-expanded") === "true";
+            toggle.setAttribute("aria-expanded", String(!expanded));
+            menu.classList.toggle("active");
+            setMenuIcon(expanded);
+        });
+    }
+    setNavHideShowOnFocus()
+    {
+        this.navbar.addEventListener("focusout", () => {
+            closeMenu();
+            this._isNavbarSelected = false;
+        });
+        this.navbar.addEventListener("focusin", () => {
+            this._isNavbarSelected = true;
+        });
+    }
+}
 
-// HIDE/SHOW ON SCROLL
-const sensibility = 75;
-let lastScroll = window.scrollY;
-window.addEventListener("scroll", () => {
-    const currentScroll = window.scrollY;
-    if (currentScroll > lastScroll && currentScroll > sensibility)
-        navbar.classList.add("hidden");
-    else
-        navbar.classList.remove("hidden");
-    lastScroll = currentScroll;
-});
-
-
-
-// TOGGLE NAVBAR MENU ON/OFF
-toggle.addEventListener("focus", showNav);
-toggle.addEventListener("click", () => {
-    const expanded = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!expanded));
-    menu.classList.toggle("active");
-    setMenuIcon(expanded);
-});
+const nav = new Navbar();
+nav.setHideOnScroll();
 
 
 // CLOSE MENU AFTER CLICKING ANY LINK
@@ -47,13 +67,6 @@ menuLinks.forEach((lnk) => {
 
 // CLOSE MENU IF INNER CHILD WAS SELECTED AND LOST FOCUS
 menu.addEventListener("focusout", closeMenu);
-navbar.addEventListener("focusout", () => {
-    closeMenu();
-    isNavselected = false;
-});
-navbar.addEventListener("focusin", () => {
-    isNavselected = true;
-});
 
 
 // CALLBACKS

@@ -2,9 +2,26 @@ const taskbar = document.querySelector(".taskbar");
 const clock = document.querySelector(".taskbar__clock");
 updateClock();
 
-// UPDATE EVERY MINUTE
+// UPDATE CLOCK EVERY MINUTE
 setInterval(updateClock, 60 * 1000);
 
+
+let tlastScroll = window.scrollY;
+let tsensibility = 50;
+window.addEventListener("scroll", () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > tlastScroll && currentScroll > tsensibility)
+    {
+        console.log("hidden");
+        taskbar.classList.add("hidden");
+    }
+    else
+        taskbar.classList.remove("hidden");
+    tlastScroll = currentScroll;
+});
+
+
+// CALLBACKS
 function updateClock()
 {
     const now = new Date();
