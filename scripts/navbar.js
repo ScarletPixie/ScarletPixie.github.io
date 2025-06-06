@@ -11,86 +11,103 @@ class Navbar
 
         this._isNavbarSelected = false;
         this._navbarScrollSensibility = 75;
+
+        this._showNav = this._showNav.bind(this);
+        this._closeMenu = this._closeMenu.bind(this);
+        this._openMenu = this._openMenu.bind(this);
+        this._setMenuIcon = this._setMenuIcon.bind(this);
     }
 
+    setup()
+    {
+        this.setHideOnScroll();
+        this.setUpToggleButton();
+        this.setHideOnLinkClick();
+        this.setNavHideShowOnFocus();
+    }
+
+    // HIDE NAVBAR ON SCROLL DOWN AND SHOW ON SCROLL UP OR ON ACTIVE NAVBAR ELEMENT
     setHideOnScroll()
     {
         let lastScroll = window.scrollY;
         window.addEventListener("scroll", () => {
             const currentScroll = window.scrollY;
-            if (!this._isNavbarSelected && currentScroll > lastScroll && currentScroll > sensibility)
-                navbar.classList.add("hidden");
+            if (!this._isNavbarSelected && currentScroll > lastScroll && currentScroll > this._navbarScrollSensibility)
+                this.navbar.classList.add("hidden");
             else
-                navbar.classList.remove("hidden");
+                this.navbar.classList.remove("hidden");
             lastScroll = currentScroll;
         });
         return this;
     }
+
+    // TOGGLE NAVBAR MENU
     setUpToggleButton()
     {
-        toggle.addEventListener("focus", showNav);
-        toggle.addEventListener("click", () => {
-            const expanded = toggle.getAttribute("aria-expanded") === "true";
-            toggle.setAttribute("aria-expanded", String(!expanded));
-            menu.classList.toggle("active");
-            setMenuIcon(expanded);
+        //this.toggle.addEventListener("focus", this._showNav);
+        this.toggle.addEventListener("click", () => {
+            const expanded = this.toggle.getAttribute("aria-expanded") === "true";
+            this.toggle.setAttribute("aria-expanded", String(!expanded));
+            this.menu.classList.toggle("active");
+            this._setMenuIcon(expanded);
         });
     }
+
+    // HIDE/SHOW NAVBAR WHEN AN ELEMENT IS FOCUSED OR ALL ELEMENTS HAVE LOST FOCUS
     setNavHideShowOnFocus()
     {
         this.navbar.addEventListener("focusout", () => {
-            closeMenu();
+            //this._closeMenu();
             this._isNavbarSelected = false;
         });
         this.navbar.addEventListener("focusin", () => {
             this._isNavbarSelected = true;
+            this._showNav();
         });
+    }
+
+    // CLOSE MENU AFTER CLICKING ANY LINK
+    setHideOnLinkClick()
+    {
+        this.navBrand.addEventListener("click", this._closeMenu);
+        this.menuLinks.forEach((lnk) => {
+            lnk.addEventListener("click", () => {
+                this._isNavbarSelected = false;
+                this._closeMenu();
+            });
+            lnk.addEventListener("focus", this._openMenu);
+        });
+        // CLOSE MENU IF INNER CHILD WAS SELECTED AND LOST FOCUS
+        this.menu.addEventListener("focusout", this._closeMenu);
+    }
+
+    // CALLBACKS
+    _showNav()
+    {
+        this.navbar.classList.remove("hidden");
+    }
+    _closeMenu()
+    {
+        this.toggle.setAttribute("aria-expanded", "false");
+        this.menu.classList.remove("active");
+        this._setMenuIcon(true);
+    }
+    _openMenu()
+    {
+        //alert("sals");
+        //this.toggle.setAttribute("aria-expanded", "true");
+        this.menu.classList.add("active");
+        this._setMenuIcon(false);
+    }
+
+    _setMenuIcon(mode)
+    {
+        if (mode === true)
+            this.toggleIcon.src = "../images/menu/burger-menu.svg";
+        else
+            this.toggleIcon.src = "../images/menu/x-symbol.svg";
     }
 }
 
 const nav = new Navbar();
-nav.setHideOnScroll();
-
-
-// CLOSE MENU AFTER CLICKING ANY LINK
-navBrand.addEventListener("click", closeMenu);
-navBrand.addEventListener("focus", showNav);
-menuLinks.forEach((lnk) => {
-    lnk.addEventListener("click", () => {
-        isNavselected = false;
-        closeMenu();
-    });
-    lnk.addEventListener("focus", showNav);
-    lnk.addEventListener("focus", openMenu);
-});
-
-
-// CLOSE MENU IF INNER CHILD WAS SELECTED AND LOST FOCUS
-menu.addEventListener("focusout", closeMenu);
-
-
-// CALLBACKS
-function showNav()
-{
-    navbar.classList.remove("hidden");
-}
-function closeMenu()
-{
-    toggle.setAttribute("aria-expanded", "false");
-    menu.classList.remove("active");
-    setMenuIcon(true);
-}
-function openMenu()
-{
-    toggle.setAttribute("aria-expanded", "true");
-    menu.classList.add("active");
-    setMenuIcon(false);
-}
-
-function setMenuIcon(mode)
-{
-    if (mode === true)
-        toggleIcon.src = "../images/menu/burger-menu.svg";
-    else
-        toggleIcon.src = "../images/menu/x-symbol.svg";
-}
+nav.setup();
