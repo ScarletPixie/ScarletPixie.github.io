@@ -13,7 +13,7 @@ const sensibility = 75;
 let lastScroll = window.scrollY;
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
-    if (!isNavselected && currentScroll > lastScroll && currentScroll > sensibility)
+    if (currentScroll > lastScroll && currentScroll > sensibility)
         navbar.classList.add("hidden");
     else
         navbar.classList.remove("hidden");

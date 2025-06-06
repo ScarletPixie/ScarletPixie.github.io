@@ -95,20 +95,16 @@
 .navbar__toggle
 {
     display: none;
-    border: none;
-    background-color: transparent;
     margin: 0.5rem 0.75rem;
-    --navbar__link-border: solid 0.5 black;
-    --navbar__link-shadow-color: #7a7a7a;
-    border: var(--navbar__link-border);
+    --navbar__toggle-border: solid 0.5 black;
+    --navbar__toggle-shadow-color: #7a7a7a;
+    border: var(--navbar__toggle-border);
     border-radius: 2px;
-    display: block;
     color: white;
     text-decoration: none;
-    font-size: 1.3rem;
+    padding: 1px;
     background: var(--navbar-bg-gradient);
-    box-shadow: 0 1px 0 var(--navbar__link-shadow-color) inset, 1px 0px 0 var(--navbar__link-shadow-color) inset;
-    transition: text-shadow 0.3s ease-in-out;
+    box-shadow: 0 1px 0 var(--navbar__toggle-shadow-color) inset, 1px 0px 0 var(--navbar__toggle-shadow-color) inset;
 }
 .navbar__toggle:hover
 {
