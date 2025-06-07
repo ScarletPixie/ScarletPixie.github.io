@@ -10,9 +10,8 @@ let tlastScroll = window.scrollY;
 let tsensibility = 50;
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
-    if (currentScroll > tlastScroll && currentScroll > tsensibility)
+    if (currentScroll < tlastScroll && currentScroll < tsensibility)
     {
-        console.log("hidden");
         taskbar.classList.add("hidden");
     }
     else
