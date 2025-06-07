@@ -17,7 +17,7 @@
     position: fixed;
     background: var(--navbar-bg-gradient);
     background-color: var(--navbar-bg-color);
-    transition: 0.1s ease-in-out;
+    transition: top 0.2s ease-in-out;
 }
 .navbar.hidden {
     top: -100%;
