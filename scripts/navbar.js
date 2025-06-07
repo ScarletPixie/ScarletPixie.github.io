@@ -1,4 +1,4 @@
-class Navbar
+export class Navbar
 {
     constructor()
     {
@@ -10,7 +10,7 @@ class Navbar
         this.toggleIcon = document.querySelector(".navbar__menu-icon");
 
         this._isNavbarSelected = false;
-        this._navbarScrollSensibility = 75;
+        this._navbarScrollSensibility = 5;
 
         this._showNav = this._showNav.bind(this);
         this._closeMenu = this._closeMenu.bind(this);
@@ -20,26 +20,36 @@ class Navbar
 
     setup()
     {
-        this.setHideOnScroll();
+        //this.setHideOnScroll();
         this.setUpToggleButton();
         this.setHideOnLinkClick();
         this.setNavHideShowOnFocus();
     }
 
     // HIDE NAVBAR ON SCROLL DOWN AND SHOW ON SCROLL UP OR ON ACTIVE NAVBAR ELEMENT
-    setHideOnScroll()
+    onScrollY(offset)
     {
-        let lastScroll = window.scrollY;
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.scrollY;
-            if (!this._isNavbarSelected && currentScroll > lastScroll && currentScroll > this._navbarScrollSensibility)
-                this.navbar.classList.add("hidden");
-            else
-                this.navbar.classList.remove("hidden");
-            lastScroll = currentScroll;
-        });
-        return this;
+        if (window.scrollY < 50)
+            this.navbar.classList.remove("hidden");
+        else if (offset > this._navbarScrollSensibility && !this._isNavbarSelected)
+            this.navbar.classList.add("hidden");
+        else if (offset < -(this._navbarScrollSensibility * 0.5))
+            this.navbar.classList.remove("hidden");
+            
     }
+//    setHideOnScroll()
+//    {
+//        let lastScroll = window.scrollY;
+//        window.addEventListener("scroll", () => {
+//            const currentScroll = window.scrollY;
+//            if (!this._isNavbarSelected && currentScroll > lastScroll && currentScroll > this._navbarScrollSensibility)
+//                this.navbar.classList.add("hidden");
+//            else
+//                this.navbar.classList.remove("hidden");
+//            lastScroll = currentScroll;
+//        });
+//        return this;
+//    }
 
     // TOGGLE NAVBAR MENU
     setUpToggleButton()
@@ -108,6 +118,3 @@ class Navbar
             this.toggleIcon.src = "../images/menu/x-symbol.svg";
     }
 }
-
-const nav = new Navbar();
-nav.setup();
