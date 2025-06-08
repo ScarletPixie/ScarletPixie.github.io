@@ -1,35 +1,51 @@
-const taskbar = document.querySelector(".taskbar");
-const clock = document.querySelector(".taskbar__clock");
-updateClock();
-
-// UPDATE CLOCK EVERY MINUTE
-setInterval(updateClock, 60 * 1000);
-
-
-let tlastScroll = window.scrollY;
-let tsensibility = 50;
-window.addEventListener("scroll", () => {
-    const currentScroll = window.scrollY;
-    if (currentScroll < tlastScroll && currentScroll < tsensibility)
-    {
-        taskbar.classList.add("hidden");
-    }
-    else
-        taskbar.classList.remove("hidden");
-    tlastScroll = currentScroll;
-});
-
-
-// CALLBACKS
-function updateClock()
+export class Taskbar
 {
-    const now = new Date();
-  
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-    const year = now.getFullYear();
-  
-    clock.textContent = `${hours}:${minutes} ${day}/${month}/${year}`;
+    constructor()
+    {
+        this.taskbar = document.querySelector(".taskbar");
+        this.clock = document.querySelector(".taskbar__clock");
+        this._taskbarScrollSensibility = -5;
+       
+        this._updateClock = this._updateClock.bind(this);
+    }
+
+    setup()
+    {
+        this._updateClock();
+        this.setUpdateClock();
+    }
+
+    setUpdateClock()
+    {
+        // UPDATE CLOCK EVERY MINUTE
+        setInterval(this._updateClock, 60 * 1000);
+    }
+
+    onScrollY(offset)
+    {
+        const PAGE_HEIGHT = document.documentElement.scrollHeight;
+        const VIEWPORT_Y = window.innerHeight;
+
+        // SHOW NEAR/AT BOTTOM
+        if ((VIEWPORT_Y + window.scrollY) > (PAGE_HEIGHT - this.taskbar.offsetHeight))
+            this.taskbar.classList.remove("hidden");
+        else if (offset < this._taskbarScrollSensibility)
+            this.taskbar.classList.add("hidden");
+        else if (offset > -(this._taskbarScrollSensibility * 0.5))
+            this.taskbar.classList.remove("hidden");        
+    }
+
+    // CALLBACKS
+    _updateClock()
+    {
+        const now = new Date();
+      
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+      
+        this.clock.textContent = `${hours}:${minutes} ${day}/${month}/${year}`;
+    }
 }
