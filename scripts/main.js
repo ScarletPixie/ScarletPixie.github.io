@@ -1,4 +1,5 @@
 import { Navbar } from "./navbar.js"
+import { Taskbar } from "./footer.js"
 
 class PageScrollEvent
 {
@@ -51,5 +52,6 @@ navbar.setup();
 
 scrollEvent.subscribe(navbar);
 
-//const footer = new Footer();
-//footer.setup();
+const taskbar = new Taskbar();
+taskbar.setup();
+scrollEvent.subscribe(taskbar);
