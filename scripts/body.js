@@ -1,45 +1,15 @@
-const GRADIENTS = {
-    // https://webgradients.com/
-    //6: "linear-gradient(to bottom, #000046, #1cb5e0)",           // Sunrise
+import { PROJECT_LIST } from "./projects/projects.js"
 
-    5: "linear-gradient(to top, #f43b47 0%, #453a94 100%)",
-    9: "linear-gradient(to bottom, #fa709a 0%, #fee140 100%)",
-    12: "linear-gradient(to top, #f6d365 0%, #fda085 100%)",
-    16: "linear-gradient(to top, #f83600 0%, #f9d423 100%)",
-    18: "linear-gradient(to top, #874da2 0%, #c43a30 100%)",
-    21: "linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%)",
-};
+const template = document.getElementById("project-card-template");
+const container = document.querySelector(".project-list");
 
-//console.log("LOADED");
-
-function getGradientSequence()
-{
-    let index = 0;
-    const gradientHours = Object.keys(GRADIENTS).map(Number);
-    function getCurrentGradientV2()
-    { 
-        const hour = gradientHours[index];
-        const closestHour = Math.max(...gradientHours.filter(h => h <= hour));
-        index = (index + 1) % 7;
-        return GRADIENTS[closestHour];
-    }
-    return getCurrentGradientV2;
-}
-
-function getCurrentGradient()
-{
-    const hour = new Date().getHours();
-    const gradientHours = Object.keys(GRADIENTS).map(Number);
-    const closestHour = Math.max(...gradientHours.filter(h => h <= hour));
-    return GRADIENTS[closestHour];
-}
-
-//document.body.style.background = getCurrentGradient();
-//document.body.style.transition = "background 1s ease-in-out";
-
-const gradientSeq = getGradientSequence();
-
-setInterval(() => {
-    //document.body.style.background = gradientSeq();
-    //document.body.style.background = getCurrentGradient();
-}, 2000);
+PROJECT_LIST.forEach(project => {
+    console.log(project);
+    const clone = template.content.cloneNode(true);
+    clone.querySelector(".project-list__card-title").textContent = project.title;
+    clone.querySelector(".project-list__card-thumb").src = project.preview.thumbnail;
+    clone.querySelector(".project-list__card-thumb").alt = project.preview.alt;
+    clone.querySelector(".project-list__card-text").textContent = project.preview.summary;
+    container.appendChild(clone);
+});
+    

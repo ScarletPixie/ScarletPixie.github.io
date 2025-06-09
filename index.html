@@ -15,6 +15,7 @@
 
 
     <script type="module" src="scripts/main.js" defer></script>
+    <script type="module" src="scripts/body.js" defer></script>
 
 
 
@@ -47,76 +48,22 @@
 		<!-- PROJECTS SECTION -->
 		<section class="project-list" id="projects">
 			<h2 class="project-list__heading">PROJECTS</h2>
-			<article class="project-list__card">
-				<header class="project-list__card-frame">
-					<h4 class="project-list__card-title">lorem ipsum</h4>
-					<div class="project-list__card-actions">
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span></button>
-					</div>
-				</header>
-				<section class="project-list__card-content">
-					<img src="https://placecats.com/480/480" alt="cat photo" class="project-list__card-thumb"/>
-					<p class="project-list__card-text">This is a short description of the project...</p>
-				</section>
-			</article>
-						<article class="project-list__card">
-				<header class="project-list__card-frame">
-					<h4 class="project-list__card-title">lorem ipsum</h4>
-					<div class="project-list__card-actions">
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span></button>
-					</div>
-				</header>
-				<section class="project-list__card-content">
-					<img src="https://placecats.com/200/200" alt="cat photo" class="project-list__card-thumb"/>
-					<p class="project-list__card-text">This is a short description of the project...</p>
-				</section>
-			</article>
-						<article class="project-list__card">
-				<header class="project-list__card-frame">
-					<h4 class="project-list__card-title">lorem ipsum</h4>
-					<div class="project-list__card-actions">
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span></button>
-					</div>
-				</header>
-				<section class="project-list__card-content">
-					<img src="https://placecats.com/400/400" alt="cat photo" class="project-list__card-thumb"/>
-					<p class="project-list__card-text">This is a short description of the project...</p>
-				</section>
-			</article>
-			<article class="project-list__card">
-				<header class="project-list__card-frame">
-					<h4 class="project-list__card-title">lorem ipsum</h4>
-					<div class="project-list__card-actions">
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span></button>
-					</div>
-				</header>
-				<section class="project-list__card-content">
-					<img src="https://placecats.com/500/500" alt="cat photo" class="project-list__card-thumb"/>
-					<p class="project-list__card-text">This is a short description of the project...</p>
-				</section>
-			</article>
-			<article class="project-list__card">
-				<header class="project-list__card-frame">
-					<h4 class="project-list__card-title">lorem ipsum</h4>
-					<div class="project-list__card-actions">
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span></button>
-						<button><span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span></button>
-					</div>
-				</header>
-				<section class="project-list__card-content">
-					<img src="https://placecats.com/1200/1200" alt="cat photo" class="project-list__card-thumb"/>
-					<p class="project-list__card-text">This is a short description of the project...</p>
-				</section>
-			</article>
+            <template id="project-card-template">
+                <article class="project-list__card">
+                    <header class="project-list__card-frame">
+                        <h4 class="project-list__card-title"></h4>
+                        <div class="project-list__card-actions">
+                            <button><span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span></button>
+                            <button><span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span></button>
+                            <button><span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span></button>
+                        </div>
+                    </header>
+                    <section class="project-list__card-content">
+                        <img src="" alt="" class="project-list__card-thumb"/>
+                        <p class="project-list__card-text"></p>
+                    </section>
+                </article>
+            </template>
 		</section>
 	</main>
 	
