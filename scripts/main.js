@@ -1,6 +1,35 @@
 import { Navbar } from "./navbar.js"
 import { Taskbar } from "./footer.js"
 
+// class HashChangeEvent
+// {
+//     constructor()
+//     {
+//         this._subscribers = [];
+
+//         window.addEventListener("hashchange", () => {
+//             let position = {x: 0, y: 0};
+//             position.x = window.scrollX;
+//             position.y = window.scrollY;
+//             this._notifySubscribers(location.hash, position);
+//         })
+//     }
+
+//     _notifySubscribers(newHash, newPos)
+//     {
+//         for (const subscriber of this._subscribers)
+//         {
+//              if (subscriber && typeof subscriber.onHashChange === 'function')
+//                 subscriber.onHashChange(newHash, newPos);
+//         }
+//     }
+
+//     subscribe(sub)
+//     {
+//         this._subscribers.push(sub);
+//     }
+// }
+
 class PageScrollEvent
 {
     constructor()
@@ -47,11 +76,16 @@ class PageScrollEvent
 }
 
 const scrollEvent = new PageScrollEvent();
+// const hashEvent = new HashChangeEvent();
+
 const navbar = new Navbar();
 navbar.setup();
 
 scrollEvent.subscribe(navbar);
+// hashEvent.subscribe(navbar);
 
 const taskbar = new Taskbar();
 taskbar.setup();
+
 scrollEvent.subscribe(taskbar);
+// hashEvent.subscribe(taskbar);
