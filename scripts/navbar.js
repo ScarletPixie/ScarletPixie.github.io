@@ -37,19 +37,6 @@ export class Navbar
             this.navbar.classList.remove("hidden");
             
     }
-//    setHideOnScroll()
-//    {
-//        let lastScroll = window.scrollY;
-//        window.addEventListener("scroll", () => {
-//            const currentScroll = window.scrollY;
-//            if (!this._isNavbarSelected && currentScroll > lastScroll && currentScroll > this._navbarScrollSensibility)
-//                this.navbar.classList.add("hidden");
-//            else
-//                this.navbar.classList.remove("hidden");
-//            lastScroll = currentScroll;
-//        });
-//        return this;
-//    }
 
     // TOGGLE NAVBAR MENU
     setUpToggleButton()
