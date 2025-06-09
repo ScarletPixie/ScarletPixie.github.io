@@ -1,0 +1,122 @@
+@import url("base.css");
+
+.main-content
+{
+    width: 100%;
+    margin: clamp(5rem, 10vh, 15rem) 0;
+}
+.main-content__heading
+{
+    text-align: center;
+}
+
+
+/* PROJECT LIST*/
+.project-list
+{
+    display: grid;
+    min-width: 100%;
+    padding: 0 10vw;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+.project-list__heading
+{
+    width: 100%;
+    font-size: 0.8rem;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+.project-list__card
+{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 6px;
+}
+.project-list__card-frame
+{
+    background-color: var(--window-bg-color);
+    background: var(--window-bg-gradient);
+
+    display: grid;
+    align-content: center;
+    padding: 0.5rem;
+    grid-template-columns: 1fr auto 1fr;
+}
+.project-list__card-title
+{
+    text-align: center;
+    grid-column: 2;
+}
+.project-list__card-actions
+{
+    display: flex;
+    margin-top: auto;
+    flex-wrap: nowrap;
+    grid-column: 3;
+    justify-self: end;
+    justify-content: space-evenly;
+    min-height: 0;
+    flex: 1 1 auto;
+    gap: 0.5rem;
+}
+.project-list__card-content
+{
+    width: 100%;
+    background-color: azure;
+}
+.project-list__card-thumb
+{
+    width: 100%;
+    object-fit: cover;
+}
+.project-list__card-text
+{
+    color: gray;
+}
+
+
+
+/* WINDOW ACTION BUTTONS */
+.project-list__card-actions button
+{
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+}
+.project-list__card-action-button
+{
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    border-radius: 50%;
+}
+/* Individual circle colors */
+.project-list__card-minimize
+{
+    background-color: #f4bf4f; /* yellow-ish */
+}
+.project-list__card-minimize:hover
+{
+    background-color: yellow;
+}
+
+.project-list__card-maximize
+{
+    background-color: #58cb42; /* green-ish */
+}
+.project-list__card-maximize:hover
+{
+    background-color: greenyellow;
+}
+
+.project-list__card-close
+{
+    background-color: #ed5f56; /* red-ish */
+}
+.project-list__card-close:hover
+{
+    background-color: lightcoral;
+}
