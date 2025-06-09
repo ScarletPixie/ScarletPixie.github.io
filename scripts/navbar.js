@@ -16,6 +16,8 @@ export class Navbar
         this._closeMenu = this._closeMenu.bind(this);
         this._openMenu = this._openMenu.bind(this);
         this._setMenuIcon = this._setMenuIcon.bind(this);
+
+        this._linkNavigation = false;
     }
 
     setup()
@@ -31,6 +33,11 @@ export class Navbar
     {
         if (window.scrollY < 50)
             this.navbar.classList.remove("hidden");
+        else if (this._linkNavigation === true)
+        {
+            this.navbar.classList.add("hidden");
+            this._linkNavigation = false;
+        }
         else if (offset > this._navbarScrollSensibility && !this._isNavbarSelected)
             this.navbar.classList.add("hidden");
         else if (offset < -(this._navbarScrollSensibility * 0.5))
@@ -73,6 +80,7 @@ export class Navbar
         this.navBrand.addEventListener("click", this._closeMenu);
         this.menuLinks.forEach((lnk) => {
             lnk.addEventListener("click", () => {
+                this._linkNavigation = true;
                 this._isNavbarSelected = false;
                 this._closeMenu();
             });
