@@ -1,7 +1,9 @@
-import { PROJECT_LIST } from "./projects/projects.js"
+import { PROJECT_LIST } from "./projects.js"
 
+
+// PROJECT CARDS
 const template = document.getElementById("project-card-template");
-const container = document.querySelector(".project-list");
+const projectList = document.querySelector(".project-list");
 
 PROJECT_LIST.forEach(project => {
     console.log(project);
@@ -10,6 +12,15 @@ PROJECT_LIST.forEach(project => {
     clone.querySelector(".project-list__card-thumb").src = project.preview.thumbnail;
     clone.querySelector(".project-list__card-thumb").alt = project.preview.alt;
     clone.querySelector(".project-list__card-text").textContent = project.preview.summary;
-    container.appendChild(clone);
+    projectList.appendChild(clone);
 });
-    
+
+
+// PROJECT CARD BEHAVIORS
+const projectCards = projectList.querySelectorAll(".project-list__card");
+projectCards.forEach((card) => {
+    card.querySelector(".project-list__card-actions").lastElementChild.addEventListener("click", (e) => {
+        e.stopPropagation();
+        card.remove();
+    });
+});
