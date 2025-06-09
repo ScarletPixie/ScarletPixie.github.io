@@ -1,22 +1,16 @@
-.taskbar {
-
-    --footer-bg-color: #d8e4e9;
-    --footer-bg-gradient: linear-gradient(180deg, #3a3a3a 0%, #1f1f1f 70%, #111 100%);
-
+.taskbar
+{
     --footer-text-color: #9602a1;
-    --footer-brand-gradient: linear-gradient(135deg, #77216f 0%, #e95420 100%);
-    --footer-brand-shadow: 1px 1px 1px rgba(255, 127, 80, 0.1), 2px 2px 1px rgba(217, 78, 31, 0.05);
-    --footer-brand-fallback-color: #d94e1f;
-
 
     position: fixed;
     bottom: 0%;
     min-width: 100vw;
     display: flex;
-    background: var(--footer-bg-gradient);
-    background-color: var(--footer-bg-color);
+    background: var(--window-bg-gradient);
+    background-color: var(--window-bg-color);
 }
-.taskbar.hidden {
+.taskbar.hidden
+{
     bottom: 100%;
 }
 
@@ -32,6 +26,6 @@
     white-space: nowrap;
     display: inline-block;
     text-align: center;
-    transition: background-color 0.2s ease;
+    transition: bottom background-color 0.2s ease;
     margin-left: auto;
   }

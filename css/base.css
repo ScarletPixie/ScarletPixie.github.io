@@ -14,7 +14,7 @@ body
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 1950vh;
+    min-height: 350vh;
 }
 main
 {
@@ -23,5 +23,7 @@ main
 
 :root 
 {
-    /* NAVBAR */
+    /* WINDOW FRAME */
+    --window-bg-color: #1f1f1f;
+    --window-bg-gradient: linear-gradient(180deg, #3a3a3a 0%, #1f1f1f 70%, #111 100%);
 }
