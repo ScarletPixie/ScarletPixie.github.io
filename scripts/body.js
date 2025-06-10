@@ -20,7 +20,9 @@ class WindowFrameDrag
         this._windowSelected = false;
         this._originalPosStyle = this._card.style.position;
 
-        this._cardOffset = {x: 0, y: 0};
+        this._dragOffset = {x: 0, y: 0};
+
+        this._originalSize = {width: this._currentPos.width, height: this._currentPos.height};
     }
 
     setup()
@@ -44,14 +46,28 @@ class WindowFrameDrag
         if (!this._isPointInsideRect(pos.x, pos.y, this._currentWindowFramePos))
             return;
         this._windowSelected = true;
-        this._currentPos.x = pos.x;
-        this._currentPos.y = pos.y;
+        this._card.style.willChange = "transform";
+        const rect = this._getGlobalBoundingClientRect(this._card);
+        this._card.style.width = `${rect.width}px`;
+        this._card.style.height = `${rect.height}px`;
+        this._dragOffset = {
+            x: pos.x - rect.left,
+            y: pos.y - rect.top,
+        };
     }
     onMouseMove(pos, mov)
     {
         if (!this._windowSelected)
             return;
-        this._card.style.transform = `translate(${pos.x - this._currentPos.x}px, ${pos.y - this._currentPos.y}px)`
+        if (!this._card.style.transform || this._card.style.transform === "")
+        {
+            // Apply initial transformation using the drag offset
+            const x = pos.x - this._dragOffset.x;
+            const y = pos.y - this._dragOffset.y;
+            this._card.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        }
+        else
+            this._card.style.transform += ` translate3d(${mov.x}px, ${mov.y}px, 0)`;
         this._card.style.transition = 'none';
         this._card.style.position = 'absolute';
     }
@@ -63,6 +79,9 @@ class WindowFrameDrag
         this._card.style.transform = '';
         this._card.style.transition = '';
         this._card.style.position = this._originalPosStyle;
+        this._card.style.willChange = 'auto';
+        this._card.style.width = '';
+        this._card.style.height = '';
     }
     // onMouseMove(pos, mov)
     // {
