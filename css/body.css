@@ -19,6 +19,7 @@
     padding: 0 10vw;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1rem;
+    transition: all 1s ease;
 }
 .project-list__heading
 {
@@ -34,6 +35,7 @@
     min-height: 0;
     overflow: hidden;
     border-radius: 6px;
+    transition: opacity 0.1s ease, transform 0.3s ease;
 }
 .project-list__card-frame
 {
@@ -119,4 +121,10 @@
 .project-list__card-close:hover
 {
     background-color: lightcoral;
+}
+
+.project-list__card--closing
+{
+  opacity: 0;
+  transform: scale(0.95); 
 }

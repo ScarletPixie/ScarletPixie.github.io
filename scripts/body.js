@@ -21,6 +21,9 @@ const projectCards = projectList.querySelectorAll(".project-list__card");
 projectCards.forEach((card) => {
     card.querySelector(".project-list__card-actions").lastElementChild.addEventListener("click", (e) => {
         e.stopPropagation();
-        card.remove();
+        card.classList.add("project-list__card--closing");
+        card.addEventListener("transitionend", () => {
+            card.remove();
+        }, {once: true});
     });
 });
