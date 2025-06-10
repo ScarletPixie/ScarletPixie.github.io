@@ -47,13 +47,10 @@ class WindowFrameDrag
             return;
         this._windowSelected = true;
         this._card.style.willChange = "transform";
-        const rect = this._getGlobalBoundingClientRect(this._card);
-        this._card.style.width = `${rect.width}px`;
-        this._card.style.height = `${rect.height}px`;
-        this._dragOffset = {
-            x: pos.x - rect.left,
-            y: pos.y - rect.top,
-        };
+        this._card.style.width = `${this._originalSize.width}px`;
+        this._card.style.height = `${this._originalSize.height}px`;
+        this._card.style.left = `${pos.x - this._originalSize.width / 2}px`;
+        this._card.style.top = `${pos.y - this._originalSize.height / 2}px`;
     }
     onMouseMove(pos, mov)
     {
@@ -62,12 +59,11 @@ class WindowFrameDrag
         if (!this._card.style.transform || this._card.style.transform === "")
         {
             // Apply initial transformation using the drag offset
-            const x = pos.x - this._dragOffset.x;
-            const y = pos.y - this._dragOffset.y;
-            this._card.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+            this._card.style.transform = `translate3d(${pos.x - this._currentPos.x}px, ${pos.y - this._currentPos.y}px, 0)`;
         }
         else
-            this._card.style.transform += ` translate3d(${mov.x}px, ${mov.y}px, 0)`;
+             this._card.style.transform += ` translate3d(${mov.x}px, ${mov.y}px, 0)`;
         this._card.style.transition = 'none';
         this._card.style.position = 'absolute';
     }
@@ -76,12 +72,16 @@ class WindowFrameDrag
         if (!this._windowSelected)
             return;
         this._windowSelected = false;
-        this._card.style.transform = '';
+        //this._card.style.transform = '';
         this._card.style.transition = '';
-        this._card.style.position = this._originalPosStyle;
-        this._card.style.willChange = 'auto';
-        this._card.style.width = '';
-        this._card.style.height = '';
+        this._currentPos = this._getGlobalBoundingClientRect(this._card);
+        this._currentWindowFramePos = this._getGlobalBoundingClientRect(this._cardFrame);
+        this._card.style.left = `${pos.x - this._originalSize.width / 2}px`;
+        this._card.style.top = `${pos.y - this._originalSize.height / 2}px`;
+        //this._card.style.position = this._originalPosStyle;
+        //this._card.style.willChange = 'auto';
+        //this._card.style.width = '';
+        //this._card.style.height = '';
     }
     // onMouseMove(pos, mov)
     // {
@@ -174,14 +174,12 @@ const pageMouseEvent = new PageMouseButtonEvent();
 const projectCards = projectList.querySelectorAll(".project-list__card");
 projectCards.forEach((card) => {
     const cardButtons = card.querySelector(".project-list__card-actions")
-    const dragEvent = new WindowFrameDrag(card);
-    dragEvent.setup();
-    pageMouseEvent.subscribe(dragEvent);
-
     //MINIMIZE
+    cardButtons.children[0].addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
 
-
-    // MAXMIZE/RESTORE
+    // MAXIMIZE/RESTORE
     cardButtons.children[1].addEventListener("click", (e) => {
         e.stopPropagation();
     });
@@ -192,6 +190,10 @@ projectCards.forEach((card) => {
         card.classList.add("project-list__card--closing");
         card.addEventListener("transitionend", () => {
             card.remove();
-        }, {once: true});
+        }, {once: true,});
     });
+
+    const dragEvent = new WindowFrameDrag(card);
+    dragEvent.setup();
+    pageMouseEvent.subscribe(dragEvent);
 });
