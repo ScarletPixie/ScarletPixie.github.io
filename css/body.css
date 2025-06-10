@@ -37,6 +37,12 @@
     border-radius: 6px;
     transition: opacity 0.1s ease, transform 0.3s ease;
 }
+.project-list__card.project-list__card--moved
+{
+    z-index: 1000;
+    position: absolute;
+    transition: none;
+}
 .project-list__card-frame
 {
     background-color: var(--window-bg-color);
@@ -51,6 +57,7 @@
 {
     text-align: center;
     grid-column: 2;
+    cursor: default;
 }
 .project-list__card-actions
 {
