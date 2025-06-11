@@ -25,18 +25,20 @@ class WindowFrameDrag
 
     setup()
     {
-        this._onPointerDown = this._onPointerDown.bind(this);
-        this._cardFrame.addEventListener("pointerdown", this._onPointerDown);
-
         this._cardFrame.addEventListener("pointerdown", (e) => {
             e.preventDefault();
-        })
+            e.stopPropagation();
+        });
+
         this._cardFrame.addEventListener("pointerup", (e) => {
             e.preventDefault();
-        })
+        });
         this._cardFrame.addEventListener("pointermove", (e) => {
             e.preventDefault();
-        })
+        });
+
+        this._onPointerDown = this._onPointerDown.bind(this);
+        this._cardFrame.addEventListener("pointerdown", this._onPointerDown);
     }
 
     // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
@@ -58,7 +60,6 @@ class WindowFrameDrag
     // CALLBACKS
     _onPointerDown(event)
     {
-        
         this._cardFrameSelected = true;
 
         // SET OFFSET BASED ON MOUSE CLICK POSITION RELATIVE TO THE CARD WINDOW.
