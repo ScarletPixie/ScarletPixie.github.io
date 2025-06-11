@@ -9,29 +9,25 @@ class WindowFrameDrag
     
     constructor(projectCard)
     {
-        this._projectsList = projectCard.parentNode;
+        WindowFrameDrag.instances.push(this);
+        this._projectsListRect = this._getGlobalBoundingClientRect(projectCard.parentNode);
+
         this._card = projectCard;
         this._cardFrame = this._card.querySelector(".project-list__card-frame");
+        
+        this._cardFrameSelected = false;
+        this._cardRect = this._getGlobalBoundingClientRect(this._card);
+        this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
 
-        this._originalPos = this._getGlobalBoundingClientRect(this._card);
-        this._currentPos = this._originalPos;
-
-        this._currentWindowFramePos = this._getGlobalBoundingClientRect(this._cardFrame);
-        this._originalWindowPos = this._currentWindowFramePos;
-
-        this._windowSelected = false;
-        this._originalPosStyle = this._card.style.position;
-        this._originalSize = {width: this._originalPos.width, height: this._originalPos.height};
-
-        WindowFrameDrag.instances.push(this);
-
-        this._onMouseDown = this._onMouseDown.bind(this);
-        this._cardFrame.addEventListener("mousedown", this._onMouseDown);
         this._dragOffset = {x: 0, y: 0};
+        this._originalSize = {width: this._cardRect.width, height: this._cardRect.height};
     }
 
     setup()
     {
+        this._onMouseDown = this._onMouseDown.bind(this);
+        this._cardFrame.addEventListener("mousedown", this._onMouseDown);
+
         this._cardFrame.addEventListener("mousedown", (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -46,76 +42,68 @@ class WindowFrameDrag
         })
     }
 
-    _notifyLayoutChanges(sender)
+    // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
+    _notifyLayoutChanges(_)
     {
         WindowFrameDrag.instances.forEach((card) => {
-            if (card !== sender)
-                card._onLayoutChange();
+            card._onLayoutChange();
         });
     }
     _onLayoutChange()
     {
-        this._originalPos = this._getGlobalBoundingClientRect(this._card);
-        this._currentPos = this._originalPos;
-        this._currentWindowFramePos = this._getGlobalBoundingClientRect(this._cardFrame);
-        this._originalWindowPos = this._currentWindowFramePos;
+        this._cardRect = this._getGlobalBoundingClientRect(this._card)
+        this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
     }
 
     _onMouseDown(event)
     {
-        this._windowSelected = true;
-        this._card.style.width = `${this._originalSize.width}px`;
-        this._card.style.height = `${this._originalSize.height}px`;
+        
+        this._cardFrameSelected = true;
 
-        const offsetX = event.pageX - this._currentWindowFramePos.left
-        const offsetY = event.pageY - this._currentWindowFramePos.top
-        this._dragOffset.x = offsetX;
-        this._dragOffset.y = offsetY;
+        // SET OFFSET BASED ON MOUSE CLICK POSITION RELATIVE TO THE CARD WINDOW.
+        this._dragOffset.x = event.pageX - this._cardFrameRect.left;
+        this._dragOffset.y = event.pageY - this._cardFrameRect.top;
     }
-    onMouseMove(pos, mov)
+    onMouseMove(pos, _)
     {
-        if (!this._windowSelected)
+        if (!this._cardFrameSelected)
             return;
-        if (!this._card.style.position || this._card.style.position !== 'absolute')
-            this._notifyLayoutChanges(this);
+        if (!this._card.classList.contains("moving"))
+        {
+            // STORE ORIGNAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
+            this._card.style.width = `${this._originalSize.width}px`;
+            this._card.style.height = `${this._originalSize.height}px`;
+            this._card.classList.add("moving");
+        }
 
         // DRAG WINDOW RELATIVE TO THE MOUSE POINTER
-
-
-        this._card.style.transition = 'none';
-        this._card.style.position = 'absolute';
         this._card.style.left = `${pos.x - this._dragOffset.x}px`;
         this._card.style.top = `${pos.y - this._dragOffset.y}px`;
     }
     onMouseUp(pos)
     {
-        if (!this._windowSelected)
+        if (!this._cardFrameSelected)
             return;
-        this._notifyLayoutChanges(this);
-        this._windowSelected = false;
-        //this._card.style.transform = '';
-        this._card.style.transition = '';
-        this._currentPos = this._getGlobalBoundingClientRect(this._card);
-        this._currentWindowFramePos = this._getGlobalBoundingClientRect(this._cardFrame);
-        this._card.style.left = `${this._currentPos.left}px`;
-        this._card.style.top = `${this._currentPos.top}px`;
-        //this._card.style.position = this._originalPosStyle;
-        //this._card.style.willChange = 'auto';
+        this._cardFrameSelected = false;
+
+        const dropOnProjectList = this._isPointInsideRect(pos.x, pos.y, this._projectsListRect);
+        if (dropOnProjectList && this._card.classList.contains("moving"))
+        {
+            this._card.classList.remove("moving");
+            this._card.width = '';
+            this._card.height = '';
+            this._card.left = '';
+            this._card.right = '';
+            this._notifyLayoutChanges(this);
+            return;
+        }
+        this._cardRect = this._getGlobalBoundingClientRect(this._card);
+        this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
+        this._card.style.left = `${this._cardRect.left}px`;
+        this._card.style.top = `${this._cardRect.top}px`;
     }
 
-    _clamp(targetPos)
-    {
-        if (targetPos.x < 0)
-            targetPos.x = 0;
-        else if (targetPos.x >= (document.documentElement.scrollWidth - this._currentPos.width))
-            targetPos.x = document.documentElement.scrollWidth - this._currentPos.width;
-    
-        if (targetPos.y < 0)
-            targetPos.y = 0;
-        else if (targetPos.y >= (document.documentElement.scrollHeight - this._currentPos.height))
-            targetPos.y = document.documentElement.scrollHeight - this._currentPos.height;
-        return targetPos;
-    }
+
     _getGlobalBoundingClientRect(element)
     {
         const rect = element.getBoundingClientRect();
@@ -133,6 +121,14 @@ class WindowFrameDrag
             y: rect.top + scrollTop
         };
     }
+    _isPointInsideRect(x, y, rect) {
+    return (
+        x >= rect.left &&
+        x <= rect.right &&
+        y >= rect.top &&
+        y <= rect.bottom
+    );
+}
 }
 
 
