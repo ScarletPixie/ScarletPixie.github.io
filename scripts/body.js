@@ -5,8 +5,8 @@ import { PageMouseButtonEvent } from "./global_events.js";
 
 class WindowFrameDrag
 {
-    static order = 0;
-
+    static instances = [];
+    
     constructor(projectCard)
     {
         this._projectsList = projectCard.parentNode;
@@ -23,7 +23,10 @@ class WindowFrameDrag
         this._originalPosStyle = this._card.style.position;
         this._originalSize = {width: this._originalPos.width, height: this._originalPos.height};
 
-        this._id = WindowFrameDrag.order++;
+        WindowFrameDrag.instances.push(this);
+
+        this._onMouseDown = this._onMouseDown.bind(this);
+        this._cardFrame.addEventListener("mousedown", this._onMouseDown);
     }
 
     setup()
@@ -42,39 +45,49 @@ class WindowFrameDrag
         })
     }
 
-    onMouseDown(pos)
+    _notifyLayoutChanges(sender)
+    {
+        WindowFrameDrag.instances.forEach((card) => {
+            if (card !== sender)
+                card._onLayoutChange();
+        });
+    }
+    _onLayoutChange()
+    {
+        this._originalPos = this._getGlobalBoundingClientRect(this._card);
+        this._currentPos = this._originalPos;
+        this._currentWindowFramePos = this._getGlobalBoundingClientRect(this._cardFrame);
+        this._originalWindowPos = this._currentWindowFramePos;
+    }
+
+    _onMouseDown(pos)
     {
         const hasClickedOnCardFrame = this._isPointInsideRect(pos.x, pos.y, this._currentWindowFramePos);
-        console.log(`${pos} - clicked: ${hasClickedOnCardFrame}`);
         if (!hasClickedOnCardFrame)
-        {
-            console.log(`element: ${this._id}`, pos, this._currentWindowFramePos);
             return;
-        }
         this._windowSelected = true;
     }
     onMouseMove(pos, mov)
     {
         if (!this._windowSelected)
             return;
+        if (!this._card.style.position || this._card.style.position !== 'absolute')
+            this._notifyLayoutChanges(this);
 
-        if (!this._card.style.transform || this._card.style.transform === "")
-        {
-            // CENTER WINDOW WITH MOUSE POINTER
-            this._card.style.transition = 'none';
-            this._card.style.position = 'absolute';
-            this._card.style.willChange = "transform";
-            this._card.style.width = `${this._originalSize.width}px`;
-            this._card.style.height = `${this._originalSize.height}px`;
-            this._card.style.left = `${pos.x - (this._currentWindowFramePos.width / 2)}px`;
-            this._card.style.top = `${pos.y - (this._currentWindowFramePos.height / 2)}px`;
-            return;
-        }
+        // CENTER WINDOW WITH MOUSE POINTER
+        this._card.style.transition = 'none';
+        this._card.style.position = 'absolute';
+        this._card.style.willChange = "transform";
+        this._card.style.width = `${this._originalSize.width}px`;
+        this._card.style.height = `${this._originalSize.height}px`;
+        this._card.style.left = `${pos.x - (this._currentWindowFramePos.width / 2)}px`;
+        this._card.style.top = `${pos.y - (this._currentWindowFramePos.height / 2)}px`;
     }
     onMouseUp(pos)
     {
         if (!this._windowSelected)
             return;
+        this._notifyLayoutChanges(this);
         this._windowSelected = false;
         //this._card.style.transform = '';
         this._card.style.transition = '';
