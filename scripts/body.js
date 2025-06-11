@@ -27,6 +27,7 @@ class WindowFrameDrag
 
         this._onMouseDown = this._onMouseDown.bind(this);
         this._cardFrame.addEventListener("mousedown", this._onMouseDown);
+        this._dragOffset = {x: 0, y: 0};
     }
 
     setup()
@@ -60,12 +61,16 @@ class WindowFrameDrag
         this._originalWindowPos = this._currentWindowFramePos;
     }
 
-    _onMouseDown(pos)
+    _onMouseDown(event)
     {
-        const hasClickedOnCardFrame = this._isPointInsideRect(pos.x, pos.y, this._currentWindowFramePos);
-        if (!hasClickedOnCardFrame)
-            return;
         this._windowSelected = true;
+        this._card.style.width = `${this._originalSize.width}px`;
+        this._card.style.height = `${this._originalSize.height}px`;
+
+        const offsetX = event.pageX - this._currentWindowFramePos.left
+        const offsetY = event.pageY - this._currentWindowFramePos.top
+        this._dragOffset.x = offsetX;
+        this._dragOffset.y = offsetY;
     }
     onMouseMove(pos, mov)
     {
@@ -74,14 +79,13 @@ class WindowFrameDrag
         if (!this._card.style.position || this._card.style.position !== 'absolute')
             this._notifyLayoutChanges(this);
 
-        // CENTER WINDOW WITH MOUSE POINTER
+        // DRAG WINDOW RELATIVE TO THE MOUSE POINTER
+
+
         this._card.style.transition = 'none';
         this._card.style.position = 'absolute';
-        this._card.style.willChange = "transform";
-        this._card.style.width = `${this._originalSize.width}px`;
-        this._card.style.height = `${this._originalSize.height}px`;
-        this._card.style.left = `${pos.x - (this._currentWindowFramePos.width / 2)}px`;
-        this._card.style.top = `${pos.y - (this._currentWindowFramePos.height / 2)}px`;
+        this._card.style.left = `${pos.x - this._dragOffset.x}px`;
+        this._card.style.top = `${pos.y - this._dragOffset.y}px`;
     }
     onMouseUp(pos)
     {
@@ -112,21 +116,11 @@ class WindowFrameDrag
             targetPos.y = document.documentElement.scrollHeight - this._currentPos.height;
         return targetPos;
     }
-    _updatePos()
-    {
-        this._currentPos = this._card.getBoundingClientRect();
-        this._currentWindowFramePos = this._cardFrame.getBoundingClientRect();
-    }
-
-    _isPointInsideRect(posX, posY, rect)
-    {
-        return (posX >= rect.left && posX <= rect.right && posY >= rect.top && posY <= rect.bottom);
-    }
     _getGlobalBoundingClientRect(element)
     {
         const rect = element.getBoundingClientRect();
-        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         return {
             left: rect.left + scrollLeft,
@@ -135,8 +129,8 @@ class WindowFrameDrag
             bottom: rect.bottom + scrollTop,
             width: rect.width,
             height: rect.height,
-            x: rect.x + scrollLeft,
-            y: rect.y + scrollTop
+            x: rect.left + scrollLeft,
+            y: rect.top + scrollTop
         };
     }
 }
