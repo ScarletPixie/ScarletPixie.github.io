@@ -5,6 +5,8 @@ import { PageMouseButtonEvent } from "./global_events.js";
 
 class WindowFrameDrag
 {
+    static order = 0;
+
     constructor(projectCard)
     {
         this._projectsList = projectCard.parentNode;
@@ -19,10 +21,9 @@ class WindowFrameDrag
 
         this._windowSelected = false;
         this._originalPosStyle = this._card.style.position;
+        this._originalSize = {width: this._originalPos.width, height: this._originalPos.height};
 
-        this._dragOffset = {x: 0, y: 0};
-
-        this._originalSize = {width: this._currentPos.width, height: this._currentPos.height};
+        this._id = WindowFrameDrag.order++;
     }
 
     setup()
@@ -43,29 +44,32 @@ class WindowFrameDrag
 
     onMouseDown(pos)
     {
-        if (!this._isPointInsideRect(pos.x, pos.y, this._currentWindowFramePos))
+        const hasClickedOnCardFrame = this._isPointInsideRect(pos.x, pos.y, this._currentWindowFramePos);
+        console.log(`${pos} - clicked: ${hasClickedOnCardFrame}`);
+        if (!hasClickedOnCardFrame)
+        {
+            console.log(`element: ${this._id}`, pos, this._currentWindowFramePos);
             return;
+        }
         this._windowSelected = true;
-        this._card.style.willChange = "transform";
-        this._card.style.width = `${this._originalSize.width}px`;
-        this._card.style.height = `${this._originalSize.height}px`;
-        this._card.style.left = `${pos.x - this._originalSize.width / 2}px`;
-        this._card.style.top = `${pos.y - this._originalSize.height / 2}px`;
     }
     onMouseMove(pos, mov)
     {
         if (!this._windowSelected)
             return;
+
         if (!this._card.style.transform || this._card.style.transform === "")
         {
-            // Apply initial transformation using the drag offset
-
-            this._card.style.transform = `translate3d(${pos.x - this._currentPos.x}px, ${pos.y - this._currentPos.y}px, 0)`;
+            // CENTER WINDOW WITH MOUSE POINTER
+            this._card.style.transition = 'none';
+            this._card.style.position = 'absolute';
+            this._card.style.willChange = "transform";
+            this._card.style.width = `${this._originalSize.width}px`;
+            this._card.style.height = `${this._originalSize.height}px`;
+            this._card.style.left = `${pos.x - (this._currentWindowFramePos.width / 2)}px`;
+            this._card.style.top = `${pos.y - (this._currentWindowFramePos.height / 2)}px`;
+            return;
         }
-        else
-             this._card.style.transform += ` translate3d(${mov.x}px, ${mov.y}px, 0)`;
-        this._card.style.transition = 'none';
-        this._card.style.position = 'absolute';
     }
     onMouseUp(pos)
     {
@@ -76,40 +80,11 @@ class WindowFrameDrag
         this._card.style.transition = '';
         this._currentPos = this._getGlobalBoundingClientRect(this._card);
         this._currentWindowFramePos = this._getGlobalBoundingClientRect(this._cardFrame);
-        this._card.style.left = `${pos.x - this._originalSize.width / 2}px`;
-        this._card.style.top = `${pos.y - this._originalSize.height / 2}px`;
+        this._card.style.left = `${this._currentPos.left}px`;
+        this._card.style.top = `${this._currentPos.top}px`;
         //this._card.style.position = this._originalPosStyle;
         //this._card.style.willChange = 'auto';
-        //this._card.style.width = '';
-        //this._card.style.height = '';
     }
-    // onMouseMove(pos, mov)
-    // {
-    //     if (!this._isCardFrameSelected)
-    //         return;
-
-    //     const targetMov = {x: pos.x - this._currentPos.x, y: pos.y - this._currentPos.y};
-    //     const targetPos = this._clamp({x: this._currentPos.x + targetMov.x, y: this._currentPos.y + targetMov.y});
-    //     this._card.style.transform = `translate(${targetPos.x - this._currentPos.x}px, ${targetPos.y - this._currentPos.y}px)`;
-    //     //this._updatePos();
-    // }
-    // onMouseUp(pos)
-    // {
-    //     if (!this._isCardFrameSelected)
-    //         return;
-
-    //     this._isCardFrameSelected = false;
-    //     this._updatePos();
-    //     if (this._isPointInsideRect(pos.x, pos.y, this._projectsList.getBoundingClientRect()))
-    //     {
-    //         console.log("RESTART");
-    //         this._card.classList.remove("project-list__card--moved");
-    //         this._currentPos = this._originalPos;
-    //         this._currentWindowFramePos = this._originalWindowPos;
-    //         return;
-    //     }
-        
-    // }
 
     _clamp(targetPos)
     {
@@ -147,7 +122,7 @@ class WindowFrameDrag
             bottom: rect.bottom + scrollTop,
             width: rect.width,
             height: rect.height,
-            x: rect.x + scrollLeft, // rect.x and rect.y are often same as left/top but might differ with transforms
+            x: rect.x + scrollLeft,
             y: rect.y + scrollTop
         };
     }
@@ -173,17 +148,17 @@ const pageMouseEvent = new PageMouseButtonEvent();
 // PROJECT CARD BEHAVIORS
 const projectCards = projectList.querySelectorAll(".project-list__card");
 projectCards.forEach((card) => {
-    const cardButtons = card.querySelector(".project-list__card-actions")
+    const images = card.querySelectorAll('img');
+    const cardButtons = card.querySelector(".project-list__card-actions");
+
     //MINIMIZE
     cardButtons.children[0].addEventListener("click", (e) => {
         e.stopPropagation();
     });
-
     // MAXIMIZE/RESTORE
     cardButtons.children[1].addEventListener("click", (e) => {
         e.stopPropagation();
     });
-
     // CLOSE
     cardButtons.children[2].addEventListener("click", (e) => {
         e.stopPropagation();
@@ -193,7 +168,26 @@ projectCards.forEach((card) => {
         }, {once: true,});
     });
 
-    const dragEvent = new WindowFrameDrag(card);
-    dragEvent.setup();
-    pageMouseEvent.subscribe(dragEvent);
+    // ONLY SETUP DRAGGING WHEN ALL THE IMAGES INSIDE THE CARDS HAVE LOADED/FAILED TO LOAD
+    let loadedCardImages = 0;
+    images.forEach((img) => {
+        img.addEventListener("load", () => {
+            loadedCardImages++;
+            if (loadedCardImages >= images.length)
+            {
+                const dragEvent = new WindowFrameDrag(card);
+                dragEvent.setup();
+                pageMouseEvent.subscribe(dragEvent);
+            }
+        });
+        img.addEventListener("error", () => {
+            loadedCardImages++;
+            if (loadedCardImages >= images.length)
+            {
+                const dragEvent = new WindowFrameDrag(card);
+                dragEvent.setup();
+                pageMouseEvent.subscribe(dragEvent);
+            }
+        });
+    });
 });
