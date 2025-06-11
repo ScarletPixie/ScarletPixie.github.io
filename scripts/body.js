@@ -3,13 +3,13 @@ import { PageMouseButtonEvent } from "./global_events.js";
 
 
 
-class WindowFrameDrag
+class CardDrag
 {
     static instances = [];
     
     constructor(projectCard)
     {
-        WindowFrameDrag.instances.push(this);
+        CardDrag.instances.push(this);
         this._projectsListRect = this._getGlobalBoundingClientRect(projectCard.parentNode);
 
         this._card = projectCard;
@@ -21,30 +21,59 @@ class WindowFrameDrag
 
         this._dragOffset = {x: 0, y: 0};
         this._originalSize = {width: this._cardRect.width, height: this._cardRect.height};
+
+        this._isSetUp = false;
+        this._callbacks = [];
+    }
+
+    destroy()
+    {
+        if (this._cardFrame && this._callbacks)
+        {
+            for (const { type, handler } of this._callbacks)
+                this._cardFrame.removeEventListener(type, handler);
+        }
+
+        this._callbacks = null;
+        this._onPointerDown = null;
+        if (this._card)
+            this._card.remove();
+        this._card = null;
+        this._cardFrame = null;
+
+        const i = CardDrag.instances.indexOf(this);
+        if (i !== -1)
+            CardDrag.instances.splice(i, 1);
     }
 
     setup()
     {
-        this._cardFrame.addEventListener("pointerdown", (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-        });
+        if (this._isSetUp)
+            return;
+        this._isSetUp = true;
 
-        this._cardFrame.addEventListener("pointerup", (e) => {
-            e.preventDefault();
-        });
-        this._cardFrame.addEventListener("pointermove", (e) => {
-            e.preventDefault();
-        });
+        // STORE CALLBACKS FOR CLEANUP
+        const downPrevent = this._preventDefault(true);
+        this._cardFrame.addEventListener("pointerdown", downPrevent);
+        this._callbacks.push({ type: "pointerdown", handler: downPrevent });
+
+        const defaultPrevent = this._preventDefault();
+        this._cardFrame.addEventListener("pointerup", defaultPrevent);
+        this._cardFrame.addEventListener("pointermove", defaultPrevent);
+        this._callbacks.push(
+            { type: "pointerup", handler: defaultPrevent },
+            { type: "pointermove", handler: defaultPrevent }
+        );
 
         this._onPointerDown = this._onPointerDown.bind(this);
         this._cardFrame.addEventListener("pointerdown", this._onPointerDown);
+        this._callbacks.push({ type: "pointerdown", handler: this._onPointerDown });
     }
 
     // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
     _notifyLayoutChanges(sender)
     {
-        WindowFrameDrag.instances.forEach((card) => {
+        CardDrag.instances.forEach((card) => {
             if (sender !== card)
                 card._onLayoutChange();
         });
@@ -126,14 +155,24 @@ class WindowFrameDrag
             y: rect.top + scrollTop
         };
     }
-    _isPointInsideRect(x, y, rect) {
-    return (
-        x >= rect.left &&
-        x <= rect.right &&
-        y >= rect.top &&
-        y <= rect.bottom
-    );
-}
+    _isPointInsideRect(x, y, rect)
+    {
+        return (
+            x >= rect.left &&
+            x <= rect.right &&
+            y >= rect.top &&
+            y <= rect.bottom
+        );
+    }
+    _preventDefault(stopPropagation = false)
+    {
+        return (e) =>
+        {
+            e.preventDefault();
+            if (stopPropagation)
+                e.stopPropagation();
+        }
+    }
 }
 
 
@@ -159,6 +198,31 @@ projectCards.forEach((card) => {
     const images = card.querySelectorAll('img');
     const cardButtons = card.querySelector(".project-list__card-actions");
 
+    let dragEvent = null;
+
+    // ONLY SETUP DRAGGING WHEN ALL THE IMAGES INSIDE THE CARDS HAVE LOADED/FAILED TO LOAD
+    let loadedCardImages = 0;
+    images.forEach((img) => {
+        img.addEventListener("load", () => {
+            loadedCardImages++;
+            if (loadedCardImages >= images.length)
+            {
+                dragEvent = new CardDrag(card);
+                dragEvent.setup();
+                pageMouseEvent.subscribe(dragEvent);
+            }
+        });
+        img.addEventListener("error", () => {
+            loadedCardImages++;
+            if (loadedCardImages >= images.length)
+            {
+                dragEvent = new CardDrag(card);
+                dragEvent.setup();
+                pageMouseEvent.subscribe(dragEvent);
+            }
+        });
+    });
+
     //MINIMIZE
     cardButtons.children[0].addEventListener("click", (e) => {
         e.stopPropagation();
@@ -172,30 +236,8 @@ projectCards.forEach((card) => {
         e.stopPropagation();
         card.classList.add("project-list__card--closing");
         card.addEventListener("transitionend", () => {
-            card.remove();
+            if (dragEvent)
+                dragEvent.destroy();
         }, {once: true,});
-    });
-
-    // ONLY SETUP DRAGGING WHEN ALL THE IMAGES INSIDE THE CARDS HAVE LOADED/FAILED TO LOAD
-    let loadedCardImages = 0;
-    images.forEach((img) => {
-        img.addEventListener("load", () => {
-            loadedCardImages++;
-            if (loadedCardImages >= images.length)
-            {
-                const dragEvent = new WindowFrameDrag(card);
-                dragEvent.setup();
-                pageMouseEvent.subscribe(dragEvent);
-            }
-        });
-        img.addEventListener("error", () => {
-            loadedCardImages++;
-            if (loadedCardImages >= images.length)
-            {
-                const dragEvent = new WindowFrameDrag(card);
-                dragEvent.setup();
-                pageMouseEvent.subscribe(dragEvent);
-            }
-        });
     });
 });
