@@ -9,24 +9,24 @@ class Vect2D
 
 export class PageMouseButtonEvent
 {
-    static EVENTS = ["mousedown", "mouseup", "mousemove"];
+    static EVENTS = ["pointerdown", "pointerup", "pointermove"];
     constructor()
     {
         this._subscribers = [];
 
-        window.addEventListener("mousedown", (e) => {
+        window.addEventListener("pointerdown", (e) => {
             const pos = new Vect2D(e.pageX, e.pageY);
-            this._notifySubscribers("mousedown", pos);
-        }, {capture: true});
-        window.addEventListener("mousemove", (e) => {
+            this._notifySubscribers("pointerdown", pos);
+        });
+        window.addEventListener("pointermove", (e) => {
             const pos = new Vect2D(e.pageX, e.pageY);
             const mov = new Vect2D(e.movementX, e.movementY);
-            this._notifySubscribers("mousemove", pos, mov);
-        }, {capture: true});
-        window.addEventListener("mouseup", (e) => {
+            this._notifySubscribers("pointermove", pos, mov);
+        });
+        window.addEventListener("pointerup", (e) => {
             const pos = new Vect2D(e.pageX, e.pageY);
-            this._notifySubscribers("mouseup", pos);
-        }, {capture: true});
+            this._notifySubscribers("pointerup", pos);
+        });
     }
 
     subscribe(subscriber)
@@ -40,12 +40,12 @@ export class PageMouseButtonEvent
             throw new Error(`PageMouseButtonEvent: '${eventType}' is not a valid event.`);
 
         this._subscribers.forEach((sub) => {
-            if (eventType == "mousedown" && sub && typeof sub.onMouseDown === 'function')
-                sub.onMouseDown(pos);
-            else if (eventType == "mousemove" && sub && typeof sub.onMouseMove === 'function')
-                sub.onMouseMove(pos, movement);
-            else if (eventType == "mouseup" && sub && typeof sub.onMouseUp === 'function')
-                sub.onMouseUp(pos);
+            if (eventType == "pointerdown" && sub && typeof sub.onPointerDown === 'function')
+                sub.onPointerDown(pos);
+            else if (eventType == "pointermove" && sub && typeof sub.onPointerMove === 'function')
+                sub.onPointerMove(pos, movement);
+            else if (eventType == "pointerup" && sub && typeof sub.onPointerUp === 'function')
+                sub.onPointerUp(pos);
         })
     }
 }
