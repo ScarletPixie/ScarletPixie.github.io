@@ -25,29 +25,29 @@ class WindowFrameDrag
 
     setup()
     {
-        this._onMouseDown = this._onMouseDown.bind(this);
-        this._cardFrame.addEventListener("mousedown", this._onMouseDown);
+        this._onPointerDown = this._onPointerDown.bind(this);
+        this._cardFrame.addEventListener("pointerdown", this._onPointerDown);
 
-        this._cardFrame.addEventListener("mousedown", (e) => {
+        this._cardFrame.addEventListener("pointerdown", (e) => {
             e.preventDefault();
-            e.stopPropagation();
         })
-        this._cardFrame.addEventListener("mouseup", (e) => {
+        this._cardFrame.addEventListener("pointerup", (e) => {
             e.preventDefault();
-            e.stopPropagation();
         })
-        this._cardFrame.addEventListener("mousemove", (e) => {
+        this._cardFrame.addEventListener("pointermove", (e) => {
             e.preventDefault();
-            e.stopPropagation();
         })
     }
 
     // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
-    _notifyLayoutChanges(_)
+    _notifyLayoutChanges(sender)
     {
         WindowFrameDrag.instances.forEach((card) => {
-            card._onLayoutChange();
+            if (sender !== card)
+                card._onLayoutChange();
         });
+        if (!sender._card.classList.contains("moving"))
+            sender._onLayoutChange();
     }
     _onLayoutChange()
     {
@@ -55,7 +55,8 @@ class WindowFrameDrag
         this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
     }
 
-    _onMouseDown(event)
+    // CALLBACKS
+    _onPointerDown(event)
     {
         
         this._cardFrameSelected = true;
@@ -64,7 +65,9 @@ class WindowFrameDrag
         this._dragOffset.x = event.pageX - this._cardFrameRect.left;
         this._dragOffset.y = event.pageY - this._cardFrameRect.top;
     }
-    onMouseMove(pos, _)
+
+    // GLOBAL MOUSE MOVEMENT OBSERVER
+    onPointerMove(pos, _)
     {
         if (!this._cardFrameSelected)
             return;
@@ -74,13 +77,14 @@ class WindowFrameDrag
             this._card.style.width = `${this._originalSize.width}px`;
             this._card.style.height = `${this._originalSize.height}px`;
             this._card.classList.add("moving");
+            this._notifyLayoutChanges(this);
         }
 
         // DRAG WINDOW RELATIVE TO THE MOUSE POINTER
         this._card.style.left = `${pos.x - this._dragOffset.x}px`;
         this._card.style.top = `${pos.y - this._dragOffset.y}px`;
     }
-    onMouseUp(pos)
+    onPointerUp(pos)
     {
         if (!this._cardFrameSelected)
             return;
@@ -103,7 +107,7 @@ class WindowFrameDrag
         this._card.style.top = `${this._cardRect.top}px`;
     }
 
-
+    // HELPERS
     _getGlobalBoundingClientRect(element)
     {
         const rect = element.getBoundingClientRect();
