@@ -1,4 +1,4 @@
-import { Vect2D } from "./utils.js";
+import { Publisher, Vector2D } from "./utils.js";
 
 export class PageMouseButtonEvent
 {
@@ -8,16 +8,16 @@ export class PageMouseButtonEvent
         this._subscribers = [];
 
         window.addEventListener("mousedown", (e) => {
-            const pos = new Vect2D(e.pageX, e.pageY);
+            const pos = new Vector2D(e.pageX, e.pageY);
             this._notifySubscribers("mousedown", pos);
         });
         window.addEventListener("mousemove", (e) => {
-            const pos = new Vect2D(e.pageX, e.pageY);
-            const mov = new Vect2D(e.movementX, e.movementY);
+            const pos = new Vector2D(e.pageX, e.pageY);
+            const mov = new Vector2D(e.movementX, e.movementY);
             this._notifySubscribers("mousemove", pos, mov);
         });
         window.addEventListener("mouseup", (e) => {
-            const pos = new Vect2D(e.pageX, e.pageY);
+            const pos = new Vector2D(e.pageX, e.pageY);
             this._notifySubscribers("mouseup", pos);
         });
     }
@@ -43,47 +43,40 @@ export class PageMouseButtonEvent
     }
 }
 
-export class PageScrollEvent
+export class GlobalScrollEventNotifier extends Publisher
 {
+    static _throttling = false;
+    static _THROTTLE_TIME_MS = 100;
+
+    static _instance = null;
+    static instance()
+    {
+        if (!this._instance)
+            this._instance = new GlobalScrollEventNotifier();
+        return this._instance;
+    }
     constructor()
     {
-        this._lastScrollX = window.scrollX;
-        this._lastScrollY = window.scrollY;
-        this._subscribers = [];
+        if (GlobalScrollEventNotifier._instance)
+            throw new Error("Use GlobalScrollEventNotifier.instance() instead of new.");
 
+        super();
+        this._lastScrollPos = new Vector2D(window.scrollX, window.scrollY);
         window.addEventListener("scroll", () => {
-            const currentScrollX = window.scrollX;
-            const currentScrollY = window.scrollY;
-            const dirX = (currentScrollX > this._lastScrollX);
-            const dirY = (currentScrollY > this._lastScrollY);
-            let offsetX = Math.abs(currentScrollX - this._lastScrollX);
-            let offsetY = Math.abs(currentScrollY - this._lastScrollY);
-            
-            this._lastScrollX = currentScrollX;
-            this._lastScrollY = currentScrollY;
-    
-            if (!dirX)
-                offsetX = -offsetX;
-            if (!dirY)
-                offsetY = -offsetY;
+            if (GlobalScrollEventNotifier._throttling)
+                return;
+            GlobalScrollEventNotifier._throttling = true;
+            setTimeout(() => {
+                GlobalScrollEventNotifier._throttling = false;
+            }, GlobalScrollEventNotifier._THROTTLE_TIME_MS);
 
-            this._notifySubscribers(offsetX, offsetY);
+            const currentScrollPos = new Vector2D(window.scrollX, window.scrollY);
+            const scrollMovement = currentScrollPos.sub(this._lastScrollPos);
+            this.notifySubscribers((subscriber) => {
+                subscriber.onScrollX?.(currentScrollPos, scrollMovement.x);
+                subscriber.onScrollY?.(currentScrollPos, scrollMovement.y);
+            });
+            this._lastScrollPos = currentScrollPos;
         });
-    }
-
-    _notifySubscribers(offsetX, offsetY)
-    {
-        for (const subscriber of this._subscribers)
-        {
-             if (subscriber && typeof subscriber.onScrollX === 'function')
-                subscriber.onScrollX(offsetX);
-             if (subscriber && typeof subscriber.onScrollY === 'function')
-                subscriber.onScrollY(offsetY);
-        }
-    }
-
-    subscribe(sub)
-    {
-        this._subscribers.push(sub);
     }
 }

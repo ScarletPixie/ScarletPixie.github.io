@@ -1,4 +1,4 @@
-export class Vect2D
+export class Vector2D
 {
     constructor(x = 0, y = 0)
     {
@@ -7,24 +7,25 @@ export class Vect2D
     }
     add(rhs)
     {
-        return new Vect2D(this.x + rhs.x, this.y + rhs.y);
+        return new Vector2D(this.x + rhs.x, this.y + rhs.y);
     }
     sub(rhs)
     {
-        return new Vect2D(this.x - rhs.x, this.y - rhs.y);
+        return new Vector2D(this.x - rhs.x, this.y - rhs.y);
     }
 }
 
-export class Publisher {
-    constructor() {
-        if (new.target === Publisher) {
+export class Publisher
+{
+    constructor()
+    {
+        if (new.target === Publisher)
             throw new Error("Cannot instantiate abstract class Publisher directly.");
-        }
-
         this._subscribers = [];
     }
 
-    notifySubscribers(callback) {
+    notifySubscribers(callback)
+    {
         this._subscribers.forEach((subRef) => {
             const sub = subRef.deref();
             if (sub)
@@ -34,17 +35,20 @@ export class Publisher {
         });
     }
 
-    subscribe(obj) {
+    subscribe(obj)
+    {
         this._subscribers.push(new WeakRef(obj));
     }
 
-    unsubscribe(obj) {
+    unsubscribe(obj)
+    {
         this._subscribers = this._subscribers.filter((subRef) => {
             return subRef.deref() !== obj;
         });
     }
 
-    _removeDeadSubscribers() {
+    _removeDeadSubscribers()
+    {
         this._subscribers = this._subscribers.filter((subRef) => {
             return subRef.deref() !== undefined;
         });
