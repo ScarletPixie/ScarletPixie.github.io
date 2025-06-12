@@ -37,6 +37,7 @@
     min-height: 0;
     overflow: hidden;
     border-radius: 6px;
+    border: solid gray 1px;
     transition: opacity 0.1s ease, transform 0.3s ease;
 }
 .project-list__card.moving
@@ -97,6 +98,36 @@
     text-shadow: none;
 }
 
+.project-list__card-tech-stack
+{
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 1rem;
+    background-color: var(--window-bg-color);
+    overflow: scroll;
+}
+.project-list__card-tech-stack-item
+{
+    margin: 0.5rem 0;
+    background: var(--window-bg-gradient);
+    border: solid 0.5 black;
+}
+.project-list__card-tech-stack-link
+{
+    display: inline-flex;
+    padding: 0.2rem .8rem;
+    text-decoration: none;
+    color: white;
+    font-size: 0.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+.project-list__card-tech-stack-icon
+{
+    width: 1rem;
+}
 
 
 /* WINDOW ACTION BUTTONS */
