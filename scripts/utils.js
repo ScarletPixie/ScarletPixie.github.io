@@ -15,32 +15,38 @@ export class Vect2D
     }
 }
 
-export class Publisher
-{
-    constructor()
-    {
+export class Publisher {
+    constructor() {
+        if (new.target === Publisher) {
+            throw new Error("Cannot instantiate abstract class Publisher directly.");
+        }
+
         this._subscribers = [];
     }
-    notifySubscribers(callback)
-    {
-        this._subscribers.forEach((sub) => {
-            callback(sub);
+
+    notifySubscribers(callback) {
+        this._subscribers.forEach((subRef) => {
+            const sub = subRef.deref();
+            if (sub)
+                callback(sub);
+            else
+                this._removeDeadSubscribers();
         });
     }
-    subscribe(obj)
-    {
+
+    subscribe(obj) {
         this._subscribers.push(new WeakRef(obj));
     }
-    unsubscribe(obj)
-    {
+
+    unsubscribe(obj) {
         this._subscribers = this._subscribers.filter((subRef) => {
-            subRef.deref() !== obj;
+            return subRef.deref() !== obj;
         });
     }
-    removeDeadSubscribers()
-    {
+
+    _removeDeadSubscribers() {
         this._subscribers = this._subscribers.filter((subRef) => {
-            subRef.deref() !== undefined;
+            return subRef.deref() !== undefined;
         });
     }
 }
