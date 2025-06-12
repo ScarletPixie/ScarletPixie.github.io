@@ -29,7 +29,7 @@ export class Navbar
     }
 
     // HIDE NAVBAR ON SCROLL DOWN AND SHOW ON SCROLL UP OR ON ACTIVE NAVBAR ELEMENT
-    onScrollY(offset)
+    onScrollY(position, movement)
     {
         if (window.scrollY < 50)
             this.navbar.classList.remove("hidden");
@@ -38,9 +38,9 @@ export class Navbar
             this.navbar.classList.add("hidden");
             this._linkNavigation = false;
         }
-        else if (offset > this._navbarScrollSensibility && !this._isNavbarSelected)
+        else if (movement > this._navbarScrollSensibility && !this._isNavbarSelected)
             this.navbar.classList.add("hidden");
-        else if (offset < -(this._navbarScrollSensibility * 0.5))
+        else if (movement < -(this._navbarScrollSensibility * 0.5))
             this.navbar.classList.remove("hidden");
             
     }
