@@ -80,6 +80,9 @@
 {
     width: 100%;
     background-color: azure;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .project-list__card-thumb
 {
@@ -88,7 +91,10 @@
 }
 .project-list__card-text
 {
-    color: gray;
+    color: black;
+    font-weight: normal;
+    text-align: center;
+    text-shadow: none;
 }
 
 
