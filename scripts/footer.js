@@ -21,7 +21,7 @@ export class Taskbar
         setInterval(this._updateClock, 60 * 1000);
     }
 
-    onScrollY(offset)
+    onScrollY(position, movement)
     {
         const PAGE_HEIGHT = document.documentElement.scrollHeight;
         const VIEWPORT_Y = window.innerHeight;
@@ -29,9 +29,9 @@ export class Taskbar
         // SHOW NEAR/AT BOTTOM
         if ((VIEWPORT_Y + window.scrollY) > (PAGE_HEIGHT - this.taskbar.offsetHeight))
             this.taskbar.classList.remove("hidden");
-        else if (offset < this._taskbarScrollSensibility)
+        else if (movement < this._taskbarScrollSensibility)
             this.taskbar.classList.add("hidden");
-        else if (offset > -(this._taskbarScrollSensibility * 0.5))
+        else if (movement > -(this._taskbarScrollSensibility * 0.5))
             this.taskbar.classList.remove("hidden");        
     }
 

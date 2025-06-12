@@ -13,3 +13,4 @@ taskbar.setup();
 // EVENTS SETUP
 const scrollNotifier = events.GlobalScrollEventNotifier.instance();
 scrollNotifier.subscribe(navbar);
+scrollNotifier.subscribe(taskbar);
