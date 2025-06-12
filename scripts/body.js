@@ -35,7 +35,7 @@ class CardDrag
         }
 
         this._callbacks = null;
-        this._onPointerDown = null;
+        this._onMouseDown = null;
         if (this._card)
             this._card.remove();
         this._card = null;
@@ -54,20 +54,20 @@ class CardDrag
 
         // STORE CALLBACKS FOR CLEANUP
         const downPrevent = this._preventDefault(true);
-        this._cardFrame.addEventListener("pointerdown", downPrevent);
-        this._callbacks.push({ type: "pointerdown", handler: downPrevent });
+        this._cardFrame.addEventListener("mousedown", downPrevent);
+        this._callbacks.push({ type: "mousedown", handler: downPrevent });
 
         const defaultPrevent = this._preventDefault();
-        this._cardFrame.addEventListener("pointerup", defaultPrevent);
-        this._cardFrame.addEventListener("pointermove", defaultPrevent);
+        this._cardFrame.addEventListener("mouseup", defaultPrevent);
+        this._cardFrame.addEventListener("mousemove", defaultPrevent);
         this._callbacks.push(
-            { type: "pointerup", handler: defaultPrevent },
-            { type: "pointermove", handler: defaultPrevent }
+            { type: "mouseup", handler: defaultPrevent },
+            { type: "mousemove", handler: defaultPrevent }
         );
 
-        this._onPointerDown = this._onPointerDown.bind(this);
-        this._cardFrame.addEventListener("pointerdown", this._onPointerDown);
-        this._callbacks.push({ type: "pointerdown", handler: this._onPointerDown });
+        this._onMouseDown = this._onMouseDown.bind(this);
+        this._cardFrame.addEventListener("mousedown", this._onMouseDown);
+        this._callbacks.push({ type: "mousedown", handler: this._onMouseDown });
     }
 
     // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
@@ -87,7 +87,7 @@ class CardDrag
     }
 
     // CALLBACKS
-    _onPointerDown(event)
+    _onMouseDown(event)
     {
         this._cardFrameSelected = true;
 
@@ -97,7 +97,7 @@ class CardDrag
     }
 
     // GLOBAL MOUSE MOVEMENT OBSERVER
-    onPointerMove(pos, _)
+    onMouseMove(pos, _)
     {
         if (!this._cardFrameSelected)
             return;
@@ -114,7 +114,7 @@ class CardDrag
         this._card.style.left = `${pos.x - this._dragOffset.x}px`;
         this._card.style.top = `${pos.y - this._dragOffset.y}px`;
     }
-    onPointerUp(pos)
+    onMouseUp(pos)
     {
         if (!this._cardFrameSelected)
             return;

@@ -1,31 +1,24 @@
-class Vect2D
-{
-    constructor(x = 0, y = 0)
-    {
-        this.x = x;
-        this.y = y;
-    }
-}
+import { Vect2D } from "./utils.js";
 
 export class PageMouseButtonEvent
 {
-    static EVENTS = ["pointerdown", "pointerup", "pointermove"];
+    static EVENTS = ["mousedown", "mouseup", "mousemove"];
     constructor()
     {
         this._subscribers = [];
 
-        window.addEventListener("pointerdown", (e) => {
+        window.addEventListener("mousedown", (e) => {
             const pos = new Vect2D(e.pageX, e.pageY);
-            this._notifySubscribers("pointerdown", pos);
+            this._notifySubscribers("mousedown", pos);
         });
-        window.addEventListener("pointermove", (e) => {
+        window.addEventListener("mousemove", (e) => {
             const pos = new Vect2D(e.pageX, e.pageY);
             const mov = new Vect2D(e.movementX, e.movementY);
-            this._notifySubscribers("pointermove", pos, mov);
+            this._notifySubscribers("mousemove", pos, mov);
         });
-        window.addEventListener("pointerup", (e) => {
+        window.addEventListener("mouseup", (e) => {
             const pos = new Vect2D(e.pageX, e.pageY);
-            this._notifySubscribers("pointerup", pos);
+            this._notifySubscribers("mouseup", pos);
         });
     }
 
@@ -40,12 +33,12 @@ export class PageMouseButtonEvent
             throw new Error(`PageMouseButtonEvent: '${eventType}' is not a valid event.`);
 
         this._subscribers.forEach((sub) => {
-            if (eventType == "pointerdown" && sub && typeof sub.onPointerDown === 'function')
-                sub.onPointerDown(pos);
-            else if (eventType == "pointermove" && sub && typeof sub.onPointerMove === 'function')
-                sub.onPointerMove(pos, movement);
-            else if (eventType == "pointerup" && sub && typeof sub.onPointerUp === 'function')
-                sub.onPointerUp(pos);
+            if (eventType == "mousedown" && sub && typeof sub.onMouseDown === 'function')
+                sub.onMouseDown(pos);
+            else if (eventType == "mousemove" && sub && typeof sub.onMouseMove === 'function')
+                sub.onMouseMove(pos, movement);
+            else if (eventType == "mouseup" && sub && typeof sub.onMouseUp === 'function')
+                sub.onMouseUp(pos);
         })
     }
 }
