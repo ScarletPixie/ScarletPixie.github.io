@@ -146,3 +146,87 @@ export function getTechIcons()
     }
     return techIcons;
 }
+
+
+// TEMPLATE CLASSES
+export class CardStackComponent
+{
+    static #PARENT_TEMPLATE = document.getElementById("project-card-template");
+    static #TEMPLATE = this.#PARENT_TEMPLATE.content.getElementById("card-tech-stack-item");
+    static #ICON_REPO_REF = getTechIcons();
+
+    #node = null;
+    #techName = null;
+    constructor(techName, url = '#')
+    {
+        this.#node = CardStackComponent.#TEMPLATE.content.cloneNode(true);
+        this.#node.querySelector(".project-list__card-tech-stack-link").href = url;
+        this.#node.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
+        this.#node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO_REF.get(techName).src;
+        this.#techName = techName;
+    }
+
+    render(element)
+    {
+        element.appendChild(this.#node);
+    }
+    destroy()
+    {
+        this.#node.remove();
+        this.#node = null;
+    }
+
+    get node()
+    {
+        return this.#node;
+    }
+
+    get techName()
+    {
+        return this.#techName;
+    }
+}
+
+export class ProjectCardComponent
+{
+    static #TEMPLATE = document.getElementById("project-card-template");
+
+    #rawData = null;
+    #node = null;
+    #stackListNode = null;
+    #stack = null;
+
+    constructor(rawData)
+    {
+        this.#rawData = rawData;
+        this.#stack = []
+
+        this.#node = ProjectCardComponent.#TEMPLATE.content.cloneNode(true);
+        this.#node.querySelector(".project-list__card-title").textContent = rawData.title;
+        this.#node.querySelector(".project-list__card-thumb").src = rawData.preview.thumbnail;
+        this.#node.querySelector(".project-list__card-thumb").alt = rawData.preview.alt;
+        this.#node.querySelector(".project-list__card-text").textContent = rawData.preview.summary;
+        this.#stackListNode = this.#node.querySelector(".project-list__card-tech-stack");
+
+        [...new Set(rawData.preview.stack)].forEach(techName => {
+            const cardStack = new CardStackComponent(techName);
+            this.#stack.push(cardStack);
+            cardStack.render(this.#stackListNode);
+        });
+    }
+
+    destroy()
+    {
+        this.#node.remove();
+        this.#node = null;
+    }
+
+    get node()
+    {
+        return this.#node;
+    }
+    get rawData()
+    {
+        return this.#rawData;
+    }
+}

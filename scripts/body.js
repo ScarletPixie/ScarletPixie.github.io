@@ -1,4 +1,4 @@
-import { PROJECT_LIST, getTechIcons } from "./projects.js"
+import { PROJECT_LIST, ProjectCardComponent } from "./projects.js"
 import { PageMouseButtonEvent } from "./global_events.js";
 
 
@@ -178,29 +178,9 @@ class CardDrag
 
 // PROJECT CARDS
 const projectList = document.querySelector(".project-list");
-
-const cardTemplate = document.querySelector("#project-card-template");
-const cardStackIconTemplate = cardTemplate.content.querySelector("#card-tech-stack-item");
-
-PROJECT_LIST.forEach(project => {
-    const card = cardTemplate.content.cloneNode(true);
-    card.querySelector(".project-list__card-title").textContent = project.title;
-    card.querySelector(".project-list__card-thumb").src = project.preview.thumbnail;
-    card.querySelector(".project-list__card-thumb").alt = project.preview.alt;
-    card.querySelector(".project-list__card-text").textContent = project.preview.summary;
-
-    const cardTechStack = card.querySelector(".project-list__card-tech-stack");
-    [...new Set(project.preview.stack)].forEach(techName => {
-        const stackComponent = cardStackIconTemplate.content.cloneNode(true);
-        const stackComponentIconRepo = getTechIcons().get(techName);
-        const stackComponentIconElement = stackComponent.querySelector(".project-list__card-tech-stack-icon");
-
-        stackComponent.querySelector(".project-list__card-tech-stack-link").href = "https://www.google.com";
-        stackComponentIconElement.src = stackComponentIconRepo?.src ?? "";
-        stackComponent.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
-        cardTechStack.appendChild(stackComponent);
-    });
-    projectList.appendChild(card);
+PROJECT_LIST.forEach(projectData => {
+    const card = new ProjectCardComponent(projectData);
+    projectList.appendChild(card.node);
 });
 
 
