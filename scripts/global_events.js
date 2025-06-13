@@ -1,45 +1,52 @@
 import { Publisher, Vector2D } from "./utils.js";
 
-export class PageMouseButtonEvent
+export class GlobalMouseEventNotifier extends Publisher
 {
-    static EVENTS = ["mousedown", "mouseup", "mousemove"];
+    static #EVENTS = {MOUSEDOWN: "mousedown", MOUSEUP: "mouseup", MOUSEMOVE: "mousemove"};
+
+    static #throttling = false;
+    static #THROTTLE_TIME_MS = 25;
+
+    static #instance = null;
+    static instance()
+    {
+        if (!this.#instance)
+            this.#instance = new GlobalMouseEventNotifier();
+        return this.#instance;
+    }
+
     constructor()
     {
-        this._subscribers = [];
+        if (GlobalMouseEventNotifier.#instance)
+            throw new Error("Use GlobalMouseEventNotifier.instance() instead of new.");
 
-        window.addEventListener("mousedown", (e) => {
+        super();
+        window.addEventListener(GlobalMouseEventNotifier.#EVENTS.MOUSEDOWN, (e) => {
             const pos = new Vector2D(e.pageX, e.pageY);
-            this._notifySubscribers("mousedown", pos);
+            this.notifySubscribers((sub) => {
+                sub?.onMouseDown?.(pos);
+            })
         });
-        window.addEventListener("mousemove", (e) => {
+        window.addEventListener(GlobalMouseEventNotifier.#EVENTS.MOUSEMOVE, (e) => {
+            if (GlobalMouseEventNotifier.#throttling)
+                return;
+            GlobalMouseEventNotifier.#throttling = true;
+            setTimeout(() => {
+                GlobalMouseEventNotifier.#throttling = false;
+            }, GlobalMouseEventNotifier.#THROTTLE_TIME_MS);
+
             const pos = new Vector2D(e.pageX, e.pageY);
             const mov = new Vector2D(e.movementX, e.movementY);
-            this._notifySubscribers("mousemove", pos, mov);
+            this.notifySubscribers((sub) => {
+                sub?.onMouseMove?.(pos, mov);
+            })
         });
-        window.addEventListener("mouseup", (e) => {
+        window.addEventListener(GlobalMouseEventNotifier.#EVENTS.MOUSEUP, (e) => {
             const pos = new Vector2D(e.pageX, e.pageY);
-            this._notifySubscribers("mouseup", pos);
+            this.notifySubscribers((sub) => {
+                sub?.onMouseUp?.(pos);
+            })
         });
-    }
-
-    subscribe(subscriber)
-    {
-        this._subscribers.push(subscriber);
-    }
-
-    _notifySubscribers(eventType, pos, movement = null)
-    {
-        if (!PageMouseButtonEvent.EVENTS.includes(eventType))
-            throw new Error(`PageMouseButtonEvent: '${eventType}' is not a valid event.`);
-
-        this._subscribers.forEach((sub) => {
-            if (eventType == "mousedown" && sub && typeof sub.onMouseDown === 'function')
-                sub.onMouseDown(pos);
-            else if (eventType == "mousemove" && sub && typeof sub.onMouseMove === 'function')
-                sub.onMouseMove(pos, movement);
-            else if (eventType == "mouseup" && sub && typeof sub.onMouseUp === 'function')
-                sub.onMouseUp(pos);
-        })
     }
 }
 
