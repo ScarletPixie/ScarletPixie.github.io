@@ -109,7 +109,7 @@ class CardDrag
             return;
         if (!this._card.classList.contains("moving"))
         {
-            // STORE ORIGNAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
+            // STORE ORIGINAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
             this._card.style.width = `${this._originalSize.width}px`;
             this._card.style.height = `${this._originalSize.height}px`;
             this._card.classList.add("moving");
