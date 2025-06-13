@@ -1,6 +1,6 @@
 import { PROJECT_LIST, ProjectCardComponent } from "./projects.js"
-import { PageMouseButtonEvent } from "./global_events.js";
-
+import { GlobalMouseEventNotifier } from "./global_events.js";
+import { GlobalElementRect } from "./utils.js";
 
 
 class CardDrag
@@ -184,7 +184,7 @@ PROJECT_LIST.forEach(projectData => {
 });
 
 
-const pageMouseEvent = new PageMouseButtonEvent();
+const pageMouseEvent = GlobalMouseEventNotifier.instance();
 
 // PROJECT CARD BEHAVIORS
 const projectCards = projectList.querySelectorAll(".project-list__card");
