@@ -159,7 +159,7 @@ export class CardStackComponent
     #techName = null;
     constructor(techName, url = '#')
     {
-        this.#node = CardStackComponent.#TEMPLATE.content.cloneNode(true);
+        this.#node = CardStackComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
         this.#node.querySelector(".project-list__card-tech-stack-link").href = url;
         this.#node.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
         this.#node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO_REF.get(techName).src;
@@ -193,6 +193,10 @@ export class ProjectCardComponent
 
     #rawData = null;
     #node = null;
+    #windowNode = null;
+    #windowButtonsNode = null;
+    #imageNodes = null;
+    #thumbNode = null
     #stackListNode = null;
     #stack = null;
 
@@ -201,12 +205,17 @@ export class ProjectCardComponent
         this.#rawData = rawData;
         this.#stack = []
 
-        this.#node = ProjectCardComponent.#TEMPLATE.content.cloneNode(true);
+        this.#node = ProjectCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
         this.#node.querySelector(".project-list__card-title").textContent = rawData.title;
-        this.#node.querySelector(".project-list__card-thumb").src = rawData.preview.thumbnail;
-        this.#node.querySelector(".project-list__card-thumb").alt = rawData.preview.alt;
+        this.#thumbNode = this.#node.querySelector(".project-list__card-thumb");
+        this.#thumbNode.src = rawData.preview.thumbnail;
+        this.#thumbNode.alt = rawData.preview.alt;
         this.#node.querySelector(".project-list__card-text").textContent = rawData.preview.summary;
         this.#stackListNode = this.#node.querySelector(".project-list__card-tech-stack");
+
+        this.#windowNode = this.#node.querySelector(".project-list__card-frame");
+        this.#windowButtonsNode = this.#node.querySelector(".project-list__card-actions");
+        this.#imageNodes = this.#node.querySelectorAll("img");
 
         [...new Set(rawData.preview.stack)].forEach(techName => {
             const cardStack = new CardStackComponent(techName);
@@ -220,10 +229,30 @@ export class ProjectCardComponent
         this.#node.remove();
         this.#node = null;
     }
+    render(element)
+    {
+        element.appendChild(this.#node);
+    }
 
     get node()
     {
         return this.#node;
+    }
+    get thumbNode()
+    {
+        return this.#thumbNode;
+    }
+    get windowNode()
+    {
+        return this.#windowNode;
+    }
+    get imageNodes()
+    {
+        return this.#imageNodes;
+    }
+    get windowButtonsNode()
+    {
+        return this.#windowButtonsNode;
     }
     get rawData()
     {
