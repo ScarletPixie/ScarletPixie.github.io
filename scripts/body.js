@@ -190,13 +190,13 @@ PROJECT_LIST.forEach(project => {
     card.querySelector(".project-list__card-text").textContent = project.preview.summary;
 
     const cardTechStack = card.querySelector(".project-list__card-tech-stack");
-    project.preview.stack.forEach(techName => {
+    [...new Set(project.preview.stack)].forEach(techName => {
         const stackComponent = cardStackIconTemplate.content.cloneNode(true);
         const stackComponentIconRepo = getTechIcons().get(techName);
         const stackComponentIconElement = stackComponent.querySelector(".project-list__card-tech-stack-icon");
 
         stackComponent.querySelector(".project-list__card-tech-stack-link").href = "https://www.google.com";
-        stackComponentIconElement.src = stackComponentIconRepo.src;
+        stackComponentIconElement.src = stackComponentIconRepo?.src ?? "";
         stackComponent.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
         cardTechStack.appendChild(stackComponent);
     });

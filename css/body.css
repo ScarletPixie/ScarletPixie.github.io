@@ -37,7 +37,6 @@
     min-height: 0;
     overflow: hidden;
     border-radius: 6px;
-    border: solid gray 1px;
     transition: opacity 0.1s ease, transform 0.3s ease;
 }
 .project-list__card.moving
@@ -80,42 +79,50 @@
 .project-list__card-content
 {
     width: 100%;
-    background-color: azure;
+    background-color: ghostwhite;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 .project-list__card-thumb
 {
     width: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
 }
 .project-list__card-text
 {
+    display: flex;
+    align-items: center;
+    height: 6rem;
+    text-align: center;
+    overflow-y: scroll;
     color: black;
     font-weight: normal;
-    text-align: center;
     text-shadow: none;
+    border: solid black 0px 2px;
 }
 
 .project-list__card-tech-stack
 {
     display: flex;
     align-items: center;
-    list-style-type: none;
     gap: 1rem;
+    list-style-type: none;
     background-color: var(--window-bg-color);
-    overflow: scroll;
+    overflow-x: scroll;
+    padding: 0 0.5rem;
 }
 .project-list__card-tech-stack-item
 {
     margin: 0.5rem 0;
     background: var(--window-bg-gradient);
     border: solid 0.5 black;
+    scroll-snap-align: start;
 }
 .project-list__card-tech-stack-link
 {
     display: inline-flex;
+    margin: 0 auto;
     padding: 0.2rem .8rem;
     text-decoration: none;
     color: white;
