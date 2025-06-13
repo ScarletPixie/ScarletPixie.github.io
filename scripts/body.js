@@ -2,6 +2,8 @@ import { PROJECT_LIST, ProjectCardComponent } from "./projects.js"
 import { GlobalMouseEventNotifier } from "./global_events.js";
 import { GlobalElementRect } from "./utils.js";
 
+const projectListNode = document.querySelector(".project-list");
+const pageMouseEvent = GlobalMouseEventNotifier.instance();
 
 class CardDrag
 {
@@ -28,6 +30,8 @@ class CardDrag
 
     destroy()
     {
+        pageMouseEvent.unsubscribe(this);
+
         if (this._cardFrame && this._callbacks)
         {
             for (const { type, handler } of this._callbacks)
@@ -37,9 +41,11 @@ class CardDrag
         this._callbacks = null;
         this._onMouseDown = null;
         if (this._card)
+        {
             this._card.remove();
-        this._card = null;
-        this._cardFrame = null;
+            this._card = null;
+            this._cardFrame = null;
+        }
 
         const i = CardDrag.instances.indexOf(this);
         if (i !== -1)
@@ -176,62 +182,58 @@ class CardDrag
 }
 
 
-// PROJECT CARDS
-const projectList = document.querySelector(".project-list");
+// CREATE PROJECT CARDS
+const projectList = [];
 PROJECT_LIST.forEach(projectData => {
     const card = new ProjectCardComponent(projectData);
-    projectList.appendChild(card.node);
+    projectList.push(card);
+    card.render(projectListNode);
 });
 
-
-const pageMouseEvent = GlobalMouseEventNotifier.instance();
-
-// PROJECT CARD BEHAVIORS
-const projectCards = projectList.querySelectorAll(".project-list__card");
-projectCards.forEach((card) => {
-    const images = card.querySelectorAll('img');
-    const cardButtons = card.querySelector(".project-list__card-actions");
-
-    let dragEvent = null;
-
-    // ONLY SETUP DRAGGING WHEN ALL THE IMAGES INSIDE THE CARDS HAVE LOADED/FAILED TO LOAD
-    let loadedCardImages = 0;
-    images.forEach((img) => {
-        img.addEventListener("load", () => {
-            loadedCardImages++;
-            if (loadedCardImages >= images.length)
-            {
-                dragEvent = new CardDrag(card);
-                dragEvent.setup();
-                pageMouseEvent.subscribe(dragEvent);
-            }
-        });
-        img.addEventListener("error", () => {
-            loadedCardImages++;
-            if (loadedCardImages >= images.length)
-            {
-                dragEvent = new CardDrag(card);
-                dragEvent.setup();
-                pageMouseEvent.subscribe(dragEvent);
-            }
-        });
-    });
-
+// SET PROJECT CARD BEHAVIORS
+const activeCardDraggingBehaviors = [];
+projectList.forEach((card) => {
     //MINIMIZE
-    cardButtons.children[0].addEventListener("click", (e) => {
+    card.windowButtonsNode.children[0].addEventListener("click", (e) => {
         e.stopPropagation();
     });
     // MAXIMIZE/RESTORE
-    cardButtons.children[1].addEventListener("click", (e) => {
+    card.windowButtonsNode.children[1].addEventListener("click", (e) => {
         e.stopPropagation();
     });
-    // CLOSE
-    cardButtons.children[2].addEventListener("click", (e) => {
-        e.stopPropagation();
-        card.classList.add("project-list__card--closing");
-        card.addEventListener("transitionend", () => {
-            if (dragEvent)
-                dragEvent.destroy();
-        }, {once: true,});
-    });
+
+    // ONLY SETUP DRAGGING/CLOSING WHEN THE THUMBNAIL INSIDE THE CARDS HAVE LOADED/FAILED TO LOAD
+    const callback = cardDragPreSetup(1, card);
+    card.thumbNode.addEventListener("load", callback);
+    card.thumbNode.addEventListener("error", callback);
 });
+
+function cardDragPreSetup(imageCount, card)
+{
+    let loaded = 0;
+    return () => {
+        loaded++;
+        if (loaded >= imageCount)
+        {
+            const behavior = setupCardDrag(card.node);
+            activeCardDraggingBehaviors.push(behavior);
+            card.windowButtonsNode.children[2].addEventListener("click", (e) => {
+                e.stopPropagation();
+                card.node.classList.add("project-list__card--closing");
+                card.node.addEventListener("transitionend", () => {
+                    const index = activeCardDraggingBehaviors.indexOf(behavior);
+                    if (index !== -1)
+                        activeCardDraggingBehaviors.splice(index, 1);
+                    behavior.destroy();
+                }, {once: true,});
+            });
+        }
+    };
+}
+function setupCardDrag(card)
+{
+    const dragEvent = new CardDrag(card);
+    dragEvent.setup();
+    pageMouseEvent.subscribe(dragEvent);
+    return dragEvent;
+}
