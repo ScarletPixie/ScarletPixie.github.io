@@ -107,3 +107,33 @@ export class Publisher
         });
     }
 }
+
+// DECORATORS
+export function logDecorator(fn, message = "")
+{
+    return function(...args)
+    {
+        console.log(message);
+        return fn.apply(this, args);
+    }
+}
+export function throttleDecorator(fn, throttleDelayMs = 100)
+{
+    let throttling = false;
+    return function(...args)
+    {
+        if (throttling)
+            return;
+        throttling = true;
+        setTimeout(() => { throttling = false; }, throttleDelayMs);
+        return fn.apply(this, args);
+    }
+}
+export function helloWorldDecorator(fn)
+{
+    return function(...args)
+    {
+        console.log("Hello, World!");
+        return fn.apply(this, args);
+    }
+}
