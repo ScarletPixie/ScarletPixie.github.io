@@ -151,19 +151,19 @@ export function getTechIcons()
 // TEMPLATE CLASSES
 export class CardStackComponent
 {
-    static #PARENT_TEMPLATE = document.getElementById("project-card-template");
-    static #TEMPLATE = this.#PARENT_TEMPLATE.content.getElementById("card-tech-stack-item");
-    static #ICON_REPO_REF = getTechIcons();
+    static #ICON_REPO = getTechIcons();
+    static #TEMPLATE = document.getElementById("project-card-template").content.querySelector("#card-tech-stack-item");
 
     #node = null;
     #techName = null;
     constructor(techName, url = '#')
     {
+        this.#techName = techName;
+
         this.#node = CardStackComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
         this.#node.querySelector(".project-list__card-tech-stack-link").href = url;
         this.#node.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
-        this.#node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO_REF.get(techName).src;
-        this.#techName = techName;
+        this.#node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO.get(techName)?.src ?? "";
     }
 
     render(element)
@@ -176,15 +176,8 @@ export class CardStackComponent
         this.#node = null;
     }
 
-    get node()
-    {
-        return this.#node;
-    }
-
-    get techName()
-    {
-        return this.#techName;
-    }
+    get node() { return this.#node; }
+    get techName() { return this.#techName; }
 }
 
 export class ProjectCardComponent
@@ -234,28 +227,11 @@ export class ProjectCardComponent
         element.appendChild(this.#node);
     }
 
-    get node()
-    {
-        return this.#node;
-    }
-    get thumbNode()
-    {
-        return this.#thumbNode;
-    }
-    get windowNode()
-    {
-        return this.#windowNode;
-    }
-    get imageNodes()
-    {
-        return this.#imageNodes;
-    }
-    get windowButtonsNode()
-    {
-        return this.#windowButtonsNode;
-    }
-    get rawData()
-    {
-        return this.#rawData;
-    }
+    get node() { return this.#node; }
+    get thumbNode() { return this.#thumbNode; }
+    get windowNode() { return this.#windowNode; }
+    get imageNodes() { return this.#imageNodes; }
+    get windowButtonsNode() { return this.#windowButtonsNode; }
+
+    get rawData() { return this.#rawData; }
 }

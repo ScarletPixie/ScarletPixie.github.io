@@ -1,6 +1,6 @@
 import { PROJECT_LIST, ProjectCardComponent } from "./projects.js"
-import { GlobalMouseEventNotifier } from "./global_events.js";
-import { GlobalElementRect } from "./utils.js";
+import { GlobalMouseEventNotifier } from "./global-events.js";
+import { GlobalElementRect, helloWorldDecorator } from "./utils.js";
 
 const projectListNode = document.querySelector(".project-list");
 const pageMouseEvent = GlobalMouseEventNotifier.instance();
