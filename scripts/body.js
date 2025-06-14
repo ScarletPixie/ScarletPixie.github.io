@@ -1,183 +1,159 @@
 import { PROJECT_LIST, ProjectCardComponent } from "./projects.js"
 import { GlobalMouseEventNotifier } from "./global-events.js";
-import { GlobalElementRect, helloWorldDecorator } from "./utils.js";
+import {
+    GlobalElementRect,
+    Vector2D,
+    preventDefaultDecorator,
+    stopPropagationDecorator,
+} from "./utils.js";
 
 const projectListNode = document.querySelector(".project-list");
 const pageMouseEvent = GlobalMouseEventNotifier.instance();
 
-class CardDrag
+class CardDragBehavior
 {
-    static instances = [];
+    static #instances = new Map();
+    static #mouseEventNotifier = GlobalMouseEventNotifier.instance();
     
-    constructor(projectCard)
+    #container = null;
+    #containerRect = null;
+    #card = null;
+    #cardWindow = null;
+    #windowSelected = false;
+    #cardRect = null;
+    #cardWindowRect = null;
+    #isSetUp = false;
+    #windowDragOffset = null;
+    #originalSize = null;
+
+    #controller = null;
+    #onMouseDownCb = null;
+
+    constructor(card, container)
     {
-        CardDrag.instances.push(this);
-        this._projectsListRect = this._getGlobalBoundingClientRect(projectCard.parentNode);
+        const instanceList = CardDragBehavior.#instances.get(container) || [];
+        instanceList.push(this);
+        this.#controller = new AbortController();
 
-        this._card = projectCard;
-        this._cardFrame = this._card.querySelector(".project-list__card-frame");
-        
-        this._cardFrameSelected = false;
-        this._cardRect = this._getGlobalBoundingClientRect(this._card);
-        this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
+        this.#container = container;
+        this.#card = card;
+        this.#cardWindow = this.#card.windowNode;
+        this.#containerRect = new GlobalElementRect(container);
 
-        this._dragOffset = {x: 0, y: 0};
-        this._originalSize = {width: this._cardRect.width, height: this._cardRect.height};
+        this.#cardRect = new GlobalElementRect(this.#card.node);
+        this.#cardWindowRect = new GlobalElementRect(this.#cardWindow);
+        this.#windowDragOffset = new Vector2D();
+        this.#originalSize = new Vector2D(this.#cardRect.width, this.#cardRect.height);
 
-        this._isSetUp = false;
-        this._callbacks = [];
+        this.#onMouseDownCb = this.#onMouseDown.bind(this);
     }
 
     destroy()
     {
-        pageMouseEvent.unsubscribe(this);
+        if (!this.#card)
+            return;
 
-        if (this._cardFrame && this._callbacks)
-        {
-            for (const { type, handler } of this._callbacks)
-                this._cardFrame.removeEventListener(type, handler);
-        }
+        CardDragBehavior.#mouseEventNotifier.unsubscribe(this);
+        this.#controller.abort();
+        this.#controller = null;
+        this.#card.destroy();
+        this.#card = null;
+        this.#cardWindow = null;
 
-        this._callbacks = null;
-        this._onMouseDown = null;
-        if (this._card)
-        {
-            this._card.remove();
-            this._card = null;
-            this._cardFrame = null;
-        }
-
-        const i = CardDrag.instances.indexOf(this);
+        const instanceList = CardDragBehavior.#instances.get(this.#container) || [];
+        const i = instanceList.indexOf(this);
         if (i !== -1)
-            CardDrag.instances.splice(i, 1);
+            instanceList.splice(i, 1);
     }
 
     setup()
     {
-        if (this._isSetUp)
+        if (this.#isSetUp)
             return;
-        this._isSetUp = true;
+        this.#cardWindow.addEventListener("mousedown", stopPropagationDecorator(
+            preventDefaultDecorator(this.#onMouseDownCb)
+        ), {signal: this.#controller.signal});
 
-        // STORE CALLBACKS FOR CLEANUP
-        const downPrevent = this._preventDefault(true);
-        this._cardFrame.addEventListener("mousedown", downPrevent);
-        this._callbacks.push({ type: "mousedown", handler: downPrevent });
-
-        const defaultPrevent = this._preventDefault();
-        this._cardFrame.addEventListener("mouseup", defaultPrevent);
-        this._cardFrame.addEventListener("mousemove", defaultPrevent);
-        this._callbacks.push(
-            { type: "mouseup", handler: defaultPrevent },
-            { type: "mousemove", handler: defaultPrevent }
-        );
-
-        this._onMouseDown = this._onMouseDown.bind(this);
-        this._cardFrame.addEventListener("mousedown", this._onMouseDown);
-        this._callbacks.push({ type: "mousedown", handler: this._onMouseDown });
+        this.#cardWindow.addEventListener("mouseup", preventDefaultDecorator((_) => {}), {signal: this.#controller.signal});
+        this.#cardWindow.addEventListener("mousemove", preventDefaultDecorator((_) => {}), {signal: this.#controller.signal});
     }
 
     // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
-    _notifyLayoutChanges(sender)
+    #notifyLayoutChanges(sender)
     {
-        CardDrag.instances.forEach((card) => {
+        const instanceList = CardDragBehavior.#instances.get(this.#container) || [];
+        instanceList.forEach((card) => {
             if (sender !== card)
-                card._onLayoutChange();
+                card.#onLayoutChange();
         });
-        if (!sender._card.classList.contains("moving"))
-            sender._onLayoutChange();
+        if (!sender.#card.node.classList.contains("moving"))
+            sender.#onLayoutChange();
     }
-    _onLayoutChange()
+    #onLayoutChange()
     {
-        this._cardRect = this._getGlobalBoundingClientRect(this._card)
-        this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
-    }
-
-    // CALLBACKS
-    _onMouseDown(event)
-    {
-        this._cardFrameSelected = true;
-
-        // SET OFFSET BASED ON MOUSE CLICK POSITION RELATIVE TO THE CARD WINDOW.
-        this._dragOffset.x = event.pageX - this._cardFrameRect.left;
-        this._dragOffset.y = event.pageY - this._cardFrameRect.top;
+        this.#updateCardRect();
     }
 
     // GLOBAL MOUSE MOVEMENT OBSERVER
     onMouseMove(pos, _)
     {
-        if (!this._cardFrameSelected)
+        if (!this.#windowSelected)
             return;
-        if (!this._card.classList.contains("moving"))
+
+        if (!this.#card.node.classList.contains("moving"))
         {
             // STORE ORIGINAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
-            this._card.style.width = `${this._originalSize.width}px`;
-            this._card.style.height = `${this._originalSize.height}px`;
-            this._card.classList.add("moving");
-            this._notifyLayoutChanges(this);
+            this.#card.node.style.width = `${this.#originalSize.x}px`;
+            this.#card.node.style.height = `${this.#originalSize.y}px`;
+            this.#card.node.classList.add("moving");
+            this.#notifyLayoutChanges(this);
         }
 
         // DRAG WINDOW RELATIVE TO THE MOUSE POINTER
-        this._card.style.left = `${pos.x - this._dragOffset.x}px`;
-        this._card.style.top = `${pos.y - this._dragOffset.y}px`;
+        this.#card.node.style.left = `${pos.x - this.#windowDragOffset.x}px`;
+        this.#card.node.style.top = `${pos.y - this.#windowDragOffset.y}px`;
     }
     onMouseUp(pos)
     {
-        if (!this._cardFrameSelected)
+        if (!this.#windowSelected)
             return;
-        this._cardFrameSelected = false;
+        this.#windowSelected = false;
 
-        const dropOnProjectList = this._isPointInsideRect(pos.x, pos.y, this._projectsListRect);
-        if (dropOnProjectList && this._card.classList.contains("moving"))
+        const dropOnProjectList = this.#containerRect.containsPoint(pos);
+        if (dropOnProjectList && this.#card.node.classList.contains("moving"))
         {
-            this._card.classList.remove("moving");
-            this._card.width = '';
-            this._card.height = '';
-            this._card.left = '';
-            this._card.right = '';
-            this._notifyLayoutChanges(this);
+            this.#card.node.classList.remove("moving");
+            this.#card.node.style.width = '';
+            this.#card.node.style.height = '';
+            this.#card.node.style.left = '';
+            this.#card.node.style.right = '';
+            this.#notifyLayoutChanges(this);
             return;
         }
-        this._cardRect = this._getGlobalBoundingClientRect(this._card);
-        this._cardFrameRect = this._getGlobalBoundingClientRect(this._cardFrame);
-        this._card.style.left = `${this._cardRect.left}px`;
-        this._card.style.top = `${this._cardRect.top}px`;
+        this.#updateCardCoords();
+    }
+    #updateCardRect()
+    {
+        this.#cardRect = new GlobalElementRect(this.#card.node);
+        this.#cardWindowRect = new GlobalElementRect(this.#cardWindow);
+    }
+    #updateCardCoords()
+    {
+        this.#updateCardRect();
+        if (!this.#card.node.classList.contains("moving"))
+            return;
+        this.#card.node.style.left = `${this.#cardRect.left}px`;
+        this.#card.node.style.top = `${this.#cardRect.top}px`;
     }
 
-    // HELPERS
-    _getGlobalBoundingClientRect(element)
+    // CALLBACKS
+    #onMouseDown(event)
     {
-        const rect = element.getBoundingClientRect();
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        return {
-            left: rect.left + scrollLeft,
-            top: rect.top + scrollTop,
-            right: rect.right + scrollLeft,
-            bottom: rect.bottom + scrollTop,
-            width: rect.width,
-            height: rect.height,
-            x: rect.left + scrollLeft,
-            y: rect.top + scrollTop
-        };
-    }
-    _isPointInsideRect(x, y, rect)
-    {
-        return (
-            x >= rect.left &&
-            x <= rect.right &&
-            y >= rect.top &&
-            y <= rect.bottom
+        this.#windowSelected = true;
+        this.#windowDragOffset = new Vector2D(
+            event.pageX - this.#cardWindowRect.left,
+            event.pageY - this.#cardWindowRect.top
         );
-    }
-    _preventDefault(stopPropagation = false)
-    {
-        return (e) =>
-        {
-            e.preventDefault();
-            if (stopPropagation)
-                e.stopPropagation();
-        }
     }
 }
 
@@ -215,7 +191,7 @@ function cardDragPreSetup(imageCount, card)
         loaded++;
         if (loaded >= imageCount)
         {
-            const behavior = setupCardDrag(card.node);
+            const behavior = setupCardDrag(card, projectListNode);
             activeCardDraggingBehaviors.push(behavior);
             card.windowButtonsNode.children[2].addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -230,9 +206,9 @@ function cardDragPreSetup(imageCount, card)
         }
     };
 }
-function setupCardDrag(card)
+function setupCardDrag(card, parent)
 {
-    const dragEvent = new CardDrag(card);
+    const dragEvent = new CardDragBehavior(card, parent);
     dragEvent.setup();
     pageMouseEvent.subscribe(dragEvent);
     return dragEvent;
