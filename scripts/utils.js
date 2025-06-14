@@ -22,21 +22,23 @@ export class GlobalElementRect
         left: 0, right: 0, top: 0, bottom: 0,
         width: 0, heigh: 0,
     }
+    #element = null
     constructor(element)
     {
-        this.update();
+        this.#element = element;
+        this.#rect = this.#getGlobalBoundingClientRect(element);
     }
     update()
     {
-        this.#rect = this.#getGlobalBoundingClientRect(element);
+        this.#rect = this.#getGlobalBoundingClientRect(this.#element);
     }
-    isPointInsideRect(x, y, rect)
+    containsPoint(pos)
     {
         return (
-            x >= rect.left &&
-            x <= rect.right &&
-            y >= rect.top &&
-            y <= rect.bottom
+            pos.x >= this.#rect.left &&
+            pos.x <= this.#rect.right &&
+            pos.y >= this.#rect.top &&
+            pos.y <= this.#rect.bottom
         );
     }
     #getGlobalBoundingClientRect(element)
@@ -109,6 +111,27 @@ export class Publisher
 }
 
 // DECORATORS
+export function stopPropagationDecorator(fn)
+{
+    return function(...args)
+    {
+        const [event] = args;
+        if (event && typeof event.stopPropagation === 'function')
+            event.stopPropagation();
+        return fn.apply(this, args);
+    }
+}
+export function preventDefaultDecorator(fn)
+{
+    return function(...args)
+    {
+        const [event] = args;
+        if (event && typeof event.preventDefault === 'function')
+            event.preventDefault();
+        return fn.apply(this, args);
+    }
+}
+
 export function logDecorator(fn, message = "")
 {
     return function(...args)
