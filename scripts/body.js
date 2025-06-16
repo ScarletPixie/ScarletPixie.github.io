@@ -84,14 +84,10 @@ class CardDragBehavior
         const instanceList = CardDragBehavior.#instances.get(this.#container) || [];
         instanceList.forEach((card) => {
             if (sender !== card)
-                card.#onLayoutChange();
+                card.#updateCardRect();
         });
         if (!sender.#card.node.classList.contains("moving"))
-            sender.#onLayoutChange();
-    }
-    #onLayoutChange()
-    {
-        this.#updateCardRect();
+            sender.#updateCardRect();
     }
 
     // GLOBAL MOUSE MOVEMENT OBSERVER
