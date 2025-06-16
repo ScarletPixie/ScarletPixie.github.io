@@ -7,7 +7,9 @@
     position: fixed;
     bottom: 0%;
     min-width: 100vw;
+    width: 100%;
     display: flex;
+    align-items: center;
     background: var(--window-bg-gradient);
     background-color: var(--window-bg-color);
 }
@@ -16,8 +18,71 @@
     bottom: 100%;
 }
 
+.taskbar__tray
+{
+    display: flex;
+    margin-right: auto;
+    overflow-x: scroll;
+    gap: 0.5rem;
+}
+.taskbar__tray-item
+{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    padding: 0.1rem;
+    align-items: center;
+    gap: 0.2rem;
+    background-color: var(--window-bg-gradient);
+    box-shadow: 0 1px 0 #7a7a7a inset, 1px 0px 0 #7a7a7a inset;
+    transition: text-shadow 0.3s ease-in-out, background 0.2s ease;
+    border-right: rgb(37, 37, 37) solid 1px;
+}
+
+.taskbar__tray-item:hover
+{
+    background-color: gray;
+}
+.taskbar__tray-item:hover .taskbar__tray-item-icon
+{
+    filter: brightness(130%);
+    transition: filter 0.2s ease;
+}
+.taskbar__tray-item-icon
+{
+    height: 2rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+.taskbar__tray-item-text
+{
+    width: 5rem;
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+.taskbar__tray-item-btn
+{
+    cursor: pointer;
+    display: inline-block;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 2rem;
+    height: 100%;
+    font-weight: bold;
+    color: white;
+    margin: none;
+    border: none;
+    background: transparent;
+}
 
 .taskbar__clock {
+    display: inline-flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
     font-family: "Segoe UI", "Ubuntu", sans-serif;
     font-size: 0.9rem;
     color: #ffffff;
