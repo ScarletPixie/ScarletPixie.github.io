@@ -1,3 +1,5 @@
+import { Component } from "./utils.js"
+
 export const PROJECT_LIST =
     [
         // COUNTRY INFO
@@ -149,43 +151,33 @@ export function getTechIcons()
 
 
 // TEMPLATE CLASSES
-export class CardStackComponent
+export class CardStackComponent extends Component
 {
     static #ICON_REPO = getTechIcons();
     static #TEMPLATE = document.getElementById("project-card-template").content.querySelector("#card-tech-stack-item");
 
-    #node = null;
     #techName = null;
     constructor(techName, url = '#')
     {
+        const clone = CardStackComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
+        super(clone);
+
         this.#techName = techName;
 
-        this.#node = CardStackComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
-        this.#node.querySelector(".project-list__card-tech-stack-link").href = url;
-        this.#node.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
-        this.#node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO.get(techName)?.src ?? "";
+        this._node.querySelector(".project-list__card-tech-stack-link").href = url;
+        this._node.querySelector(".project-list__card-tech-stack-link-text").textContent = techName;
+        this._node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO.get(techName)?.src ?? "";
     }
 
-    render(element)
-    {
-        element.appendChild(this.#node);
-    }
-    destroy()
-    {
-        this.#node.remove();
-        this.#node = null;
-    }
-
-    get node() { return this.#node; }
+    get node() { return this._node; }
     get techName() { return this.#techName; }
 }
 
-export class ProjectCardComponent
+export class ProjectCardComponent extends Component
 {
     static #TEMPLATE = document.getElementById("project-card-template");
 
     #rawData = null;
-    #node = null;
     #windowNode = null;
     #windowButtonsNode = null;
     #imageNodes = null;
@@ -195,20 +187,22 @@ export class ProjectCardComponent
 
     constructor(rawData)
     {
+        const clone = ProjectCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
+        super(clone);
+
         this.#rawData = rawData;
         this.#stack = []
 
-        this.#node = ProjectCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
-        this.#node.querySelector(".project-list__card-title").textContent = rawData.title;
-        this.#thumbNode = this.#node.querySelector(".project-list__card-thumb");
+        this._node.querySelector(".project-list__card-title").textContent = rawData.title;
+        this.#thumbNode = this._node.querySelector(".project-list__card-thumb");
         this.#thumbNode.src = rawData.preview.thumbnail;
         this.#thumbNode.alt = rawData.preview.alt;
-        this.#node.querySelector(".project-list__card-text").textContent = rawData.preview.summary;
-        this.#stackListNode = this.#node.querySelector(".project-list__card-tech-stack");
+        this._node.querySelector(".project-list__card-text").textContent = rawData.preview.summary;
+        this.#stackListNode = this._node.querySelector(".project-list__card-tech-stack");
 
-        this.#windowNode = this.#node.querySelector(".project-list__card-frame");
-        this.#windowButtonsNode = this.#node.querySelector(".project-list__card-actions");
-        this.#imageNodes = this.#node.querySelectorAll("img");
+        this.#windowNode = this._node.querySelector(".project-list__card-frame");
+        this.#windowButtonsNode = this._node.querySelector(".project-list__card-actions");
+        this.#imageNodes = this._node.querySelectorAll("img");
 
         [...new Set(rawData.preview.stack)].forEach(techName => {
             const cardStack = new CardStackComponent(techName);
@@ -217,17 +211,7 @@ export class ProjectCardComponent
         });
     }
 
-    destroy()
-    {
-        this.#node.remove();
-        this.#node = null;
-    }
-    render(element)
-    {
-        element.appendChild(this.#node);
-    }
-
-    get node() { return this.#node; }
+    get node() { return this._node; }
     get thumbNode() { return this.#thumbNode; }
     get windowNode() { return this.#windowNode; }
     get imageNodes() { return this.#imageNodes; }
