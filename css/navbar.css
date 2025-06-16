@@ -95,6 +95,7 @@
 .navbar__toggle
 {
     display: none;
+    cursor: pointer;
     margin: 0.5rem 0.75rem;
     --navbar__toggle-border: solid 0.5 black;
     --navbar__toggle-shadow-color: #7a7a7a;

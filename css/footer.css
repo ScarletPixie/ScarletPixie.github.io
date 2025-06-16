@@ -2,8 +2,6 @@
 
 .taskbar
 {
-    --footer-text-color: #9602a1;
-
     position: fixed;
     bottom: 0%;
     min-width: 100vw;
@@ -44,7 +42,7 @@
 }
 .taskbar__tray-item:hover .taskbar__tray-item-icon
 {
-    filter: brightness(130%);
+    filter: brightness(170%);
     transition: filter 0.2s ease;
 }
 .taskbar__tray-item-icon

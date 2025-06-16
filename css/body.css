@@ -19,7 +19,7 @@
     min-width: 100%;
     padding: 0 10vw;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
+    gap: 2rem;
     transition: all 1s ease;
     overflow: hidden;
 }
