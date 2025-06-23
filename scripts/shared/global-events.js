@@ -1,4 +1,6 @@
-import { Publisher, Vector2D, throttleDecorator } from "./utils.js";
+import { Publisher } from "./behaviors.js";
+import { Vector2D } from "./utils.js";
+import { throttleDecorator } from "./decorators.js";
 
 
 export class GlobalMouseEventNotifier extends Publisher

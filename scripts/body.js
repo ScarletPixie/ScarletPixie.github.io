@@ -1,11 +1,12 @@
-import { PROJECT_LIST, ProjectCardComponent } from "./projects.js"
-import { GlobalMouseEventNotifier } from "./global-events.js";
-import {
+import { PROJECT_LIST, ProjectCardComponent } from "./projects/index.js";
+import
+{
+    GlobalMouseEventNotifier,
     GlobalElementRect,
     Vector2D,
     preventDefaultDecorator,
     stopPropagationDecorator,
-} from "./utils.js";
+} from "./shared/index.js";
 
 const projectListNode = document.querySelector(".project-list");
 const pageMouseEvent = GlobalMouseEventNotifier.instance();

@@ -1,6 +1,6 @@
 import { Navbar } from "./navbar.js"
 import { Taskbar } from "./footer.js"
-import * as events from "./global-events.js";
+import * as events from "./shared/global-events.js";
 
 
 // PAGE COMPONENTS SETUP
