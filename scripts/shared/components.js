@@ -1,10 +1,14 @@
-export class Component
+import { Publisher } from "./behaviors.js";
+
+
+export class Component extends Publisher
 {
     _node = null;
     _parent = null;
 
     constructor(element)
     {
+        super();
         this._node = element;
         if (this._node.parentNode !== null)
             this._parent = this._node.parentNode;
@@ -27,6 +31,10 @@ export class Component
     destroy()
     {
         this.remove();
+        this._notifySubscribers((sub) => {
+            if (sub && typeof sub.destroy === 'function')
+                sub.destroy();
+        })
         this._node = null;
     }
 }
