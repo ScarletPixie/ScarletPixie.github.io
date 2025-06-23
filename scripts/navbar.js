@@ -29,7 +29,7 @@ export class Navbar
     }
 
     // HIDE NAVBAR ON SCROLL DOWN AND SHOW ON SCROLL UP OR ON ACTIVE NAVBAR ELEMENT
-    onScrollY(position, movement)
+    onScrollY(_, movement)
     {
         if (window.scrollY < 50)
             this.navbar.classList.remove("hidden");
