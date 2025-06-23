@@ -21,7 +21,7 @@ export class Taskbar
         setInterval(this._updateClock, 60 * 1000);
     }
 
-    onScrollY(position, movement)
+    onScrollY(_, movement)
     {
         const PAGE_HEIGHT = document.documentElement.scrollHeight;
         const VIEWPORT_Y = window.innerHeight;
