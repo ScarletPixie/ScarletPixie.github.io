@@ -32,7 +32,6 @@ export class CardDragBehavior
         instanceList.push(this);
         this.#controller = new AbortController();
 
-        CardDragBehavior.#mouseEventNotifier.subscribe(this);
         
         this.#container = container;
         this.#card = card;
@@ -55,7 +54,6 @@ export class CardDragBehavior
         CardDragBehavior.#mouseEventNotifier.unsubscribe(this);
         this.#controller.abort();
         this.#controller = null;
-        this.#card.destroy();
         this.#card = null;
         this.#cardWindow = null;
 
@@ -69,6 +67,9 @@ export class CardDragBehavior
     {
         if (this.#isSetUp)
             return;
+
+        this.#card.subscribe(this);
+        CardDragBehavior.#mouseEventNotifier.subscribe(this);
         this.#cardWindow.addEventListener("mousedown", stopPropagationDecorator(
             preventDefaultDecorator(this.#onMouseDownCb)
         ), {signal: this.#controller.signal});

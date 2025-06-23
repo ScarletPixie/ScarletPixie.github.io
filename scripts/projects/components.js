@@ -35,6 +35,8 @@ export class ProjectCardComponent extends Component
     #stackListNode = null;
     #stack = null;
 
+    #thumbLoaded = false;
+
     constructor(rawData)
     {
         const clone = ProjectCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
@@ -59,6 +61,14 @@ export class ProjectCardComponent extends Component
             this.#stack.push(cardStack);
             cardStack.render(this.#stackListNode);
         });
+
+        if (this.#thumbNode.complete)
+            this.#thumbLoaded = true;
+        else
+        {
+            this.#thumbNode.addEventListener('load', () => { this.#thumbLoaded = true; }, {once: true});
+            this.#thumbNode.addEventListener('error', () => { this.#thumbLoaded = true; }, {once: true});
+        }
     }
 
     get node() { return this._node; }
@@ -68,4 +78,5 @@ export class ProjectCardComponent extends Component
     get windowButtonsNode() { return this.#windowButtonsNode; }
 
     get rawData() { return this.#rawData; }
+    get thumbLoaded() { return this.#thumbLoaded; }
 }
