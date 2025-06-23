@@ -1,5 +1,6 @@
-export * from './components.js'
-export * from './images.js'
+export * from './behaviors.js';
+export * from './components.js';
+export * from './images.js';
 
 export const PROJECT_LIST = [
     {
