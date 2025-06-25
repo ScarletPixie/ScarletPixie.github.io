@@ -1,38 +1,40 @@
 export class Publisher
 {
+    #subscribers = null;
+
     constructor()
     {
         if (new.target === Publisher)
             throw new Error("Cannot instantiate abstract class Publisher directly.");
-        this._subscribers = [];
+        this.#subscribers = [];
     }
 
     notifySubscribers(callback)
     {
-        this._subscribers.forEach((subRef) => {
+        this.#subscribers.forEach((subRef) => {
             const sub = subRef.deref();
             if (sub)
                 callback(sub);
             else
-                this._removeDeadSubscribers();
+                this.#removeDeadSubscribers();
         });
     }
 
     subscribe(obj)
     {
-        this._subscribers.push(new WeakRef(obj));
+        this.#subscribers.push(new WeakRef(obj));
     }
 
     unsubscribe(obj)
     {
-        this._subscribers = this._subscribers.filter((subRef) => {
+        this.#subscribers = this.#subscribers.filter((subRef) => {
             return subRef.deref() !== obj;
         });
     }
 
-    _removeDeadSubscribers()
+    #removeDeadSubscribers()
     {
-        this._subscribers = this._subscribers.filter((subRef) => {
+        this.#subscribers = this.#subscribers.filter((subRef) => {
             return subRef.deref() !== undefined;
         });
     }

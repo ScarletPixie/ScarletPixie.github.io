@@ -93,7 +93,7 @@ export class CardDragBehavior
     // GLOBAL MOUSE MOVEMENT OBSERVER
     onMouseMove(pos, _)
     {
-        if (!this.#windowSelected)
+        if (!this.#eventReady())
             return;
 
         if (!this.#card.node.classList.contains("moving"))
@@ -111,7 +111,7 @@ export class CardDragBehavior
     }
     onMouseUp(pos)
     {
-        if (!this.#windowSelected)
+        if (!this.#eventReady())
             return;
 
         this.#windowSelected = false;
@@ -150,5 +150,11 @@ export class CardDragBehavior
             event.pageX - this.#cardWindowRect.left,
             event.pageY - this.#cardWindowRect.top
         );
+    }
+
+    // HELPERS
+    #eventReady()
+    {
+        return this.#windowSelected === true && this.#card.thumbLoaded === true;
     }
 }

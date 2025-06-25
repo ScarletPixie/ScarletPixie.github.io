@@ -31,7 +31,7 @@ export class Component extends Publisher
     destroy()
     {
         this.remove();
-        this._notifySubscribers((sub) => {
+        this.notifySubscribers((sub) => {
             if (sub && typeof sub.destroy === 'function')
                 sub.destroy();
         })
