@@ -80,3 +80,30 @@ export class ProjectCardComponent extends Component
     get rawData() { return this.#rawData; }
     get thumbLoaded() { return this.#thumbLoaded; }
 }
+
+export class MinimizedCardComponent extends Component
+{
+    static #TEMPLATE =  document.getElementById("minimized-card-template");
+
+    #closeBtnNode = null;
+    #thumbNode = null;
+    #titleNode = null;
+
+    constructor(cardData)
+    {
+        const clone = MinimizedCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
+
+        super(clone);
+        this.#closeBtnNode = this._node.querySelector(".taskbar__tray-item-btn");
+        this.#thumbNode = this._node.querySelector(".taskbar__tray-item-icon");
+        this.#titleNode = this._node.querySelector(".taskbar__tray-item-text");
+
+        this.#thumbNode.src = cardData.preview.thumbnail;
+        this.#titleNode.textContent = cardData.title;
+    }
+
+    get node() { return this._node; }
+    get closeBtnNode() { return this.#closeBtnNode; }
+    get thumbNode() { return this.#thumbNode; }
+    get titleNode() { return this.#titleNode; }
+}

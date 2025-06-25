@@ -6,6 +6,77 @@ import
     preventDefaultDecorator,
     stopPropagationDecorator,
 } from "../shared/index.js";
+import { MinimizedCardComponent } from "./components.js"
+
+export class MinimizeCardBehavior
+{
+    static #instances = new Map();
+    
+    #controller = null;
+    #TargetContainer = null;
+    #ParentContainer = null
+    #cardWindow = null;
+    #card = null
+    #isSetUp = false;
+
+    #minimizedCard = null;
+
+    constructor(card, container)
+    {
+        this.#controller = new AbortController();
+        this.#card = card;
+        this.#cardWindow = this.#card.windowNode;
+        this.#TargetContainer = container;
+        this.#ParentContainer = card.node.parentNode;
+        const instanceList = MinimizeCardBehavior.#instances.get(container) || [];
+            instanceList.push(this);
+    }
+
+    setup()
+    {
+        if (this.#isSetUp)
+            return;
+        this.#isSetUp = true;
+        this.#card.subscribe(this);
+
+        // MINIMIZE BUTTON
+        this.#card.windowButtonsNode.children[0].addEventListener("click", preventDefaultDecorator((_) => {
+            this.#card.remove();
+            this.#minimizedCard = new MinimizedCardComponent(this.#card.rawData);
+            this.#minimizedCard.render(this.#TargetContainer);
+
+            
+
+            // RESTORE
+            this.#minimizedCard.node.addEventListener("click", () => {
+                this.#minimizedCard.destroy();
+                this.#card.render(this.#ParentContainer);
+            }, {signal: this.#controller.signal})
+
+            // CLOSE
+            this.#minimizedCard.closeBtnNode.addEventListener("click", stopPropagationDecorator((_) => {
+                this.#card.destroy();
+                this.#minimizedCard.destroy();
+            }), {signal: this.#controller.signal})
+
+        }), {signal: this.#controller.signal});
+    }
+
+    destroy()
+    {
+        if (!this.#card)
+            return;
+        this.#controller.abort();
+        this.#controller = null;
+        this.#card = null;
+        this.#cardWindow = null;
+
+        const instanceList = MinimizeCardBehavior.#instances.get(this.#ParentContainer) || [];
+        const i = instanceList.indexOf(this);
+        if (i !== -1)
+            instanceList.splice(i, 1);
+    }
+}
 
 export class CardDragBehavior
 {

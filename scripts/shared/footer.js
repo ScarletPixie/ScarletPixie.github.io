@@ -1,7 +1,18 @@
 export class Taskbar
 {
+    static #instance = null;
+    static instance()
+    {
+        if (!this.#instance)
+            this.#instance = new Taskbar();
+        return this.#instance;
+    }
+
     constructor()
     {
+        if (Taskbar.#instance)
+            throw new Error("Use Taskbar.instance() instead of new.");
+
         this.taskbar = document.querySelector(".taskbar");
         this.clock = document.querySelector(".taskbar__clock");
         this._taskbarScrollSensibility = -5;
