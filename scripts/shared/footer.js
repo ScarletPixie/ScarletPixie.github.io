@@ -8,6 +8,8 @@ export class Taskbar
         return this.#instance;
     }
 
+    #taskbarTray = null;
+
     constructor()
     {
         if (Taskbar.#instance)
@@ -18,12 +20,24 @@ export class Taskbar
         this._taskbarScrollSensibility = -5;
        
         this._updateClock = this._updateClock.bind(this);
+        this.#taskbarTray = this.taskbar.querySelector(".taskbar__tray");
     }
 
     setup()
     {
         this._updateClock();
         this.setUpdateClock();
+
+        // OBSERVE ADDED/REMOVED CHILDREN
+        const observer = new MutationObserver((mutationsList) => {
+            for (const mutation of mutationsList)
+            {
+                if (mutation.type === 'childList' && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0))
+                    this.taskbar.classList.remove("hidden");
+            }
+        });
+
+        observer.observe(this.#taskbarTray, { childList: true })
     }
 
     setUpdateClock()
