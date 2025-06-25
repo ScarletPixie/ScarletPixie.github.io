@@ -27,12 +27,9 @@ PROJECT_LIST.forEach(projectData => {
 });
 
 // SET PROJECT CARD BEHAVIORS
-const activeCardDraggingBehaviors = [];
 projectList.forEach((card) => {
     const dragBehavior = new CardDragBehavior(card, projectListNode);
     dragBehavior.setup();
-
-    activeCardDraggingBehaviors.push(dragBehavior);
 
     //MINIMIZE
     card.windowButtonsNode.children[0].addEventListener("click", (e) => {
