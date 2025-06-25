@@ -45,7 +45,7 @@ export class MinimizeCardBehavior
             this.#minimizedCard = new MinimizedCardComponent(this.#card.rawData);
             this.#minimizedCard.render(this.#TargetContainer);
 
-            
+
 
             // RESTORE
             this.#minimizedCard.node.addEventListener("click", () => {
@@ -149,18 +149,6 @@ export class CardDragBehavior
         this.#cardWindow.addEventListener("mousemove", preventDefaultDecorator((_) => {}), {signal: this.#controller.signal});
     }
 
-    // UPDATE POSITION WHEN CARD IS LIFTED FROM CARD LIST
-    #notifyLayoutChanges(sender)
-    {
-        const instanceList = CardDragBehavior.#instances.get(this.#container) || [];
-        instanceList.forEach((card) => {
-            if (sender !== card)
-                card.#updateCardRect();
-        });
-        if (!sender.#card.node.classList.contains("moving"))
-            sender.#updateCardRect();
-    }
-
     // GLOBAL MOUSE MOVEMENT OBSERVER
     onMouseMove(pos, _)
     {
@@ -173,7 +161,7 @@ export class CardDragBehavior
             this.#card.node.style.width = `${this.#originalSize.x}px`;
             this.#card.node.style.height = `${this.#originalSize.y}px`;
             this.#card.node.classList.add("moving");
-            this.#notifyLayoutChanges(this);
+            this.#updateCardRect();
         }
 
         // DRAG WINDOW RELATIVE TO THE MOUSE POINTER
@@ -186,7 +174,7 @@ export class CardDragBehavior
             return;
 
         this.#windowSelected = false;
-        this.#notifyLayoutChanges(this);
+        this.#updateCardRect();
         const dropOnProjectList = this.#containerRect.containsPoint(pos);
         if (dropOnProjectList && this.#card.node.classList.contains("moving"))
         {
@@ -219,6 +207,7 @@ export class CardDragBehavior
         if (event.button !== 0)
             return;
 
+        this.#updateCardRect();
         this.#windowSelected = true;
         this.#windowDragOffset = new Vector2D(
             event.pageX - this.#cardWindowRect.left,
