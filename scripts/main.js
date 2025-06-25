@@ -1,12 +1,12 @@
-import { Navbar } from "./navbar.js";
-import { Taskbar } from "./footer.js";
+import { Navbar } from "./shared/navbar.js";
+import { Taskbar } from "./shared/footer.js";
 import * as events from "./shared/global-events.js";
-import { CardDragBehavior, PROJECT_LIST, ProjectCardComponent } from "./projects/index.js";
+import { CardDragBehavior, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent } from "./projects/index.js";
 
 
 // PAGE COMPONENTS SETUP
 const navbar = new Navbar();
-const taskbar = new Taskbar();
+const taskbar = Taskbar.instance();
 navbar.setup();
 taskbar.setup();
 
@@ -30,15 +30,14 @@ PROJECT_LIST.forEach(projectData => {
 projectList.forEach((card) => {
     const dragBehavior = new CardDragBehavior(card, projectListNode);
     dragBehavior.setup();
+    const minimizeBehavior = new MinimizeCardBehavior(card, Taskbar.instance().taskbar.querySelector(".taskbar__tray"));
+    minimizeBehavior.setup();
 
-    //MINIMIZE
-    card.windowButtonsNode.children[0].addEventListener("click", (e) => {
-        e.stopPropagation();
-    });
     // MAXIMIZE/RESTORE
     card.windowButtonsNode.children[1].addEventListener("click", (e) => {
         e.stopPropagation();
     });
+
     // CLOSE
     card.windowButtonsNode.children[2].addEventListener("click", (e) => {
         e.stopPropagation();

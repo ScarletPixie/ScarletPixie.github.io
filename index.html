@@ -86,11 +86,13 @@
 	
 	<footer class="taskbar">
         <ul class="taskbar__tray">
-            <li class="taskbar__tray-item">
-                <img class="taskbar__tray-item-icon" src="images/projects/country-info/dark-theme-home-page.png" alt="" aria-hidden="true" role="presentation"/>
-                <span class="taskbar__tray-item-text">name</span>
-                <button class="taskbar__tray-item-btn">x</button>
-            </li>
+            <template id="minimized-card-template">
+                <li class="taskbar__tray-item">
+                    <img class="taskbar__tray-item-icon" src="" alt="" aria-hidden="true" role="presentation"/>
+                    <span class="taskbar__tray-item-text"></span>
+                    <button class="taskbar__tray-item-btn">x</button>
+                </li>
+            </template>
         </ul>
         <span class="taskbar__clock" aria-hidden="true">
             00:00 06/04/2001
