@@ -145,6 +145,9 @@ export class CardDragBehavior
     // CALLBACKS
     #onMouseDown(event)
     {
+        if (event.button !== 0)
+            return;
+
         this.#windowSelected = true;
         this.#windowDragOffset = new Vector2D(
             event.pageX - this.#cardWindowRect.left,
