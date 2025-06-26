@@ -10,8 +10,6 @@ import { MinimizedCardComponent } from "./components.js"
 
 export class MinimizeCardBehavior
 {
-    static #instances = new Map();
-    
     #controller = null;
     #TargetContainer = null;
     #ParentContainer = null
@@ -28,8 +26,6 @@ export class MinimizeCardBehavior
         this.#cardWindow = this.#card.windowNode;
         this.#TargetContainer = container;
         this.#ParentContainer = card.node.parentNode;
-        const instanceList = MinimizeCardBehavior.#instances.get(container) || [];
-            instanceList.push(this);
     }
 
     setup()
@@ -44,8 +40,6 @@ export class MinimizeCardBehavior
             this.#card.remove();
             this.#minimizedCard = new MinimizedCardComponent(this.#card.rawData);
             this.#minimizedCard.render(this.#TargetContainer);
-
-
 
             // RESTORE
             this.#minimizedCard.node.addEventListener("click", () => {
@@ -70,17 +64,11 @@ export class MinimizeCardBehavior
         this.#controller = null;
         this.#card = null;
         this.#cardWindow = null;
-
-        const instanceList = MinimizeCardBehavior.#instances.get(this.#ParentContainer) || [];
-        const i = instanceList.indexOf(this);
-        if (i !== -1)
-            instanceList.splice(i, 1);
     }
 }
 
 export class CardDragBehavior
 {
-    static #instances = new Map();
     static #mouseEventNotifier = GlobalMouseEventNotifier.instance();
     
     #container = null;
@@ -99,11 +87,8 @@ export class CardDragBehavior
 
     constructor(card, container)
     {
-        const instanceList = CardDragBehavior.#instances.get(container) || [];
-        instanceList.push(this);
         this.#controller = new AbortController();
 
-        
         this.#container = container;
         this.#card = card;
         this.#cardWindow = this.#card.windowNode;
@@ -127,11 +112,6 @@ export class CardDragBehavior
         this.#controller = null;
         this.#card = null;
         this.#cardWindow = null;
-
-        const instanceList = CardDragBehavior.#instances.get(this.#container) || [];
-        const i = instanceList.indexOf(this);
-        if (i !== -1)
-            instanceList.splice(i, 1);
     }
 
     setup()
