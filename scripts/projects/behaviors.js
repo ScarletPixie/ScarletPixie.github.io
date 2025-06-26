@@ -13,7 +13,6 @@ export class MinimizeCardBehavior
     #controller = null;
     #TargetContainer = null;
     #ParentContainer = null
-    #cardWindow = null;
     #card = null
     #isSetUp = false;
 
@@ -23,7 +22,6 @@ export class MinimizeCardBehavior
     {
         this.#controller = new AbortController();
         this.#card = card;
-        this.#cardWindow = this.#card.windowNode;
         this.#TargetContainer = container;
         this.#ParentContainer = card.node.parentNode;
     }
@@ -63,7 +61,6 @@ export class MinimizeCardBehavior
         this.#controller.abort();
         this.#controller = null;
         this.#card = null;
-        this.#cardWindow = null;
     }
 }
 
