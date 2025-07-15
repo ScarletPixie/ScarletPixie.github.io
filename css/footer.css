@@ -20,8 +20,9 @@
 {
     display: flex;
     margin-right: auto;
-    overflow-x: scroll;
+    overflow-x: hidden;
     gap: 0.5rem;
+    width: 100%;
 }
 .taskbar__tray-item
 {
