@@ -72,6 +72,7 @@ export class ProjectCardComponent extends Component
     }
 
     get node() { return this._node; }
+    get parent() { return this._parent; }
     get thumbNode() { return this.#thumbNode; }
     get windowNode() { return this.#windowNode; }
     get imageNodes() { return this.#imageNodes; }
@@ -81,9 +82,32 @@ export class ProjectCardComponent extends Component
     get thumbLoaded() { return this.#thumbLoaded; }
 }
 
+export class MaximizedCardComponent extends Component
+{
+    static #TEMPLATE = document.getElementById("maximized-project-card-template");
+    #windowButtonsNode = null;
+    #card = null;
+    #rawData = null;
+
+    constructor(originCard)
+    {
+        const clone = MaximizedCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
+        super(clone);
+
+        this.#windowButtonsNode = this._node.querySelector(".project-list__card-actions");
+        this.#card = originCard;
+        this.#rawData = this.#card.rawData;
+    }
+
+    get parent() { return this._parent; }
+    get windowButtonsNode() { return this.#windowButtonsNode; }
+    get rawData() { return this.#rawData; }
+
+}
+
 export class MinimizedCardComponent extends Component
 {
-    static #TEMPLATE =  document.getElementById("minimized-card-template");
+    static #TEMPLATE = document.getElementById("minimized-card-template");
 
     #closeBtnNode = null;
     #thumbNode = null;
@@ -103,6 +127,7 @@ export class MinimizedCardComponent extends Component
     }
 
     get node() { return this._node; }
+    get parent() { return this._parent; }
     get closeBtnNode() { return this.#closeBtnNode; }
     get thumbNode() { return this.#thumbNode; }
     get titleNode() { return this.#titleNode; }

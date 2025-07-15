@@ -1,7 +1,8 @@
 import { Navbar } from "./shared/navbar.js";
 import { Taskbar } from "./shared/footer.js";
 import * as events from "./shared/global-events.js";
-import { CardDragBehavior, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent } from "./projects/index.js";
+import { CardDragBehavior, MaximizedCardComponent, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent } from "./projects/index.js";
+import { stopPropagationDecorator } from "./shared/decorators.js";
 
 
 // PAGE COMPONENTS SETUP
@@ -34,13 +35,26 @@ projectList.forEach((card) => {
     minimizeBehavior.setup();
 
     // MAXIMIZE/RESTORE
-    card.windowButtonsNode.children[1].addEventListener("click", (e) => {
-        e.stopPropagation();
-    });
+    card.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((e) => {
+        // FROM 'normal card' TO 'maximized card'
+        card.remove();
+        const MaxCard = new MaximizedCardComponent(card);
+        MaxCard.render(document.body);
+        const MaxMinimizeBehavior = new MinimizeCardBehavior(MaxCard, Taskbar.instance().taskbar.querySelector(".taskbar__tray"));
+        MaxMinimizeBehavior.setup();
+        MaxCard.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((e) => {
+            // FROM 'maximized card' TO 'normal card'
+            MaxCard.destroy();
+            card.render(projectListNode);
+        }));
+        MaxCard.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((e) => {
+            card.destroy();
+            MaxCard.destroy();
+        }));
+    }));
 
     // CLOSE
-    card.windowButtonsNode.children[2].addEventListener("click", (e) => {
-        e.stopPropagation();
+    card.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((e) => {
         card.destroy();
-    })
+    }))
 });
