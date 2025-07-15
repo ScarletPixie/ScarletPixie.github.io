@@ -65,12 +65,14 @@
 }
 .project-list__card-thumb--maximized
 {
+    margin: 2.5vh 0 5vh 0;
     width: 50vw;
     aspect-ratio: 16 / 9;
     object-fit: cover;
 }
 .project-list__card-title--maximized
 {
+    margin: 5vh 0 2.5vh 0;
     text-align: center;
     color: black;
     text-shadow: none;
