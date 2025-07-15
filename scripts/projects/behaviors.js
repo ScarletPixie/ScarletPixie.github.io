@@ -23,7 +23,7 @@ export class MinimizeCardBehavior
         this.#controller = new AbortController();
         this.#card = card;
         this.#TargetContainer = container;
-        this.#ParentContainer = card.node.parentNode;
+        this.#ParentContainer = card.parent;
     }
 
     setup()
