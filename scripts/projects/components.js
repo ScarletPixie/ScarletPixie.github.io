@@ -33,6 +33,7 @@ export class ProjectCardComponent extends Component
     #imageNodes = null;
     #thumbNode = null
     #stackListNode = null;
+    #stackListSectionNode = null;
     #stack = null;
 
     #thumbLoaded = false;
@@ -51,6 +52,7 @@ export class ProjectCardComponent extends Component
         this.#thumbNode.alt = rawData.preview.alt;
         this._node.querySelector(".project-list__card-text").textContent = rawData.preview.summary;
         this.#stackListNode = this._node.querySelector(".project-list__card-tech-stack");
+        this.#stackListSectionNode = this._node.querySelector(".project-list__card-tech-section");
 
         this.#windowNode = this._node.querySelector(".project-list__card-frame");
         this.#windowButtonsNode = this._node.querySelector(".project-list__card-actions");
@@ -70,6 +72,21 @@ export class ProjectCardComponent extends Component
             this.#thumbNode.addEventListener('error', () => { this.#thumbLoaded = true; }, {once: true});
         }
     }
+
+    stackListOverflow()
+    {
+        return this.#stackListNode.clientWidth > this.#stackListSectionNode.clientWidth;
+    }
+    setAutoStackScroll()
+    {
+        [...new Set(this.#rawData.preview.stack)].forEach(techName => {
+            const cardStack = new CardStackComponent(techName);
+            this.#stack.push(cardStack);
+            cardStack.render(this.#stackListNode);
+        });
+        this.#stackListNode.classList.add("auto-scroll");
+    }
+
 
     get node() { return this._node; }
     get parent() { return this._parent; }
