@@ -37,15 +37,18 @@ projectList.forEach((card) => {
     // MAXIMIZE/RESTORE
     card.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((e) => {
         // FROM 'normal card' TO 'maximized card'
-        card.remove();
+        const cardParent = card.parent;
         const MaxCard = new MaximizedCardComponent(card);
         MaxCard.render(document.body);
         const MaxMinimizeBehavior = new MinimizeCardBehavior(MaxCard, Taskbar.instance().taskbar.querySelector(".taskbar__tray"));
         MaxMinimizeBehavior.setup();
+        MaxCard.windowButtonsNode.children[0].addEventListener("click", stopPropagationDecorator((e) => {
+            card.remove();
+        }));
         MaxCard.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((e) => {
             // FROM 'maximized card' TO 'normal card'
             MaxCard.destroy();
-            card.render(projectListNode);
+            card.render(cardParent);
         }));
         MaxCard.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((e) => {
             card.destroy();

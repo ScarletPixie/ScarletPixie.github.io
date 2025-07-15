@@ -92,6 +92,9 @@ export class MaximizedCardComponent extends Component
     #titleNode = null;
     #descriptionNode = null;
 
+    #stackListNode = null;
+    #stack = [];
+
     constructor(originCard)
     {
         const clone = MaximizedCardComponent.#TEMPLATE.content.firstElementChild.cloneNode(true);
@@ -109,6 +112,14 @@ export class MaximizedCardComponent extends Component
 
         this.#descriptionNode = this._node.querySelector(".project-list__card-text--maximized");
         this.#descriptionNode.textContent = this.#rawData.description;
+
+        this.#stackListNode = this._node.querySelector(".project-list__card-tech-stack");
+
+        [...new Set(this.#rawData.preview.stack)].forEach(techName => {
+            const cardStack = new CardStackComponent(techName);
+            this.#stack.push(cardStack);
+            cardStack.render(this.#stackListNode);
+        });
     }
 
     get parent() { return this._parent; }
