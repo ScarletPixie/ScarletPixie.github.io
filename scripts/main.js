@@ -25,6 +25,9 @@ PROJECT_LIST.forEach(projectData => {
     const card = new ProjectCardComponent(projectData);
     projectList.push(card);
     card.render(projectListNode);
+
+    if (card.stackListOverflow())
+        card.setAutoStackScroll();
 });
 
 // SET PROJECT CARD BEHAVIORS

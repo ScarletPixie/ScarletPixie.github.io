@@ -23,98 +23,99 @@ export const PROJECT_LIST = [
             stack: ["python", "django", "djangorestframework", "docker"],
         },
         images: [],
-        description: "lorem ipsum",
+        description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
+            we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     },
 
-    // MOCKS
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
-    {
-        title: "Country Info",
-        url: "https://scarletpixie.github.io/country-info",
-        preview: {
-            summary: "A simple project about fetching data from an external API",
-            thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-            stack: ["html5", "css3", "javascript"],
-        },
-        images: [],
-        description: "lorem ipsum",
-    },
+    // // MOCKS
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
+    // {
+    //     title: "Country Info",
+    //     url: "https://scarletpixie.github.io/country-info",
+    //     preview: {
+    //         summary: "A simple project about fetching data from an external API",
+    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
+    //         stack: ["html5", "css3", "javascript"],
+    //     },
+    //     images: [],
+    //     description: "lorem ipsum",
+    // },
 ]
 
 
