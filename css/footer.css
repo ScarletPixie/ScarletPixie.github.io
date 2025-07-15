@@ -20,7 +20,7 @@
 {
     display: flex;
     margin-right: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     gap: 0.5rem;
     width: 100%;
 }
