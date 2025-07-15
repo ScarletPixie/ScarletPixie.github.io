@@ -18,10 +18,11 @@ export class Component extends Publisher
     {
         const parent = container || this._parent;
         if (parent === null)
-            return;
+            return null;
 
         parent.appendChild(this._node);
         this._parent = parent;
+        return parent;
     }
     remove()
     {
