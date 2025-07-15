@@ -88,6 +88,9 @@ export class MaximizedCardComponent extends Component
     #windowButtonsNode = null;
     #card = null;
     #rawData = null;
+    #thumbNode = null;
+    #titleNode = null;
+    #descriptionNode = null;
 
     constructor(originCard)
     {
@@ -97,12 +100,35 @@ export class MaximizedCardComponent extends Component
         this.#windowButtonsNode = this._node.querySelector(".project-list__card-actions");
         this.#card = originCard;
         this.#rawData = this.#card.rawData;
+
+        this.#thumbNode = this._node.querySelector(".project-list__card-thumb--maximized");
+        this.#thumbNode.src = this.#rawData.preview.thumbnail;
+
+        this.#titleNode = this._node.querySelector(".project-list__card-title--maximized");
+        this.#titleNode.textContent = this.#rawData.title;
+
+        this.#descriptionNode = this._node.querySelector(".project-list__card-text--maximized");
+        this.#descriptionNode.textContent = this.#rawData.description;
     }
 
     get parent() { return this._parent; }
     get windowButtonsNode() { return this.#windowButtonsNode; }
     get rawData() { return this.#rawData; }
 
+    // METHOD OVERRIDING
+    render(container = null)
+    {
+        const parent = super.render(container);
+
+        if (parent !== null)
+            document.body.classList.add("modal-active");
+        return parent;
+    }
+    remove()
+    {
+        super.remove();
+        document.body.classList.remove("modal-active");
+    }
 }
 
 export class MinimizedCardComponent extends Component
