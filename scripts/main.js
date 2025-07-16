@@ -47,16 +47,16 @@ projectList.forEach((card) => {
         MaxMinimizeBehavior.setup();
         MaxCard.windowButtonsNode.children[0].addEventListener("click", stopPropagationDecorator((_) => {
             card.remove();
-        }));
+        }), {once: true});
         MaxCard.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((_) => {
             // FROM 'maximized card' TO 'normal card'
             MaxCard.destroy();
             card.render(cardParent);
-        }));
+        }), {once: true});
         MaxCard.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((_) => {
             card.destroy();
             MaxCard.destroy();
-        }));
+        }), {once: true});
     }));
 
     // CLOSE
