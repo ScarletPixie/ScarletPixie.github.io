@@ -8,6 +8,37 @@ import
 } from "../shared/index.js";
 import { MinimizedCardComponent } from "./components.js"
 
+
+export class TrapTabBehavior
+{
+    #controller = null;
+    #card = null;
+    #selector = null;
+    #elements = [];
+
+    constructor(card, selector = '')
+    {
+        this.#card = card;
+        this.#controller = new AbortController();
+        this.#selector = selector;
+    }
+    
+    setup()
+    {
+        
+    }
+
+    destroy()
+    {
+        if (!this.#card)
+            return;
+        this.#controller.abort();
+        this.#controller = null;
+        this.#card = null;
+        this.#selector = null;
+    }
+}
+
 export class MinimizeCardBehavior
 {
     #controller = null;
