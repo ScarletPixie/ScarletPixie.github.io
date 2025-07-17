@@ -16,6 +16,7 @@
     background: var(--window-bg-gradient);
     background-color: var(--window-bg-color);
     transition: top 0.2s ease-in-out;
+    z-index: 100;
 }
 .navbar.hidden
 {

@@ -121,7 +121,7 @@ export class MaximizedCardComponent extends Component
         this.#thumbNode = this._node.querySelector(".project-list__card-thumb--maximized");
         this.#thumbNode.src = this.#rawData.preview.thumbnail;
 
-        this.#titleNode = this._node.querySelector(".project-list__card-title--maximized");
+        this.#titleNode = this._node.querySelector(".project-list__card-title");
         this.#titleNode.textContent = this.#rawData.title;
 
         this.#descriptionNode = this._node.querySelector(".project-list__card-text--maximized");

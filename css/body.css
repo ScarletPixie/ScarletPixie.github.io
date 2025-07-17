@@ -54,11 +54,20 @@
     background-color: ghostwhite;
     flex-direction: column;
 }
+.project-list__card-text-heading
+{
+    margin: 1rem 0;
+    width: 100%;
+    text-align: left;
+    color: black;
+    text-shadow: none;
+}
 .project-list__card-content--maximized
 {
     flex: 1 1 auto;
     border: solid black 1px;
     width: 100%;
+    padding: 0 5vw;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -66,24 +75,16 @@
 }
 .project-list__card-thumb--maximized
 {
-    margin: 2.5vh 0 5vh 0;
-    width: 50vw;
+    margin: 5vh 0;
+    width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
 }
-.project-list__card-title--maximized
-{
-    margin: 5vh 0 2.5vh 0;
-    text-align: center;
-    color: black;
-    font-size: 1.5rem;
-    text-shadow: none;
-}
+
 .project-list__card-text--maximized
 {
     display: inline-block;
-    width: 80%;
-    text-align: center;
+    width: 100%;
     color: black;
     font-weight: normal;
     text-shadow: none;
@@ -98,7 +99,39 @@
     -webkit-hyphens: auto;
     hyphens: auto;
 }
-
+.project-list__card-feature-list
+{
+    list-style-type: disc;
+    list-style-position: inside;
+    width: 100%;
+}
+.project-list__card-feature
+{
+    text-align: left;
+    color: black;
+    text-shadow: none;
+}
+.project-list__card-feature::marker
+{
+    content: "- ";
+}
+.project-list__card-screenshot-list
+{
+    display: grid;
+    gap: 0.5rem;
+    list-style-type: none;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.project-list__card-screenshot-item
+{
+    display: inline-block;
+}
+.project-list__card-screenshot
+{
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
 
 .project-list__card.moving
 {
@@ -114,6 +147,7 @@
     background-color: var(--window-bg-color);
     background: var(--window-bg-gradient);
 
+    width: 100%;
     display: grid;
     align-content: center;
     padding: 0.5rem;
