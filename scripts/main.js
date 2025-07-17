@@ -54,15 +54,20 @@ projectList.forEach((card) => {
         MaxMinimizeBehavior.setup();
         MaxCard.windowButtonsNode.children[0].addEventListener("click", stopPropagationDecorator((_) => {
             card.remove();
+            MaxTapTrapBehavior.restoreFocus();
         }), {once: true});
         MaxCard.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((_) => {
             // FROM 'maximized card' TO 'normal card'
+            MaxMinimizeBehavior.destroy();
+            MaxTapTrapBehavior.destroy();
             MaxCard.destroy();
             card.render(cardParent);
         }), {once: true});
         MaxCard.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((_) => {
-            card.destroy();
+            MaxMinimizeBehavior.destroy();
+            MaxTapTrapBehavior.destroy();
             MaxCard.destroy();
+            card.destroy();
         }), {once: true});
     }));
 

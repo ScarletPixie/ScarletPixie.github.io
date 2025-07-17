@@ -2,6 +2,29 @@ import { Publisher } from "./behaviors.js";
 import { Vector2D } from "./utils.js";
 import { throttleDecorator } from "./decorators.js";
 
+export class GlobalFocusChangeNotifier extends Publisher
+{
+    static #instance = null;
+    static instance()
+    {
+        if (!this.#instance)
+            this.#instance = new GlobalFocusChangeNotifier();
+        return this.#instance;
+    }
+
+    constructor()
+    {
+        if (GlobalFocusChangeNotifier.#instance)
+            throw new Error("Use GlobalFocusChangeNotifier.instance() instead of new.");
+
+        super();
+        document.addEventListener('focusin', (e) => {
+            this.notifySubscribers((sub) => {
+                sub?.onFocusChange?.(e);
+            });
+        });
+    }
+}
 
 export class GlobalMouseEventNotifier extends Publisher
 {
@@ -25,7 +48,7 @@ export class GlobalMouseEventNotifier extends Publisher
             const pos = new Vector2D(e.pageX, e.pageY);
             this.notifySubscribers((sub) => {
                 sub?.onMouseDown?.(pos);
-            })
+            });
         });
         window.addEventListener(GlobalMouseEventNotifier.#EVENTS.MOUSEMOVE, throttleDecorator((e) => {
 

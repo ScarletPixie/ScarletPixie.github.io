@@ -2,6 +2,7 @@ import
 {
     GlobalMouseEventNotifier,
     GlobalElementRect,
+    GlobalFocusChangeNotifier,
     Vector2D,
     preventDefaultDecorator,
     stopPropagationDecorator,
@@ -26,6 +27,7 @@ export class TrapTabBehavior
     
     setup()
     {
+        GlobalFocusChangeNotifier.instance().subscribe(this);
         this.#elements = Array.from(this.#card.node.querySelectorAll(this.#selector));
         const first = this.#elements[0];
         const last = this.#elements[this.#elements.length - 1];
@@ -50,6 +52,7 @@ export class TrapTabBehavior
 
     destroy()
     {
+        GlobalFocusChangeNotifier.instance().unsubscribe(this);
         if (!this.#card)
             return;
         this.#controller.abort();
@@ -57,6 +60,18 @@ export class TrapTabBehavior
         this.#card = null;
         this.#selector = null;
         this.#lastFocus.focus();
+        this.#lastFocus = null;
+    }
+
+    restoreFocus()
+    {
+        this.#lastFocus.focus();
+    }
+
+    onFocusChange(event)
+    {
+        if (!document.body.classList.contains("modal-active"))
+            this.#lastFocus = event.target;
     }
 }
 
