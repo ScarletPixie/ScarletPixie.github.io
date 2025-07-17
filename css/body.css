@@ -121,6 +121,7 @@
     gap: 0.5rem;
     list-style-type: none;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-items: center;
 }
 .project-list__card-screenshot-item
 {
