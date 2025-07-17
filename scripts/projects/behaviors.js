@@ -26,7 +26,6 @@ export class TrapTabBehavior
     
     setup()
     {
-        console.log(this.#card.node);
         this.#elements = Array.from(this.#card.node.querySelectorAll(this.#selector));
         const first = this.#elements[0];
         const last = this.#elements[this.#elements.length - 1];
