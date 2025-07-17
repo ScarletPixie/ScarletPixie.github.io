@@ -38,4 +38,6 @@ export class Component extends Publisher
         })
         this._node = null;
     }
+
+    get node() { return this._node; }
 }

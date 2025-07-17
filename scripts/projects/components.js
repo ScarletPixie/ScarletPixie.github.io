@@ -19,7 +19,6 @@ export class CardStackComponent extends Component
         this._node.querySelector(".project-list__card-tech-stack-icon").src = CardStackComponent.#ICON_REPO.get(techName)?.src ?? "";
     }
 
-    get node() { return this._node; }
     get techName() { return this.#techName; }
 }
 
@@ -87,8 +86,6 @@ export class ProjectCardComponent extends Component
         this.#stackListNode.classList.add("auto-scroll");
     }
 
-
-    get node() { return this._node; }
     get parent() { return this._parent; }
     get thumbNode() { return this.#thumbNode; }
     get windowNode() { return this.#windowNode; }
@@ -180,7 +177,6 @@ export class MinimizedCardComponent extends Component
         this.#titleNode.textContent = cardData.title;
     }
 
-    get node() { return this._node; }
     get parent() { return this._parent; }
     get closeBtnNode() { return this.#closeBtnNode; }
     get thumbNode() { return this.#thumbNode; }
