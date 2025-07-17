@@ -50,7 +50,7 @@
             <template id="project-card-template">
                 <article class="project-list__card">
                     <header class="project-list__card-frame">
-                        <h4 class="project-list__card-title"></h4>
+                        <h3 class="project-list__card-title"></h3>
                         <div class="project-list__card-actions">
                             <button aria-label="minimize card">
                                 <span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span>
@@ -83,7 +83,8 @@
             </template>
 		</section>
 	</main>
-	
+
+    <!-- MINIMIZED CARD TRAY AND CLOCK -->
 	<footer class="taskbar">
         <ul class="taskbar__tray">
             <template id="minimized-card-template">
@@ -103,36 +104,59 @@
     <template id="maximized-project-card-template">
         <section class="project-list__card--maximized">
             <header class="project-list__card-frame">
-            <h4 class="project-list__card-title"></h4>
-            <div class="project-list__card-actions">
-                <button aria-label="minimize card">
-                    <span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span>
-                </button>
-                <button aria-label="maximize card">
-                    <span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span>
-                </button>
-                <button aria-label="close card">
-                    <span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span>
-                </button>
-            </div>
-        </header>
-        <section class="project-list__card-content--maximized">
-            <h4 class="project-list__card-title--maximized"></h4>
-            <img src="" alt="" class="project-list__card-thumb--maximized"/>
-            <p class="project-list__card-text--maximized"></p>
-        </section>
-        <footer class="project-list__card-tech-section">
-            <ul class="project-list__card-tech-stack">
-                <template id="card-tech-stack-item">
-                    <li class="project-list__card-tech-stack-item">
-                        <a href="" class="project-list__card-tech-stack-link" target="_blank" rel="noopener noreferrer">
-                            <img class="project-list__card-tech-stack-icon" src="" alt="" aria-hidden="true" role="presentation"/>
-                            <span class="project-list__card-tech-stack-link-text"></span>
-                        </a>
+                <h3 class="project-list__card-title"></h3>
+                <div class="project-list__card-actions">
+                    <button aria-label="minimize card">
+                        <span aria-hidden="true" class="project-list__card-action-button project-list__card-minimize"></span>
+                    </button>
+                    <button aria-label="maximize card">
+                        <span aria-hidden="true" class="project-list__card-action-button project-list__card-maximize"></span>
+                    </button>
+                    <button aria-label="close card">
+                        <span aria-hidden="true" class="project-list__card-action-button project-list__card-close"></span>
+                    </button>
+                </div>
+            </header>
+            <section class="project-list__card-content--maximized">
+                <img src="" alt="" class="project-list__card-thumb--maximized"/>
+                <h4 class="project-list__card-text-heading">Description</h4>
+                <p class="project-list__card-text--maximized"></p>
+                <h4 class="project-list__card-text-heading">Features</h4>
+                <ul class="project-list__card-feature-list">
+                    <li class="project-list__card-feature">Salada de frutas</li>
+                    <li class="project-list__card-feature">Salada de frutas</li>
+                    <li class="project-list__card-feature">Salada de frutas</li>
+                    <li class="project-list__card-feature">Salada de frutas</li>
+                </ul>
+                <h4 class="project-list__card-text-heading">Screenshots</h4>
+                <ul class="project-list__card-screenshot-list">
+                    <li class="project-list__card-screenshot-item">
+                        <img class="project-list__card-screenshot" src="images/projects/country-info/dark-theme-home-page.png" alt="">
                     </li>
-                </template>
-            </ul>
-        </footer>
+                    <li class="project-list__card-screenshot-item">
+                        <img class="project-list__card-screenshot" src="images/projects/country-info/dark-theme-home-page.png" alt="">
+                    </li>
+                    <li class="project-list__card-screenshot-item">
+                        <img class="project-list__card-screenshot" src="images/projects/starship42/starship42.png" alt="">
+                    </li>
+                </ul>
+                <h4 class="project-list__card-text-heading">Live URL</h4>
+                <a href="" class="project-list__card-live-link" target="_blank" rel="noopener noreferrer"></a>
+            </section>
+            <footer class="project-list__card-tech-section">
+                <ul class="project-list__card-tech-stack">
+                    <template id="card-tech-stack-item">
+                        <li class="project-list__card-tech-stack-item">
+                            <a href="" class="project-list__card-tech-stack-link" target="_blank" rel="noopener noreferrer">
+                                <img class="project-list__card-tech-stack-icon" src="" alt="" aria-hidden="true" role="presentation"/>
+                                <span class="project-list__card-tech-stack-link-text"></span>
+                            </a>
+                        </li>
+                    </template>
+                </ul>
+            </footer>
+        </section>
     </template>
+
 </body>
 </html>

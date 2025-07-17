@@ -33,8 +33,8 @@ PROJECT_LIST.forEach(projectData => {
 // SET PROJECT CARD BEHAVIORS
 projectList.forEach((card) => {
     const dragBehavior = new CardDragBehavior(card, projectListNode);
-    dragBehavior.setup();
     const minimizeBehavior = new MinimizeCardBehavior(card, Taskbar.instance().taskbar.querySelector(".taskbar__tray"));
+    dragBehavior.setup();
     minimizeBehavior.setup();
 
     // MAXIMIZE/RESTORE
