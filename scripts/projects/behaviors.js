@@ -15,6 +15,7 @@ export class TrapTabBehavior
     #card = null;
     #selector = null;
     #elements = [];
+    #lastFocus = null;
 
     constructor(card, selector = '')
     {
@@ -25,7 +26,27 @@ export class TrapTabBehavior
     
     setup()
     {
-        
+        console.log(this.#card.node);
+        this.#elements = Array.from(this.#card.node.querySelectorAll(this.#selector));
+        const first = this.#elements[0];
+        const last = this.#elements[this.#elements.length - 1];
+        this.#lastFocus = document.activeElement;
+        first.focus();
+        this.#card.node.addEventListener("keydown", (e) => {
+            if (e.key !== 'Tab')
+                return;
+
+            if (e.shiftKey && document.activeElement === first)
+            {
+                e.preventDefault();
+                last.focus();
+            }
+            else if (!e.shiftKey && document.activeElement === last)
+            {
+                e.preventDefault();
+                first.focus();
+            }
+        }, {signal: this.#controller.signal});
     }
 
     destroy()
@@ -36,6 +57,7 @@ export class TrapTabBehavior
         this.#controller = null;
         this.#card = null;
         this.#selector = null;
+        this.#lastFocus.focus();
     }
 }
 

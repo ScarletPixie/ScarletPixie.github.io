@@ -1,7 +1,7 @@
 import { Navbar } from "./shared/navbar.js";
 import { Taskbar } from "./shared/footer.js";
 import * as events from "./shared/global-events.js";
-import { CardDragBehavior, MaximizedCardComponent, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent } from "./projects/index.js";
+import { CardDragBehavior, MaximizedCardComponent, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent, TrapTabBehavior } from "./projects/index.js";
 import { stopPropagationDecorator } from "./shared/decorators.js";
 
 
@@ -44,6 +44,13 @@ projectList.forEach((card) => {
         const MaxCard = new MaximizedCardComponent(card);
         MaxCard.render(document.body);
         const MaxMinimizeBehavior = new MinimizeCardBehavior(MaxCard, Taskbar.instance().taskbar.querySelector(".taskbar__tray"));
+        const MaxTapTrapBehavior = new TrapTabBehavior(MaxCard, 
+            `a[href], area[href], input:not([disabled]),
+            select:not([disabled]), textarea:not([disabled]),
+            button:not([disabled]), iframe, object, embed,
+            [tabindex]:not([tabindex="-1"]), [contenteditable]`
+        );
+        MaxTapTrapBehavior.setup();
         MaxMinimizeBehavior.setup();
         MaxCard.windowButtonsNode.children[0].addEventListener("click", stopPropagationDecorator((_) => {
             card.remove();
