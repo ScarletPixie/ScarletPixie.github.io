@@ -52,6 +52,8 @@ projectList.forEach((card) => {
         );
         MaxTapTrapBehavior.setup();
         MaxMinimizeBehavior.setup();
+        if (MaxCard.stackListOverflow())
+            MaxCard.setAutoStackScroll();
         MaxCard.windowButtonsNode.children[0].addEventListener("click", stopPropagationDecorator((_) => {
             card.remove();
             MaxTapTrapBehavior.restoreFocus();
