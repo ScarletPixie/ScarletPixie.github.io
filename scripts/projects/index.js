@@ -11,7 +11,11 @@ export const PROJECT_LIST = [
             thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
             stack: ["html5", "css3", "javascript"],
         },
-        images: [],
+        images: [
+            {src: "../images/projects/country-info/dark-theme-home-page.png", alt: "A webpage with several country flags and their names"},
+            {src: "../images/projects/country-info/dark-theme-home-page.png", alt: "A webpage with several country flags and their names"},
+            {src: "../images/projects/country-info/dark-theme-home-page.png", alt: "A webpage with several country flags and their names"},
+        ],
         features: [
             "rest API consumption",
             "accessibility",
@@ -27,7 +31,11 @@ export const PROJECT_LIST = [
             thumbnail: "../images/projects/starship42/starship42.png",
             stack: ["python", "django", "djangorestframework", "docker"],
         },
-        images: [],
+        images: [
+            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+        ],
         features: [
             "restful API creation",
             "external API integration",
