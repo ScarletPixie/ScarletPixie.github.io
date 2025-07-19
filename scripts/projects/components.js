@@ -128,6 +128,28 @@ export class MaximizedCardComponent extends Component
         this.#descriptionNode = this._node.querySelector(".project-list__card-text--maximized");
         this.#descriptionNode.textContent = this.#rawData.description;
 
+        const featuresNode = this._node.querySelector(".project-list__card-feature-list");
+        const featureNodeItemTemplate = featuresNode.querySelector("#feature-item");
+        [...new Set(this.#rawData.features)].forEach(feature => {
+            const featureNode = featureNodeItemTemplate.content.firstElementChild.cloneNode(true);
+            featureNode.textContent = feature;
+            featuresNode.appendChild(featureNode);
+        });
+
+        const screenshotsNode = this._node.querySelector(".project-list__card-screenshot-list");
+        const screenshotNodeItemTemplate = screenshotsNode.querySelector("#screenshot-item");
+        [...new Set(this.#rawData.images)].forEach(data => {
+            const screenshotNode = screenshotNodeItemTemplate.content.cloneNode(true);
+            const imgNode = screenshotNode.querySelector(".project-list__card-screenshot");
+            imgNode.src = data.src;
+            imgNode.alt = data.alt;
+            screenshotsNode.appendChild(screenshotNode);
+        });
+
+        const liveUrlNode = this._node.querySelector(".project-list__card-live-link");
+        liveUrlNode.href = this.#rawData.url ? this.#rawData.url : '#';
+        liveUrlNode.textContent = this.#rawData.url ? this.#rawData.url : 'N/A';
+
         this.#stackListSectionNode = this._node.querySelector(".project-list__card-tech-section");
         this.#stackListNode = this._node.querySelector(".project-list__card-tech-stack");
 
