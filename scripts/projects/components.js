@@ -1,5 +1,5 @@
 import { Component } from "../shared/index.js";
-import { getTechIcons } from "./images.js";
+import { getTechIcons, getTechLinks } from "./images.js";
 
 export class CardStackComponent extends Component
 {
@@ -58,7 +58,7 @@ export class ProjectCardComponent extends Component
         this.#imageNodes = this._node.querySelectorAll("img");
 
         [...new Set(rawData.preview.stack)].forEach(techName => {
-            const cardStack = new CardStackComponent(techName);
+            const cardStack = new CardStackComponent(techName, getTechLinks().get(techName));
             this.#stack.push(cardStack);
             cardStack.render(this.#stackListNode);
         });
@@ -79,7 +79,7 @@ export class ProjectCardComponent extends Component
     setAutoStackScroll()
     {
         [...new Set(this.#rawData.preview.stack)].forEach(techName => {
-            const cardStack = new CardStackComponent(techName);
+            const cardStack = new CardStackComponent(techName, getTechLinks().get(techName));
             this.#stack.push(cardStack);
             cardStack.render(this.#stackListNode);
         });
@@ -154,7 +154,7 @@ export class MaximizedCardComponent extends Component
         this.#stackListNode = this._node.querySelector(".project-list__card-tech-stack");
 
         [...new Set(this.#rawData.preview.stack)].forEach(techName => {
-            const cardStack = new CardStackComponent(techName);
+            const cardStack = new CardStackComponent(techName, getTechLinks().get(techName));
             this.#stack.push(cardStack);
             cardStack.render(this.#stackListNode);
         });
@@ -171,7 +171,7 @@ export class MaximizedCardComponent extends Component
     setAutoStackScroll()
     {
         [...new Set(this.#rawData.preview.stack)].forEach(techName => {
-            const cardStack = new CardStackComponent(techName);
+            const cardStack = new CardStackComponent(techName, getTechLinks().get(techName));
             this.#stack.push(cardStack);
             cardStack.render(this.#stackListNode);
         });
