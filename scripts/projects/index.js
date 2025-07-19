@@ -12,7 +12,12 @@ export const PROJECT_LIST = [
             stack: ["html5", "css3", "javascript"],
         },
         images: [],
-        description: "lorem ipsum",
+        features: [
+            "rest API consumption",
+            "accessibility",
+            "responsive layout"
+        ],
+        description: "A simple frontend project about fetching data from an external API",
     },
     {
         title: "Starship42",
@@ -23,6 +28,12 @@ export const PROJECT_LIST = [
             stack: ["python", "django", "djangorestframework", "docker"],
         },
         images: [],
+        features: [
+            "restful API creation",
+            "external API integration",
+            "multiple authentication methods",
+            "database modeling"
+        ],
         description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
             we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     },
