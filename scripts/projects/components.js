@@ -107,6 +107,7 @@ export class MaximizedCardComponent extends Component
     #descriptionNode = null;
 
     #stackListNode = null;
+    #stackListSectionNode = null;
     #stack = [];
 
     constructor(originCard)
@@ -127,6 +128,7 @@ export class MaximizedCardComponent extends Component
         this.#descriptionNode = this._node.querySelector(".project-list__card-text--maximized");
         this.#descriptionNode.textContent = this.#rawData.description;
 
+        this.#stackListSectionNode = this._node.querySelector(".project-list__card-tech-section");
         this.#stackListNode = this._node.querySelector(".project-list__card-tech-stack");
 
         [...new Set(this.#rawData.preview.stack)].forEach(techName => {
@@ -139,6 +141,20 @@ export class MaximizedCardComponent extends Component
     get parent() { return this._parent; }
     get windowButtonsNode() { return this.#windowButtonsNode; }
     get rawData() { return this.#rawData; }
+
+    stackListOverflow()
+    {
+        return this.#stackListNode.clientWidth > this.#stackListSectionNode.clientWidth;
+    }
+    setAutoStackScroll()
+    {
+        [...new Set(this.#rawData.preview.stack)].forEach(techName => {
+            const cardStack = new CardStackComponent(techName);
+            this.#stack.push(cardStack);
+            cardStack.render(this.#stackListNode);
+        });
+        this.#stackListNode.classList.add("auto-scroll");
+    }
 
     // METHOD OVERRIDING
     render(container = null)
