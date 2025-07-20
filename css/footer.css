@@ -10,6 +10,7 @@
     align-items: center;
     background: var(--window-bg-gradient);
     background-color: var(--window-bg-color);
+    z-index: 42;
 }
 .taskbar.hidden
 {

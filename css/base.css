@@ -27,4 +27,5 @@ body.modal-active
     /* WINDOW FRAME */
     --window-bg-color: #1f1f1f;
     --window-bg-gradient: linear-gradient(180deg, #3a3a3a 0%, #1f1f1f 70%, #111 100%);
+    --card-background: #faebd7;
 }
