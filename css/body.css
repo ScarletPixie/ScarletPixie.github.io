@@ -48,14 +48,14 @@
     overflow-y: auto;
     top: 0;
     bottom: 0;
-    background-color: ghostwhite;
+    background-color: #faebd7;
     flex-direction: column;
 }
 .project-list__card-content--maximized
 {
     border: solid black 1px;
     width: 100%;
-    padding: 0 5vw;
+    padding: 5vw;
 }
 .project-list__card-text-heading
 {
@@ -167,7 +167,7 @@
 .project-list__card-content
 {
     width: 100%;
-    background-color: ghostwhite;
+    background-color: #faebd7;
     display: flex;
     flex-direction: column;
 }
@@ -177,17 +177,24 @@
     aspect-ratio: 16 / 9;
     object-fit: cover;
 }
-.project-list__card-text
+.project-list__card-description
 {
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
     height: 6rem;
-    text-align: center;
     overflow-y: auto;
+    border: solid black 1px;
+}
+
+.project-list__card-text
+{
+    display: block;
     color: black;
     font-weight: normal;
+    max-width: 90%;
     text-shadow: none;
-    border: solid black 0px 2px;
 }
 
 .project-list__card-tech-section
