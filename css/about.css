@@ -65,8 +65,8 @@
 }
 .about__bio
 {
-    flex: 1 1 30%;
-    min-width: 35%;
+    flex: 1 1 42%;
+    min-width: 42%;
     max-width: 100%;
     border: solid black 1px;
     margin: 0 auto;
