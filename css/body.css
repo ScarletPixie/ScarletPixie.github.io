@@ -42,6 +42,7 @@
 
 .project-list__card--maximized
 {
+    --heading-color: #b00020;
     width: 100%;
     z-index: 42000;
     position: fixed;
@@ -62,7 +63,7 @@
     margin: 1rem 0;
     width: 100%;
     text-align: left;
-    color: black;
+    color: var(--heading-color);
     text-shadow: none;
 }
 .project-list__card-thumb--maximized
