@@ -6,7 +6,7 @@
     display: flex;
     margin: 5rem auto;
     border-radius: 6px;
-    padding: 5vw;
+    padding: min(5vw, 5vh);
     width: 95%;
     align-items: center;
     background-color: var(--card-background);
@@ -86,9 +86,8 @@
 .bio-text
 {
     color: black;
-    max-width: 80%;
+    max-width: 90%;
     margin: 0 auto;
-
 }
 
 .about__bio-experience-list
