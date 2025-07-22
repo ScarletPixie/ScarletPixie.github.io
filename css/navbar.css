@@ -32,7 +32,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    font-size: max(3vw, 5vh);
+    font-size: 3vw;
     text-decoration: none;
     font-weight: bold;
     color: var(--navbar-brand-fallback-color); /* Fallback solid color */
@@ -65,7 +65,7 @@
 {
     margin: min(2vw, 2vh);
     white-space: nowrap;
-    width: max(6vw, 6vh, 6rem);
+    width: max(6vw, 6vh, 6rem, max-content);
 }
 .navbar__link
 {
