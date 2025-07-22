@@ -51,7 +51,7 @@
     color: var(--heading-color);
     text-align: center;
     z-index: 2;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); */
 
 }
 .about__bio
@@ -71,7 +71,7 @@
     flex-basis: 100%;
     text-align: center;
     width: 100%;
-    border: solid black 1px;
+    /* border: solid black 1px; */
 }
 
 .about__bio-section
@@ -79,7 +79,7 @@
     flex: 0 1 50ch;
     min-width: 50%;
     margin: min(3vh, 3vw) 0;
-    border: black solid 1px;
+    /* border: black solid 1px; */
 }
 
 .bio_heading
