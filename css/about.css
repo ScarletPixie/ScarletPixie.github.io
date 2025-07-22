@@ -13,15 +13,6 @@
     min-height: 15vh;
     flex-direction: column;
 }
-.about__heading
-{
-    color: var(--heading-color);
-    text-align: center;
-    flex-basis: 100%;
-    width: 100%;
-    padding-bottom: 2rem;
-
-}
 
 .about__info
 {
@@ -65,15 +56,30 @@
 }
 .about__bio
 {
-    flex: 1 1 42%;
-    min-width: 42%;
+    display: inline-flex;
+    flex: 1 1 55%;
+    flex-wrap: wrap;
+    min-width: 55%;
     max-width: 100%;
     border: solid black 1px;
+    justify-content: space-evenly;
     margin: 0 auto;
 }
+.about__heading
+{
+    color: var(--heading-color);
+    flex-basis: 100%;
+    text-align: center;
+    width: 100%;
+    border: solid black 1px;
+}
+
 .about__bio-section
 {
-    margin: 2rem 0;
+    flex: 0 1 50ch;
+    min-width: 50%;
+    margin: min(3vh, 3vw) 0;
+    border: black solid 1px;
 }
 
 .bio_heading
@@ -86,8 +92,9 @@
 .bio-text
 {
     color: black;
-    max-width: 90%;
+    max-width: 80%;
     margin: 0 auto;
+
 }
 
 .about__bio-experience-list
