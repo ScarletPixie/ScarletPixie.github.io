@@ -12,33 +12,37 @@
 }
 
 
-/* PROJECT LIST*/
+/* PROJECT LIST */
 .project-list
 {
-    display: grid;
-    min-width: 100%;
-    padding: 0 10vw;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    --max-columns: 4;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 2rem;
     transition: all 1s ease;
-    overflow: hidden;
+    padding: 5vw;
 }
+
 .project-list__heading
 {
     width: 100%;
     font-size: 1.5rem;
     text-align: center;
-    grid-column: 1 / -1;
 }
 
 .project-list__card
 {
-    flex: 1 1 auto;
-    min-height: 0;
+    min-width: 280px;
+    flex: 1 1 280px;
+    max-width: calc(100% / var(--max-columns, 4) - 2rem);
+    width: 100%;
     overflow: hidden;
     border-radius: 6px;
     transition: opacity 0.1s ease, transform 0.3s ease;
 }
+
 
 .project-list__card--maximized
 {
