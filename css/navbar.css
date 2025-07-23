@@ -32,7 +32,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    font-size: 3vw;
+    font-size: 4vw;
     text-decoration: none;
     font-weight: bold;
     color: var(--navbar-brand-fallback-color); /* Fallback solid color */
@@ -53,19 +53,21 @@
 .navbar__menu {
     height: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     list-style: none;
     text-align: center;
     background: var(--window-bg-gradient);
+    gap: min(2vw, 2vh);
+    padding: 1rem;
     background-color: var(--window-bg-color);
 }
 
 .navbar__item
 {
-    margin: min(2vw, 2vh);
     white-space: nowrap;
-    width: max(6vw, 6vh, 6rem, max-content);
+    min-width: 10vw;
 }
 .navbar__link
 {
@@ -76,7 +78,7 @@
     border: var(--navbar__link-border);
     border-radius: 2px;
     display: block;
-    padding: 0.5rem;
+    padding: 1rem;
     color: white;
     text-decoration: none;
     font-size: max(1.3rem, max(1.5vw, 2.5vh));
@@ -136,10 +138,11 @@
     .navbar__menu
     {
         width: 100%;
+        height: auto;
         position: absolute;
         top: 100%;
         left: -100%;
-        flex-direction: column;
+        overflow: hidden;
         transition: 0.2s;
     }
     .navbar__menu.active
@@ -150,6 +153,7 @@
 
     .navbar__item
     {
+        flex: 1 1 100%;
         display: flex;
         align-items: center;
         justify-content: center;

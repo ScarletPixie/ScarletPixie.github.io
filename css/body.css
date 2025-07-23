@@ -15,12 +15,12 @@
 /* PROJECT LIST */
 .project-list
 {
-    --max-columns: 4;
-    max-width: 100%;
+    --max-columns: 1;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
+    justify-content: space-evenly;
+    gap: 3vw;
     transition: all 1s ease;
     padding: 5vw;
 }
@@ -34,9 +34,10 @@
 
 .project-list__card
 {
-    min-width: 280px;
-    flex: 1 1 280px;
-    max-width: calc(100% / var(--max-columns, 4) - 2rem);
+    --target-width: calc(100% / var(--max-columns) - 10vw);
+    min-width: var(--target-width);
+    flex: 1 1 var(--target-width);;
+    max-width: var(--target-width);
     width: 100%;
     overflow: hidden;
     border-radius: 6px;
@@ -306,4 +307,37 @@
 {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
+}
+
+
+@media (min-width: 640px)
+{
+    .project-list
+    {
+        --max-columns: 2;
+    }
+}
+
+@media (min-width: 960px)
+{
+    .project-list
+    {
+        --max-columns: 3;
+    }
+}
+
+@media (min-width: 1280px)
+{
+    .project-list
+    {
+        --max-columns: 4;
+    }
+}
+
+@media (min-width: 1441)
+{
+    .project-list
+    {
+        --max-columns: 5;
+    }
 }
