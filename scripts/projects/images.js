@@ -8,6 +8,8 @@ const techList = {
     djangorestframework: "../images/projects/tech-stack-icons/django-rest.svg",
     python: "../images/projects/tech-stack-icons/python.svg",
     docker: "../images/projects/tech-stack-icons/docker.svg",
+    linkedin: "../images/projects/tech-stack-icons/linkedin.svg",
+    github: "..../images/projects/tech-stack-icons/github.svg",
 };
 const techLinkList = {
     javascript: "https://pt.m.wikipedia.org/wiki/JavaScript",
@@ -17,6 +19,8 @@ const techLinkList = {
     djangorestframework: "https://www.django-rest-framework.org/",
     python: "https://www.python.org/",
     docker: "https://www.docker.com/",
+    linkedin: "#",
+    github: "#",
 }
   
 export function getTechIcons()

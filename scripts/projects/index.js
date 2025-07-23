@@ -45,183 +45,93 @@ export const PROJECT_LIST = [
         description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
             we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     },
-    {
-        title: "Starship42",
-        url: "http://starship.42.rio/auth/login",
-        preview: {
-            summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
-            thumbnail: "../images/projects/starship42/starship42.png",
-            stack: ["python", "django", "djangorestframework", "docker"],
-        },
-        images: [
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-        ],
-        features: [
-            "restful API creation",
-            "external API integration",
-            "multiple authentication methods",
-            "database modeling"
-        ],
-        description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
-            we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
-    },
-    {
-        title: "Starship42",
-        url: "http://starship.42.rio/auth/login",
-        preview: {
-            summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
-            thumbnail: "../images/projects/starship42/starship42.png",
-            stack: ["python", "django", "djangorestframework", "docker"],
-        },
-        images: [
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-        ],
-        features: [
-            "restful API creation",
-            "external API integration",
-            "multiple authentication methods",
-            "database modeling"
-        ],
-        description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
-            we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
-    },
-    {
-        title: "Starship42",
-        url: "http://starship.42.rio/auth/login",
-        preview: {
-            summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
-            thumbnail: "../images/projects/starship42/starship42.png",
-            stack: ["python", "django", "djangorestframework", "docker"],
-        },
-        images: [
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-        ],
-        features: [
-            "restful API creation",
-            "external API integration",
-            "multiple authentication methods",
-            "database modeling"
-        ],
-        description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
-            we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
-    },
-    {
-        title: "Starship42",
-        url: "http://starship.42.rio/auth/login",
-        preview: {
-            summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
-            thumbnail: "../images/projects/starship42/starship42.png",
-            stack: ["python", "django", "djangorestframework", "docker"],
-        },
-        images: [
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-        ],
-        features: [
-            "restful API creation",
-            "external API integration",
-            "multiple authentication methods",
-            "database modeling"
-        ],
-        description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
-            we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
-    },
-
-    // // MOCKS
     // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
+    //     title: "Starship42",
+    //     url: "http://starship.42.rio/auth/login",
     //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
+    //         summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
+    //         thumbnail: "../images/projects/starship42/starship42.png",
+    //         stack: ["python", "django", "djangorestframework", "docker"],
     //     },
-    //     images: [],
-    //     description: "lorem ipsum",
+    //     images: [
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //     ],
+    //     features: [
+    //         "restful API creation",
+    //         "external API integration",
+    //         "multiple authentication methods",
+    //         "database modeling"
+    //     ],
+    //     description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
+    //         we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     // },
     // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
+    //     title: "Starship42",
+    //     url: "http://starship.42.rio/auth/login",
     //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
+    //         summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
+    //         thumbnail: "../images/projects/starship42/starship42.png",
+    //         stack: ["python", "django", "djangorestframework", "docker"],
     //     },
-    //     images: [],
-    //     description: "lorem ipsum",
+    //     images: [
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //     ],
+    //     features: [
+    //         "restful API creation",
+    //         "external API integration",
+    //         "multiple authentication methods",
+    //         "database modeling"
+    //     ],
+    //     description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
+    //         we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     // },
     // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
+    //     title: "Starship42",
+    //     url: "http://starship.42.rio/auth/login",
     //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
+    //         summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
+    //         thumbnail: "../images/projects/starship42/starship42.png",
+    //         stack: ["python", "django", "djangorestframework", "docker"],
     //     },
-    //     images: [],
-    //     description: "lorem ipsum",
+    //     images: [
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //     ],
+    //     features: [
+    //         "restful API creation",
+    //         "external API integration",
+    //         "multiple authentication methods",
+    //         "database modeling"
+    //     ],
+    //     description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
+    //         we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     // },
     // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
+    //     title: "Starship42",
+    //     url: "http://starship.42.rio/auth/login",
     //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
+    //         summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
+    //         thumbnail: "../images/projects/starship42/starship42.png",
+    //         stack: ["python", "django", "djangorestframework", "docker"],
     //     },
-    //     images: [],
-    //     description: "lorem ipsum",
-    // },
-    // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
-    //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
-    //     },
-    //     images: [],
-    //     description: "lorem ipsum",
-    // },
-    // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
-    //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
-    //     },
-    //     images: [],
-    //     description: "lorem ipsum",
-    // },
-    // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
-    //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
-    //     },
-    //     images: [],
-    //     description: "lorem ipsum",
-    // },
-    // {
-    //     title: "Country Info",
-    //     url: "https://scarletpixie.github.io/country-info",
-    //     preview: {
-    //         summary: "A simple project about fetching data from an external API",
-    //         thumbnail: "../images/projects/country-info/dark-theme-home-page.png",
-    //         stack: ["html5", "css3", "javascript"],
-    //     },
-    //     images: [],
-    //     description: "lorem ipsum",
+    //     images: [
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //         {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
+    //     ],
+    //     features: [
+    //         "restful API creation",
+    //         "external API integration",
+    //         "multiple authentication methods",
+    //         "database modeling"
+    //     ],
+    //     description: "In this project the rest of the team and I had the task to combine the functionalities of several platforms students from 42 | Rio used daily into a single one.\
+    //         we also had to implement new systems to improve the communication between staff members and students as well as some other functionalities to assist in the campus management.",
     // },
 ]
 
