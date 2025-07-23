@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="Paulo Henrique">
-	<meta name="description" content="This page shows my greatest projects and what i'm currently working on">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Paulo Henrique">
+    <meta name="description" content="This page shows my greatest projects and what i'm currently working on">
 
-	<link rel="icon" type="image/x-icon" href="cranberry.png">
+    <link rel="icon" type="image/x-icon" href="cranberry.png">
 
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/footer.css">
-	<link rel="stylesheet" href="css/navbar.css">
-	<link rel="stylesheet" href="css/body.css">
-	<link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/body.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/contact.css">
 
 
     <script type="module" src="scripts/main.js" defer></script>
 
-	<title>Scarlet Pixie</title>
+    <title>Scarlet Pixie</title>
 </head>
 <body>
-	<header class="navbar">
-		<nav class="navbar__nav">
-			<a href="/" aria-label="go to homepage" class="navbar__brand">ScarletPixie</a>
+    <header class="navbar">
+        <nav class="navbar__nav">
+            <a href="/" aria-label="go to homepage" class="navbar__brand">ScarletPixie</a>
             <button class="navbar__toggle" aria-controls="main-navigation" aria-expanded="false" aria-label="toggle navbar">
                 <img src="images/menu/burger-menu.svg" aria-hidden="true" class="navbar__menu-icon">
-			</button>
-			<menu class="navbar__menu" id="navbar">
+            </button>
+            <menu class="navbar__menu" id="navbar">
                 <li class="navbar__item">
-                    <a href="#" class="navbar__link">about</a>
+                    <a href="#about" class="navbar__link">about</a>
                 </li>
-				<li class="navbar__item">
+                <li class="navbar__item">
                     <a href="#projects" class="navbar__link">projects</a>
                 </li>
-				<li class="navbar__item">
-                    <a href="#" class="navbar__link">contact</a>
+                <li class="navbar__item">
+                    <a href="#contact" class="navbar__link">contact</a>
                 </li>
-			</menu>
-		</nav>
-	</header>
+            </menu>
+        </nav>
+    </header>
 
-	<main class="main-content">
+    <main class="main-content">
+        <!-- ABOUT SECTION -->
         <section class="about" id="about">
+            <h2 class="about__heading">About Me</h2>
             <section class="about__info">
                 <section class="about__avatar-box">
                     <img src="https://placecats.com/300/300" alt="" class="about__avatar">
@@ -50,7 +53,6 @@
                 <h3 class="about__avatar-name">Paulo Henrique</h3>
                 </section>
                 <article class="about__bio">
-                    <h2 class="about__heading">About</h2>
                     <section class="about__bio-section">
                         <h3 class="bio_heading">Bio</h3>
                         <p class="bio-text">Hello there, i'm a software developer.</p>
@@ -63,16 +65,16 @@
                             <li class="bio-text experience-list__item">Python: 1 Year (Professional and personal)</li>
                             <li class="bio-text experience-list__item">C/C++: ~1 Year (Academic only)</li>
                             <li class="bio-text experience-list__item">HTML/JS/CSS: ~1 Year (Mostly personal)</li>
-                            <li class="bio-text experience-list__item">Linux: 3+ Years (Lower Intermediate)</li>
+                            <li class="bio-text experience-list__item">Linux: 3+ Years (daily usage, server configuration, Lower Intermediate)</li>
                         </ul>
                     </section>
                 </article>
             </section>
         </section>
 
-		<!-- PROJECTS SECTION -->
-		<section class="project-list" id="projects">
-			<h2 class="project-list__heading">PROJECTS</h2>
+        <!-- PROJECTS SECTION -->
+        <section class="project-list" id="projects">
+            <h2 class="project-list__heading">PROJECTS</h2>
             <template id="project-card-template">
                 <article class="project-list__card">
                     <header class="project-list__card-frame">
@@ -109,7 +111,23 @@
                     </footer>
                 </article>
             </template>
-		</section>
+        </section>
+
+        <!-- CONTACT ME SECTION -->
+        <section class="contact" id="contact">
+            <h2 class="contact__heading">Contact Me</h2>
+            <p class="contact__email">
+                Email: <a href="mailto:scarletskynned@gmail.com" class="contact__email-link">scarletskynned@gmail.com</a>
+            </p>
+            <footer class="contact__social">
+                <a href="https://www.linkedin.com/in/paulo-henrique-440959247/"  class="social__link"  aria-label="LinkedIn">
+                    <img src="images/projects/tech-stack-icons/linkedin.svg" alt="" aria-hidden="true" class="social__icon" role="presentation">
+                </a>
+                <a href="https://github.com/ScarletPixie"  class="social__link"  aria-label="Github">
+                    <img src="images/projects/tech-stack-icons/github.svg" alt="" aria-hidden="true" class="social__icon" role="presentation">
+                </a>
+            </footer>
+        </section>
 
         <!-- MAXIMIZED PROJECT CARD -->
         <template id="maximized-project-card-template">
@@ -163,10 +181,10 @@
                 </footer>
             </section>
         </template>
-	</main>
+    </main>
 
     <!-- MINIMIZED CARD TRAY AND CLOCK -->
-	<footer class="taskbar">
+    <footer class="taskbar">
         <ul class="taskbar__tray">
             <template id="minimized-card-template">
                 <li class="taskbar__tray-item">
@@ -180,6 +198,5 @@
             00:00 06/04/2001
         </span>
     </footer>
-
 </body>
 </html>

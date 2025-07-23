@@ -15,7 +15,7 @@ body
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 350vh;
+    min-height: 100vh;
 }
 body.modal-active
 {
@@ -28,4 +28,6 @@ body.modal-active
     --window-bg-color: #1f1f1f;
     --window-bg-gradient: linear-gradient(180deg, #3a3a3a 0%, #1f1f1f 70%, #111 100%);
     --card-background: #faebd7;
+    --main-section-heading-color: #b00020;
+
 }

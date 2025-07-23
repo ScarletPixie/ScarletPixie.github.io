@@ -1,0 +1,55 @@
+@import url("base.css");
+
+.contact
+{
+    width: 95vw;
+    background-color: var(--card-background);
+    margin: 5rem auto;
+    padding: min(3vw, 3vh);
+}
+.contact__heading
+{
+    margin: 3vw 0;
+    color: var(--main-section-heading-color);
+    text-align: center;
+}
+.contact__social
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.contact__email
+{
+    color: black;
+    text-align: center;
+}
+.contact__email-link
+{
+    color: orangered;
+}
+.social__link
+{
+    width: 3rem;
+    border-radius: 3px;
+    border-width: 0 4px 4px 0;
+    border-color: lightgray;
+    border-style: solid;
+}
+.social__link:active
+{
+    border-width: 4px 0 0 4px;
+    border-color: gray;
+    filter: brightness(50%);
+    background-color: lightgray;
+}
+.social__link:hover
+{
+    cursor: pointer;
+}
+.social__icon
+{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
