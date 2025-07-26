@@ -13,33 +13,38 @@
 
 
 /* PROJECT LIST */
-.project-list
+.project-list__section
 {
     width: 95vw;
-    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 3vw;
-    padding: 3vw;
-    transition: all 1s ease;
+    justify-content: center;
+    margin: auto;
     background: var(--card-background);
     border-radius: 6px;
+    padding: 3vw;
+    gap: 3vw;
 }
-
 .project-list__heading
 {
+    flex-basis: 100%;
     width: 100%;
     font-size: 1.5rem;
     text-align: center;
     color: var(--main-section-heading-color);
 }
 
+.project-list
+{
+    display: grid;
+    width: 100%;
+    gap: 3vw;
+    grid-template-columns: repeat(auto-fit, minmax(min(31ch, 100%), 1fr));
+    transition: all 1s ease;
+}
+
 .project-list__card
 {
-    flex-shrink: 1;
-    flex-grow: 1;
-    overflow: hidden;
     border-radius: 6px;
     transition: opacity 0.1s ease, transform 0.3s ease;
 }
@@ -312,32 +317,3 @@
     100% { transform: translateX(-50%); }
 }
 
-
-/* MEDIA QUERIES */
-@media screen and (min-width: 640px)
-{
-    .project-list__card
-    {
-        min-width: 100%;
-        max-width: 100%;
-        flex-basis: 100%;
-    }
-}
-@media screen and (min-width: 800px)
-{
-    .project-list__card
-    {
-        min-width: 40%;
-        max-width: 40%;
-        flex-basis: 40%;
-    }
-}
-@media screen and (min-width: 1441px)
-{
-    .project-list__card
-    {
-        min-width: 20%;
-        flex-basis: 20%;
-        max-width: 20%;
-    }
-}
