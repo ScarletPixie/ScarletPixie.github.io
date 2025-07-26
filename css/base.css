@@ -31,3 +31,8 @@ body.modal-active
     --main-section-heading-color: #b00020;
 
 }
+
+*
+{
+    outline: solid 1px cyan;
+}

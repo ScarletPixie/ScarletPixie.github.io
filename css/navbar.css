@@ -32,7 +32,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    font-size: 3vw;
+    font-size: 2rem;
     text-decoration: none;
     font-weight: bold;
     color: var(--navbar-brand-fallback-color); /* Fallback solid color */
@@ -67,7 +67,7 @@
 .navbar__item
 {
     white-space: nowrap;
-    min-width: 10vw;
+    min-width: 7vw;
 }
 .navbar__link
 {
@@ -78,10 +78,10 @@
     border: var(--navbar__link-border);
     border-radius: 2px;
     display: block;
-    padding: 1rem;
+    padding: 0.5rem;
     color: white;
     text-decoration: none;
-    font-size: max(1.3rem, max(1.5vw, 2.5vh));
+    font-size: 1.3rem;
     background: var(--window-bg-gradient);
     box-shadow: 0 1px 0 var(--navbar__link-shadow-color) inset, 1px 0px 0 var(--navbar__link-shadow-color) inset;
     transition: text-shadow 0.3s ease-in-out;
