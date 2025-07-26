@@ -24,7 +24,7 @@ export const PROJECT_LIST = [
         description: "A simple frontend project about fetching data from an external API",
     },
     {
-        title: "Starship42",
+        title: "Starship",
         url: "http://starship.42.rio/auth/login",
         preview: {
             summary: "A moderately complex project about centralizing the functionalities of several platforms into one",
