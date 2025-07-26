@@ -134,7 +134,7 @@ export class MinimizeCardBehavior
 export class CardDragBehavior
 {
     static #mouseEventNotifier = GlobalMouseEventNotifier.instance();
-    
+
     #container = null;
     #containerRect = null;
     #card = null;
@@ -209,8 +209,23 @@ export class CardDragBehavior
         }
 
         // DRAG WINDOW RELATIVE TO THE MOUSE POINTER
-        this.#card.node.style.left = `${pos.x - this.#windowDragOffset.x}px`;
-        this.#card.node.style.top = `${pos.y - this.#windowDragOffset.y}px`;
+        const pageWidth = Math.max(
+            document.documentElement.clientWidth,
+            document.body.scrollWidth,
+            document.documentElement.scrollWidth
+        );
+
+        const pageHeight = Math.max(
+            document.documentElement.clientHeight,
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
+        const newPosX = pos.x - this.#windowDragOffset.x;
+        const newPosY = pos.y - this.#windowDragOffset.y;
+        const clampedX = Math.min(newPosX, pageWidth - this.#originalSize.x);
+        const clampedY = Math.min(newPosY, pageHeight - this.#originalSize.y);
+        this.#card.node.style.left = `${clampedX}px`;
+        this.#card.node.style.top = `${clampedY}px`;
     }
     onMouseUp(pos)
     {

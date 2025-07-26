@@ -46,6 +46,7 @@
 .project-list__card
 {
     border-radius: 6px;
+    box-shadow: 3px 3px 7px rgba(160, 120, 90, 0.8);
     transition: opacity 0.1s ease, transform 0.3s ease;
 }
 
@@ -145,6 +146,8 @@
     resize: both;
     touch-action: none;
     user-select: none;
+    box-shadow: 3px 3px 7px rgba(75, 75, 75, 0.8);
+
 }
 .project-list__card-frame
 {
