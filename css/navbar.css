@@ -26,6 +26,7 @@
 
 .navbar__brand
 {
+    display: inline;
     margin: 0.5rem 1rem;
     background: var(--navbar-brand-gradient);
     background-clip: text;
@@ -166,4 +167,9 @@
         padding: 0.5rem;
         width: 100%;
     }
+}
+
+.font-zero
+{
+    font-size: 0;
 }

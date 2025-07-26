@@ -3,7 +3,7 @@
 .main-content
 {
     width: 100%;
-    margin: clamp(5rem, 10vh, 15rem) 0;
+    padding: 5rem 1rem;
     overflow: hidden;
 }
 .main-content__heading
@@ -15,7 +15,7 @@
 /* PROJECT LIST */
 .project-list__section
 {
-    width: 95vw;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

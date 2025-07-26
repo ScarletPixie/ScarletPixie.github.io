@@ -6,7 +6,7 @@
     margin: 5rem auto;
     border-radius: 6px;
     padding: min(5vw, 5vh);
-    width: 95%;
+    width: 100%;
     align-items: center;
     background-color: var(--card-background);
     min-height: 15vh;
