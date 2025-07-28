@@ -12,14 +12,16 @@ export const PROJECT_LIST = [
             stack: ["html5", "css3", "javascript"],
         },
         images: [
-            {src: "../images/projects/country-info/dark-theme-home-page.png", alt: "A webpage with several country flags and their names"},
-            {src: "../images/projects/country-info/dark-theme-home-page.png", alt: "A webpage with several country flags and their names"},
-            {src: "../images/projects/country-info/dark-theme-home-page.png", alt: "A webpage with several country flags and their names"},
+            {src: "../images/projects/country-info/dark-theme-phone-details-page.png", alt: "A webpage with several country flags and their names"},
+            {src: "../images/projects/country-info/light-theme-details-page.png", alt: "A webpage with several country flags and their names"},
+            {src: "../images/projects/country-info/light-theme-phone-home-page.png", alt: "A webpage with several country flags and their names"},
         ],
         features: [
             "rest API consumption",
             "accessibility",
-            "responsive layout"
+            "responsive layout",
+            "light/dark theme switch",
+            "light/dark theme preference detection"
         ],
         description: "A simple frontend project about fetching data from an external API",
     },

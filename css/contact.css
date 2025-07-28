@@ -22,19 +22,21 @@
 }
 .contact__email
 {
+    padding-bottom: 3vw;
     color: black;
     text-align: center;
     max-width: 100%;
 }
 .contact__email-link
 {
-    color: orangered;
+    color: var(--card-link-color);
     max-width: 100%;
     word-break: break-all;
 }
 .social__link
 {
     width: 3rem;
+    height: 3rem;
     border-radius: 3px;
     border-width: 0 4px 4px 0;
     border-color: lightgray;
@@ -54,6 +56,7 @@
 .social__icon
 {
     width: 100%;
+    padding: 0.2rem;
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }

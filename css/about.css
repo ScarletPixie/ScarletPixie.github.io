@@ -67,7 +67,6 @@
     flex-wrap: wrap;
     min-width: 55%;
     max-width: 100%;
-    border: solid black 1px;
     justify-content: space-evenly;
     margin: 0 auto;
 }

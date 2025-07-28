@@ -36,8 +36,8 @@
 
 .project-list
 {
-    display: grid;
     width: 100%;
+    display: grid;
     gap: 3vw;
     grid-template-columns: repeat(auto-fit, minmax(min(31ch, 100%), 1fr));
     transition: all 1s ease;
@@ -134,8 +134,13 @@
 .project-list__card-screenshot
 {
     width: 100%;
+    min-height: 100%;
     aspect-ratio: 16 / 9;
-    object-fit: cover;
+    object-fit: contain;
+}
+.project-list__card-live-link
+{
+    color: var(--card-link-color);
 }
 
 .project-list__card.moving
