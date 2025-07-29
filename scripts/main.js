@@ -1,7 +1,7 @@
 import { Navbar } from "./shared/navbar.js";
 import { Taskbar } from "./shared/footer.js";
 import * as events from "./shared/global-events.js";
-import { CardDragBehavior, MaximizedCardComponent, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent, TrapTabBehavior } from "./projects/index.js";
+import { CardDragBehavior, KeyboardCardDragBehavior, MaximizedCardComponent, MinimizeCardBehavior, PROJECT_LIST, ProjectCardComponent, TrapTabBehavior } from "./projects/index.js";
 import { stopPropagationDecorator } from "./shared/decorators.js";
 
 
@@ -33,12 +33,32 @@ PROJECT_LIST.forEach(projectData => {
 // SET PROJECT CARD BEHAVIORS
 projectList.forEach((card) => {
     const dragBehavior = new CardDragBehavior(card, projectListNode);
+    const keyDragBehavior = new KeyboardCardDragBehavior(card, projectListNode);
     const minimizeBehavior = new MinimizeCardBehavior(card, Taskbar.instance().taskbar.querySelector(".taskbar__tray"));
     dragBehavior.setup();
+    keyDragBehavior.setup();
     minimizeBehavior.setup();
 
     // MAXIMIZE/RESTORE
-    card.windowButtonsNode.children[1].addEventListener("click", stopPropagationDecorator((_) => {
+    card.windowNode.addEventListener("click", (e) => {e.stopPropagation()});
+    card.stackListSectionNode.addEventListener("click", (e) => {e.stopPropagation()});
+    card.windowButtonsNode.children[1].addEventListener("click", expandCardCallback);
+    card.node.addEventListener("keydown", expandCardCallback);
+    card.node.addEventListener("click", expandCardCallback);
+
+    // CLOSE
+    card.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((_) => {
+        card.destroy();
+    }))
+
+    function expandCardCallback(e)
+    {
+        e.stopPropagation();
+        if (e.type == "keydown" && (e.key != 'Enter' && e.key != ' '))
+            return;
+        else if (e.type == "keydown" && (e.key == 'Enter' || e.key == ' '))
+            e.preventDefault();
+
         // FROM 'normal card' TO 'maximized card'
         const cardParent = card.parent;
         const MaxCard = new MaximizedCardComponent(card);
@@ -71,10 +91,5 @@ projectList.forEach((card) => {
             MaxCard.destroy();
             card.destroy();
         }), {once: true});
-    }));
-
-    // CLOSE
-    card.windowButtonsNode.children[2].addEventListener("click", stopPropagationDecorator((_) => {
-        card.destroy();
-    }))
+    };
 });

@@ -91,6 +91,8 @@ export class ProjectCardComponent extends Component
     get windowNode() { return this.#windowNode; }
     get imageNodes() { return this.#imageNodes; }
     get windowButtonsNode() { return this.#windowButtonsNode; }
+    get stackListSectionNode() { return this.#stackListSectionNode; }
+
 
     get rawData() { return this.#rawData; }
     get thumbLoaded() { return this.#thumbLoaded; }
