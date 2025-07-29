@@ -374,15 +374,13 @@ export class KeyboardCardDragBehavior
         if (!this.#eventReady())
             return;
         event.stopPropagation();
-        event.preventDefault();
-        if (!this.#card.node.classList.contains("moving"))
+        if (event.key === 'Tab')
         {
-            // STORE ORIGINAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
-            this.#card.node.style.width = `${this.#originalSize.x}px`;
-            this.#card.node.style.height = `${this.#originalSize.y}px`;
-            this.#card.node.classList.add("moving");
-            this.#updateCardRect();
+            this.#windowSelected = false;
+            this.#cardWindow.focus();
+            return;
         }
+        event.preventDefault();
 
         if (event.key === 'ArrowLeft')
         {
@@ -405,7 +403,15 @@ export class KeyboardCardDragBehavior
             this.#activeKeys[3] = true;
         }
         this.#dir = this.#dir.normalized();
-        console.log(this.#dir);
+
+        if (this.#activeKeys.some(active => active === true) && !this.#card.node.classList.contains("moving"))
+        {
+            // STORE ORIGINAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
+            this.#card.node.style.width = `${this.#originalSize.x}px`;
+            this.#card.node.style.height = `${this.#originalSize.y}px`;
+            this.#card.node.classList.add("moving");
+            this.#updateCardRect();
+        }
 
         const pageWidth = Math.max(
             document.documentElement.clientWidth,
@@ -454,8 +460,18 @@ export class KeyboardCardDragBehavior
 
         if (this.#activeKeys.every(active => active === false))
         {
-            this.#updateCardCoords();
+            const dropOnProjectList = this.#containerRect.containsPoint(new Vector2D(this.#cardRect.x, this.#cardRect.y));
+            if (dropOnProjectList && this.#card.node.classList.contains("moving"))
+            {
+                this.#card.node.classList.remove("moving");
+                this.#card.node.style.width = '';
+                this.#card.node.style.height = '';
+                this.#card.node.style.left = '';
+                this.#card.node.style.right = '';
+            }
+            return;
         }
+        this.#updateCardCoords();
     }
     #onKeydown(event)
     {
