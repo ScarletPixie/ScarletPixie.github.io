@@ -9,7 +9,7 @@ const techList = {
     python: "../images/projects/tech-stack-icons/python.svg",
     docker: "../images/projects/tech-stack-icons/docker.svg",
     linkedin: "../images/projects/tech-stack-icons/linkedin.svg",
-    github: "..../images/projects/tech-stack-icons/github.svg",
+    github: "../images/projects/tech-stack-icons/github.svg",
 };
 const techLinkList = {
     javascript: "https://pt.m.wikipedia.org/wiki/JavaScript",
