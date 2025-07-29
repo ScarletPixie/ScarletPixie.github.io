@@ -280,3 +280,201 @@ export class CardDragBehavior
         return this.#windowSelected === true && this.#card.thumbLoaded === true;
     }
 }
+
+
+export class KeyboardCardDragBehavior
+{
+    static #velocity = 20;
+    static #delta = 1 / 60;
+    #activeKeys = [false, false, false, false];
+    #dir = new Vector2D();
+
+
+    #container = null;
+    #containerRect = null;
+    #card = null;
+    #cardWindow = null;
+    #windowSelected = false;
+    #cardRect = null;
+    #cardWindowRect = null;
+    #isSetUp = false;
+    #windowDragOffset = null;
+    #originalSize = null;
+
+    #controller = null;
+    #onKeydownCb = null;
+    #onKeyupCb = null;
+    #onKeyMoveCb = null;
+
+    constructor(card, container)
+    {
+        this.#controller = new AbortController();
+
+        this.#container = container;
+        this.#card = card;
+        this.#cardWindow = this.#card.windowNode;
+        this.#containerRect = new GlobalElementRect(container);
+
+        this.#cardRect = new GlobalElementRect(this.#card.node);
+        this.#cardWindowRect = new GlobalElementRect(this.#cardWindow);
+        this.#windowDragOffset = new Vector2D();
+        this.#originalSize = new Vector2D(this.#cardRect.width, this.#cardRect.height);
+
+        this.#onKeydownCb = this.#onKeydown.bind(this);
+        this.#onKeyupCb = this.#onKeyup.bind(this);
+        this.#onKeyMoveCb = this.#onKeyMove.bind(this);
+
+    }
+
+    destroy()
+    {
+        if (!this.#card)
+            return;
+
+        this.#controller.abort();
+        this.#controller = null;
+        this.#card = null;
+        this.#cardWindow = null;
+    }
+
+    setup()
+    {
+        if (this.#isSetUp)
+            return;
+
+        console.log("setup");
+        this.#card.subscribe(this);
+
+        // initial window select via keyboard
+        this.#cardWindow.addEventListener("keydown", this.#onKeydownCb, {signal: this.#controller.signal});
+        this.#card.node.addEventListener("keydown", this.#onKeyMoveCb, {signal: this.#controller.signal});
+        this.#card.node.addEventListener("keyup", this.#onKeyupCb, {signal: this.#controller.signal});
+
+        this.#isSetUp = true;
+    }
+
+    
+    #updateCardRect()
+    {
+        this.#cardRect = new GlobalElementRect(this.#card.node);
+        this.#cardWindowRect = new GlobalElementRect(this.#cardWindow);
+    }
+    #updateCardCoords()
+    {
+        this.#updateCardRect();
+        if (!this.#card.node.classList.contains("moving"))
+            return;
+        this.#card.node.style.left = `${this.#cardRect.left}px`;
+        this.#card.node.style.top = `${this.#cardRect.top}px`;
+    }
+
+    // CALLBACKS
+    #onKeyMove(event)
+    {
+        if (!this.#eventReady())
+            return;
+        event.stopPropagation();
+        event.preventDefault();
+        if (!this.#card.node.classList.contains("moving"))
+        {
+            // STORE ORIGINAL WIDTH/HEIGHT TO AVOID ELEMENT GROWING.
+            this.#card.node.style.width = `${this.#originalSize.x}px`;
+            this.#card.node.style.height = `${this.#originalSize.y}px`;
+            this.#card.node.classList.add("moving");
+            this.#updateCardRect();
+        }
+
+        if (event.key === 'ArrowLeft')
+        {
+            this.#dir.x -= 1;
+            this.#activeKeys[0] = true;
+        }
+        if (event.key === 'ArrowRight')
+        {
+            this.#dir.x += 1;
+            this.#activeKeys[1] = true;
+        }
+        if (event.key === 'ArrowUp')
+        {
+            this.#dir.y -= 1;
+            this.#activeKeys[2] = true;
+        }
+        if (event.key === 'ArrowDown')
+        {
+            this.#dir.y += 1
+            this.#activeKeys[3] = true;
+        }
+        this.#dir = this.#dir.normalized();
+        console.log(this.#dir);
+
+        const pageWidth = Math.max(
+            document.documentElement.clientWidth,
+            document.body.scrollWidth,
+            document.documentElement.scrollWidth
+        );
+
+        const pageHeight = Math.max(
+            document.documentElement.clientHeight,
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
+
+        const newPosX = this.#cardRect.x + (this.#dir.x * KeyboardCardDragBehavior.#velocity);
+        const newPosY = this.#cardRect.y + (this.#dir.y * KeyboardCardDragBehavior.#velocity);
+        const clampedX = Math.min(newPosX, pageWidth - this.#originalSize.x);
+        const clampedY = Math.min(newPosY, pageHeight - this.#originalSize.y);
+        this.#card.node.style.left = `${clampedX}px`;
+        this.#card.node.style.top = `${clampedY}px`;
+        this.#dir = new Vector2D();
+        this.#updateCardCoords();
+    }
+    #onKeyup(event)
+    {
+        if (!this.#eventReady())
+            return;
+
+        event.stopPropagation();
+        event.preventDefault();
+        if (event.key === 'ArrowLeft')
+        {
+            this.#activeKeys[0] = false;
+        }
+        if (event.key === 'ArrowRight')
+        {
+            this.#activeKeys[1] = false;
+        }
+        if (event.key === 'ArrowUp')
+        {
+            this.#activeKeys[2] = false;
+        }
+        if (event.key === 'ArrowDown')
+        {
+            this.#activeKeys[3] = false;
+        }
+
+        if (this.#activeKeys.every(active => active === false))
+        {
+            this.#updateCardCoords();
+        }
+    }
+    #onKeydown(event)
+    {
+        event.stopPropagation();
+        if (event.key !== 'Enter' && event.key !== ' ')
+            return;
+        event.preventDefault();
+        this.#updateCardRect();
+        this.#windowSelected = true;
+        this.#windowDragOffset = new Vector2D(
+            event.pageX - this.#cardWindowRect.left,
+            event.pageY - this.#cardWindowRect.top
+        );
+        this.#card.node.focus();
+    }
+
+    // HELPERS
+    #eventReady()
+    {
+        return this.#windowSelected === true && this.#card.thumbLoaded === true;
+    }
+}

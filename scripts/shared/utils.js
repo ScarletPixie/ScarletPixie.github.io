@@ -13,6 +13,13 @@ export class Vector2D
     {
         return new Vector2D(this.x - rhs.x, this.y - rhs.y);
     }
+    normalized()
+    {
+        const length = Math.sqrt(this.x * this.x + this.y * this.y);
+        if (length === 0)
+            return new Vector2D();
+        return new Vector2D(this.x / length, this.y / length);
+    }
 }
 
 export class GlobalElementRect
