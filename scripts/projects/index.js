@@ -35,8 +35,6 @@ export const PROJECT_LIST = [
         },
         images: [
             {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
-            {src: "../images/projects/starship42/starship42.png", alt: "A login page"},
         ],
         features: [
             "restful API creation",
