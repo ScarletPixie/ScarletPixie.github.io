@@ -111,6 +111,14 @@ export class MinimizeCardBehavior
                 this.#minimizedCard.destroy();
                 this.#card.render(this.#ParentContainer);
             }, {signal: this.#controller.signal})
+            this.#minimizedCard.node.addEventListener("keydown", (e) => {
+                e.stopPropagation();
+                if ((e.key !== 'Enter' && e.key !== ' ') || e.target !== this.#minimizedCard.node)
+                    return;
+                e.preventDefault();
+                this.#minimizedCard.destroy();
+                this.#card.render(this.#ParentContainer);
+            }, {signal: this.#controller.signal})
 
             // CLOSE
             this.#minimizedCard.closeBtnNode.addEventListener("click", stopPropagationDecorator((_) => {
