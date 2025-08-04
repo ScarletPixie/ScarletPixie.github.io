@@ -285,7 +285,6 @@ export class CardDragBehavior
 export class KeyboardCardDragBehavior
 {
     static #velocity = 20;
-    static #delta = 1 / 60;
     #activeKeys = [false, false, false, false];
     #dir = new Vector2D();
 
@@ -296,9 +295,7 @@ export class KeyboardCardDragBehavior
     #cardWindow = null;
     #windowSelected = false;
     #cardRect = null;
-    #cardWindowRect = null;
     #isSetUp = false;
-    #windowDragOffset = null;
     #originalSize = null;
 
     #controller = null;
@@ -316,8 +313,6 @@ export class KeyboardCardDragBehavior
         this.#containerRect = new GlobalElementRect(container);
 
         this.#cardRect = new GlobalElementRect(this.#card.node);
-        this.#cardWindowRect = new GlobalElementRect(this.#cardWindow);
-        this.#windowDragOffset = new Vector2D();
         this.#originalSize = new Vector2D(this.#cardRect.width, this.#cardRect.height);
 
         this.#onKeydownCb = this.#onKeydown.bind(this);
@@ -357,7 +352,6 @@ export class KeyboardCardDragBehavior
     #updateCardRect()
     {
         this.#cardRect = new GlobalElementRect(this.#card.node);
-        this.#cardWindowRect = new GlobalElementRect(this.#cardWindow);
     }
     #updateCardCoords()
     {
@@ -476,15 +470,11 @@ export class KeyboardCardDragBehavior
     #onKeydown(event)
     {
         event.stopPropagation();
-        if (event.key !== 'Enter' && event.key !== ' ')
+        if ((event.key !== 'Enter' && event.key !== ' ') || event.target !== this.#cardWindow)
             return;
         event.preventDefault();
         this.#updateCardRect();
         this.#windowSelected = true;
-        this.#windowDragOffset = new Vector2D(
-            event.pageX - this.#cardWindowRect.left,
-            event.pageY - this.#cardWindowRect.top
-        );
         this.#card.node.focus();
     }
 
